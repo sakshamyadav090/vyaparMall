@@ -1,0 +1,78 @@
+<p>login works!</p>
+<div class="ui-dialog-inner-content">
+    <form [formGroup]="loginForm" class="md-form">
+      <!-- <p-message severity="error"
+      text="ADP ID entered with this Period is already present for the same month."
+      *ngIf="planCodeFlag"> {{hideMessage()}}
+    </p-message> -->
+      <div class="ui-g">
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">Period<span *ngIf="true" class="text-danger">*</span>
+              :</label>
+            <!-- <p-calendar view="month"  [disabled]="true" dateFormat="M-y" [yearNavigator]="true"
+               yearRange="2021:2025" [ showButtonBar="true" formControlName="period"
+              [showIcon]="data?.mode == 'add'" placeholder="mmm-yy">
+            </p-calendar> -->
+            <!-- <p-calendar view="month" *ngIf="data?.mode != 'add'"  dateFormat="M-y"
+              [yearNavigator]="true" yearRange="2015:2025" [minDate]="prevMonth" showButtonBar="true" formControlName="period"
+              [showIcon]="false" placeholder="mm-yy">
+            </p-calendar> -->
+          </div>
+        </div>
+       
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">Job Title :</label>
+            <!-- <p-dropdown *ngIf="data?.mode == 'add'" [options]="currencyList" placeholder="Select" formControlName="srcCurrency">
+            </p-dropdown> -->
+            <input type="text" pInputText formControlName="jobTitle">
+            <!-- <input *ngIf="data?.mode == 'add'" type="text" pInputText formControlName="jobTitle"> -->
+          </div>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">Worker<span *ngIf="true" class="text-danger">*</span>
+              :</label>
+            <!-- <p-dropdown *ngIf="data?.mode == 'add'" [options]="currencyList"
+              formControlName="worker">
+            </p-dropdown> -->
+            <input type="text" pInputText formControlName="worker"
+            placeholder="FIRST MIDDLE LAST NAME">
+          </div>
+        </div>
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">Role :</label>
+            <input type="text"  pInputText formControlName="role">
+
+          </div>
+        </div>
+ 
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">ADP ID<span *ngIf="true" class="text-danger">*</span>
+              :</label>
+            <!-- <p-dropdown *ngIf="data?.mode == 'add'" [options]="currencyList"
+              formControlName="worker">
+            </p-dropdown> -->
+            <input type="text" pInputText formControlName="adpId">
+          </div>
+        </div>
+        <div class="ui-g-6">
+          <div class="form-group">
+            <label class="control-label">Team Size :</label>
+            <input type="number" pInputText formControlName="teamSize">
+
+          </div>
+        </div>
+ 
+      </div>
+      <!-- <p-message severity="error" [text]="'Please ensure that the Source Currency and Target Currency are not equal'"
+        *ngIf="vieUpdateForm.errors?.dateValidationFlag"></p-message> -->
+    </form>
+  </div>
