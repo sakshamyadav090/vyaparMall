@@ -14,14 +14,40 @@
               <input type="radio" (click)="userOrSupplier('supplier')" value="supplier" formControlName="role"><span>  Supplier</span>
           </div>
         </div>
-        <div class="ui-g-6">
+        <div class="ui-g-6" *ngIf="typeOfAccount">
+          <div class="form-group">
+            <label class="control-label">Company Name <span class="text-danger">*</span>:</label>
+            <input type="text" pInputText formControlName="firmName" placeholder="Company Name">
+          </div>
+        </div>
+        <div class="ui-g-6" *ngIf="typeOfAccount">
+          <div class="form-group">
+            <label class="control-label">City <span class="text-danger">*</span>:</label>
+            <input type="text" pInputText formControlName="city" placeholder="City">
+          </div>
+        </div>
+      
+      
+        <div class="ui-g-6" *ngIf="typeOfAccount">
+          <div class="form-group">
+            <label class="control-label">Pincode<span class="text-danger">*</span>
+              :</label>
+            <input type="number" pInputText formControlName="pincode" placeholder="Enter your Pin-Code">
+          </div>
+        </div>
+        <div class="ui-g-6" *ngIf="!typeOfAccount">
           <div class="form-group">
             <label class="control-label">Name<span class="text-danger">*</span>:</label>
             <input type="text" pInputText formControlName="name" placeholder="Enter your Name">
           </div>
         </div>
-      </div>
-      <div class="ui-g">
+        <div class="ui-g-6" *ngIf="typeOfAccount">
+          <div class="form-group">
+            <label class="control-label">Contact Person Name<span class="text-danger">*</span>:</label>
+            <input type="text" pInputText formControlName="name" placeholder="Enter your Name">
+          </div>
+        </div>
+      
         <div class="ui-g-6">
           <div class="form-group">
             <label class="control-label">Mobile Number<span class="text-danger">*</span>: +91 </label>
@@ -29,7 +55,7 @@
             placeholder="Enter Mobile Number">
           </div>
         </div>
-        <div class="ui-g-6">
+        <div class="ui-g-6" *ngIf="!typeOfAccount">
           <div class="form-group">
             <label class="control-label">E-mail :</label>
             <input type="email"  pInputText formControlName="email" placeholder="E-mail">
@@ -37,8 +63,14 @@
           </div>
         </div>
  
-      </div>
-      <div class="ui-g">
+        <div class="ui-g-6" *ngIf="typeOfAccount">
+          <div class="form-group">
+            <label class="control-label">E-mail <span class="text-danger">*</span>:</label>
+            <input type="email"  pInputText formControlName="email" placeholder="E-mail">
+
+          </div>
+        </div>
+      
         <div class="ui-g-6">
           <div class="form-group">
             <label class="control-label">Password<span class="text-danger">*</span>:</label>
@@ -51,29 +83,10 @@
             <input type="password" pInputText formControlName="confirmPassword" placeholder="Same as above">
           </div>
         </div>
-        <div class="ui-g-6" *ngIf="typeOfAccount">
-          <div class="form-group">
-            <label class="control-label">City <span class="text-danger">*</span>:</label>
-            <input type="text" pInputText formControlName="city" placeholder="City">
-          </div>
-        </div>
-      </div>
-      <div class="ui-g">
-        <div class="ui-g-6" *ngIf="typeOfAccount">
-          <div class="form-group">
-            <label class="control-label">Pincode<span class="text-danger">*</span>
-              :</label>
-            <input type="number" pInputText formControlName="pincode" placeholder="Enter your Pin-Code">
-          </div>
-        </div>
-        <div class="ui-g-6" *ngIf="typeOfAccount">
-          <div class="form-group">
-            <label class="control-label">Contact Person Name <span class="text-danger">*</span>:</label>
-            <input type="text" pInputText formControlName="contactPersonName" placeholder="whom to contact, If needed anything">
-          </div>
-        </div>
-      </div>
-      <div class="ui-g">
+        
+        
+      
+      
         <div class="ui-g-6" *ngIf="typeOfAccount">
           <div class="form-group">
             <label class="control-label">GST :</label>
@@ -83,13 +96,9 @@
             <input type="text" pInputText formControlName="gst" placeholder="Enter your GST number">
           </div>
         </div>
-        <div class="ui-g-6" *ngIf="typeOfAccount">
-          <div class="form-group">
-            <label class="control-label">Firm Name <span class="text-danger">*</span>:</label>
-            <input type="text" pInputText formControlName="firmName" placeholder="Company Name">
-          </div>
-        </div>
-      </div>
+        
+      
+    </div>
       <!-- <p-message severity="error" [text]="'Please ensure that the Source Currency and Target Currency are not equal'"
         *ngIf="vieUpdateForm.errors?.dateValidationFlag"></p-message> -->
     </form>
@@ -98,7 +107,7 @@
         <button pButton type="button" icon="pi pi-times" (click)="" label="Cancel"
           class="ui-button-warning"></button>
       </span> icon="pi pi-check"  class="ui-button-info"-->
-      <button type="button"  label="Continue" (click)="submit()" [disabled]="!loginForm.valid">Continue</button>
+      <button type="button"  label="Continue" (click)="submit()" [disabled]="loginForm.valid">Continue</button>
       <!-- <button pButton type="button" icon="pi pi-times"  label="Cancel" class="ui-button-danger"></button> -->
     </footer>
   </div>

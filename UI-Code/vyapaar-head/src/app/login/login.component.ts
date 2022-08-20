@@ -52,21 +52,22 @@ export class LoginComponent implements OnInit {
   createSupplier():FormGroup{
     return this.fb.group({
       role: ['', Validators.required],
-      name:[null,Validators.required],
+      name:['',Validators.required],
       mobileNumber: ['',[Validators.required,Validators.pattern('^[7-9][0-9]{9}$')]],
       email:[null,Validators.required],
       password:[null,Validators.required],
       confirmPassword:['',Validators.required],
       city: ['', [Validators.required,Validators.pattern('^[A-Z a-z]*$'),Validators.maxLength(10)]],
       pincode: ['', [Validators.required,Validators.pattern('^[0-9]*$'),Validators.maxLength(6),Validators.minLength(6)]],
-      contactPersonName: ['',[Validators.required,Validators.pattern('^[A-Z .a-z]*$'),Validators.maxLength(35)]],
+      //http://postalpincode.in/api/pincode/<your_pin_code>
+     // contactPersonName: ['',[Validators.required,Validators.pattern('^[A-Z .a-z]*$'),Validators.maxLength(35)]],
       gst:['',[Validators.pattern('^[A-Z0-9]*$'),Validators.maxLength(15)]],
       firmName:['',[Validators.required,Validators.pattern('^[A-Z .a-z]*$'),Validators.maxLength(30)]]
     })
   }
 
   userOrSupplier(typeOfAccount:String){
-    debugger
+    // debugger
     if(typeOfAccount=='user'){
       this.loginForm=this.createUser();
       this.typeOfAccount=false;
