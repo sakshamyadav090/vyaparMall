@@ -23,7 +23,10 @@
         <div class="ui-g-6" *ngIf="typeOfAccount">
           <div class="form-group">
             <label class="control-label">City <span class="text-danger">*</span>:</label>
-            <input type="text" pInputText formControlName="city" placeholder="City">
+            <p-dropdown formControlName="city"
+            [options]="cities" placeholder="City" [showClear]="true">
+          </p-dropdown>
+            <!-- <input type="text" pInputText formControlName="city" placeholder="City"> -->
           </div>
         </div>
       
@@ -32,7 +35,7 @@
           <div class="form-group">
             <label class="control-label">Pincode<span class="text-danger">*</span>
               :</label>
-            <input type="number" pInputText formControlName="pincode" placeholder="Enter your Pin-Code">
+            <input type="number" (keyup)="getCity()" pInputText formControlName="pincode" placeholder="Enter your Pin-Code">
           </div>
         </div>
         <div class="ui-g-6" *ngIf="!typeOfAccount">
