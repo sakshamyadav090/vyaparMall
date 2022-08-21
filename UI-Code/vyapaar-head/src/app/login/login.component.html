@@ -21,13 +21,13 @@
           </div>
         </div>
         <div class="ui-g-6" *ngIf="typeOfAccount">
-          <div class="form-group">
+          
             <label class="control-label">City <span class="text-danger">*</span>:</label>
-            <p-dropdown formControlName="city"
-            [options]="cities" placeholder="City" [showClear]="true">
+            <p-dropdown [options]="cities" placeholder="City" [showClear]="true"
+            formControlName="city">
           </p-dropdown>
             <!-- <input type="text" pInputText formControlName="city" placeholder="City"> -->
-          </div>
+          
         </div>
       
       
@@ -111,6 +111,7 @@
           class="ui-button-warning"></button>
       </span> icon="pi pi-check"  class="ui-button-info"-->
       <button type="button"  label="Continue" (click)="submit()" [disabled]="!loginForm.valid">Continue</button>
+      <button type="button" class="btn btn-primary">Primary</button>
       <!-- <button pButton type="button" icon="pi pi-times"  label="Cancel" class="ui-button-danger"></button> -->
     </footer>
   </div>
