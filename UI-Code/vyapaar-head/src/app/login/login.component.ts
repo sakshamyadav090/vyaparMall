@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm : FormGroup;
   typeOfAccount:boolean=false;//false for user and true for supplier
   cities = [];
+  signInOrSignUp:boolean=true;
   
   selectedCity:any;
   // httpOptions = {
