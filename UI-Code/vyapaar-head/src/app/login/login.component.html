@@ -1,4 +1,3 @@
-<p>Sign-Up</p>
 <div class="ui-dialog-inner-content" *ngIf="signInOrSignUp">
     <form [formGroup]="loginForm" class="md-form">
       <!-- <p-message severity="error"
@@ -174,7 +173,8 @@
             <div class="text-center text-lg-start mt-4 pt-2">
               <button type="button" class="btn btn-primary btn-lg"
                 style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a 
+                (click)="signInOrSignUp=!signInOrSignUp"
                   class="link-danger">Register</a></p>
             </div>
   
@@ -208,4 +208,8 @@
       <!-- Right -->
     </div>
   </section>
+<<<<<<< Updated upstream
   <button type="button" (click)="signInOrSignUp=!signInOrSignUp" class="btn btn-primary">Sign-In/Sign-Up</button>
+=======
+  <button type="button" *ngIf="signInOrSignUp" (click)="signInOrSignUp=!signInOrSignUp" class="btn btn-primary">Sign-In/Sign-Up</button>
+>>>>>>> Stashed changes
