@@ -5,5 +5,5 @@
 @import "../node_modules/primeicons/primeicons.css";
 
 input.ng-dirty.ng-invalid{
-  border: 1.5px solid #a80000;
+  border: 2px solid #a80000;
 }
