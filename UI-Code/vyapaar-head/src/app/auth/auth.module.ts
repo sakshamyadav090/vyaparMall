@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { LoginRoutingModule } from './auth-routing.module';
 import { DropdownModule } from 'primeng/dropdown';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,12 +25,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     LoginRoutingModule,
     DropdownModule,
     ReactiveFormsModule,
-    CommonModule,
     FormsModule,
     MessagesModule,
     MessageModule,
     ToastModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CommonModule
   ]
 })
 export class AuthModule { }
