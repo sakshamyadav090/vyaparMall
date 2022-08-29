@@ -3,9 +3,9 @@ import { Routes, RouterModule} from '@angular/router';
 //import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // { path: '', redirectTo: '', pathMatch: 'full' },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(x => x.AuthModule) },
-  { path: 'home', loadChildren: () => import('./vyapaar-module/vyapaar.module').then(x => x.VyapaarModule) }
+  { path: '', loadChildren: () => import('./vyapaar-module/vyapaar.module').then(x => x.VyapaarModule) }
 ];
 
 @NgModule({
