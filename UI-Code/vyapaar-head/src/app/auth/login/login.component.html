@@ -1,3 +1,6 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -27,6 +30,10 @@
           </div> -->
 
           <!-- Email input -->
+          <p-message severity="error" *ngIf="credentialFlag" text="Invalid Credentials">{{hideMessage()}}
+          </p-message>
+          <p-message severity="error" *ngIf="networkFlag" text="Network error. Please Try Again!">{{hideMessage()}}
+          </p-message>
           <div class="form-outline mb-4">
             <input type="email" formControlName="userName" class="form-control form-control-lg"
               placeholder="Enter valid Phone or Email address" />

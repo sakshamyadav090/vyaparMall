@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable,throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,10 +19,14 @@ export class LoginComponent implements OnInit {
       'Content-Type': 'application/json'
     })
   }
+  loading:boolean=false;
+  networkFlag:boolean=false;
+  credentialFlag:boolean=false;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private router:Router) {
   }
 
   ngOnInit(): void {
@@ -34,16 +39,22 @@ export class LoginComponent implements OnInit {
 
   submit(){
     if(this.loginForm.valid){
+      this.loading=true;
       let loginJson = {
         "userName": this.loginForm.controls["userName"].value,
         "password": this.loginForm.controls["password"].value
       };
       this.getByPost('http://localhost:8080/auth/login',loginJson).subscribe(Response=>{
-        console.log(Response);
+        if(Response.message='Invalid Credentials'){
+          this.credentialFlag=true;
+        }else if(Response.message='Valid Credentials'){
+        this.router.navigate(['home']);
+        this.loading=false;
+        }
         },
         err => {
-          alert('nhi ho rha bhaiya');
-          //this.messageService.add({severity:'error',detail:'Error while fetching city'});
+          this.networkFlag=true;
+          this.loading=false;
         });
     }else{
       // const invalid = [];
@@ -61,6 +72,10 @@ export class LoginComponent implements OnInit {
         }
       }
   }
+}
+
+hideMessage() {
+  setTimeout(() => { this.networkFlag = false,this.credentialFlag=false }, 3000);
 }
 
 getById(url: string): Observable<any> {

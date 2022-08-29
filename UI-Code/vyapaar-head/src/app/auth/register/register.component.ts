@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -24,8 +25,10 @@ export class RegisterComponent implements OnInit {
       'Content-Type': 'application/json'
     })
   }
+  loading:boolean=false;
 
   constructor(
+    private router:Router,
     private fb: FormBuilder,
     private http: HttpClient,
     private messageService: MessageService) {
@@ -98,6 +101,7 @@ export class RegisterComponent implements OnInit {
       this.messageService.add({severity:'warn', summary:'Password mismatch', detail:'Password and Confirm password does not match'});
     }else{
       if(this.registerForm.valid && this.selectedCityValue!=null && this.registerForm.controls['termAndCond'].value){
+        this.loading=true;
         let roleId=0;
         if(this.registerForm.controls["role"].value=='user'){
           roleId=1;
@@ -117,11 +121,13 @@ export class RegisterComponent implements OnInit {
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null
     };
         this.getByPost('http://localhost:8080/auth/register',registerJson).subscribe(Response=>{
-          console.log(Response);
+          this.router.navigate(['home']);
+          this.loading=false;
           },
           err => {
-            alert('nhi ho rha bhaiya');
-            //this.messageService.add({severity:'error',detail:'Error while fetching city'});
+            this.messageService.add({severity:'error',detail:'Error while Register'});
+            this.loading=false;
+            // alert('nhi ho rha bhaiya');
           });
       }else if(this.selectedCityValue==null && this.registerForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});
@@ -160,14 +166,17 @@ getByPost(url: string, body: any): Observable<any> {
 getCity(){
   if(this.registerForm.value.pincode!=null){
     if(this.registerForm.value.pincode.toString().length=='6'){
+      this.loading=true;
       this.getById('https://api.postalpincode.in/pincode/'+this.registerForm.value.pincode).subscribe(Response=>{
         this.cities=[];
         for(let i=0;i<Response[0].PostOffice.length;i++){
           this.cities.push(Response[0].PostOffice[i].Name);
           console.log(Response[0].PostOffice[i].Name);
+          this.loading=false;
         }
         },
         err => {
+          this.loading=false;
           this.messageService.add({severity:'error',detail:'Error while fetching city'});
         });
     }else{

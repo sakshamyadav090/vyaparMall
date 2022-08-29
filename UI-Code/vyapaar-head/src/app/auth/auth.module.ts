@@ -12,6 +12,8 @@ import { MessagesModule } from "primeng/messages";
 import { MessageModule } from "primeng/message";
 import {ToastModule} from 'primeng/toast';
 import { LoginComponent } from './login/login.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 
 
 
@@ -29,7 +31,8 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     MessagesModule,
     MessageModule,
-    ToastModule
+    ToastModule,
+    ProgressSpinnerModule
   ]
 })
 export class AuthModule { }
