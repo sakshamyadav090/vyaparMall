@@ -3,10 +3,21 @@
 *, ::before, ::after {
   box-sizing: border-box;
 }
+
+/* .main{
+  display: flex;
+  flex-direction: column;
+} */
+
+.app_header{
+position: fixed;
+width: 100%;
+}
+
 .body {
-  position: relative;
-  margin: 3rem 0 0 0;
-  padding: 0 1rem;
+  /* position: relative; */
+  /* margin-top: 80px; */
+  /* padding: 0 1rem; */
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   transition: 0.5s;
@@ -22,8 +33,9 @@ a {
   left: 0;
   display: flex;
   align-items: center;
+  margin-top: 60px;
   /* justify-content: space-between; */
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
   background-color: #F7F6FB;
   z-index: 100;
   transition: 0.5s;
@@ -48,7 +60,9 @@ a {
 .header_img img {
   width: 40px;
 }
+
 .l-navbar {
+  margin-top: 60px;
   position: fixed;
   top: 0;
   left: -30%;

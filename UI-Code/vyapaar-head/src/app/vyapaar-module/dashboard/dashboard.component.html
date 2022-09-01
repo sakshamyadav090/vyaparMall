@@ -1,25 +1,26 @@
-<app-header></app-header>
+<div class="main">
+<app-header class="app_header"></app-header>
 <div class="body">
     <div id="body-pd">
         <header class="header" id="header">
             <div class="header_toggle" > 
-                <i class='pi pi-bars' id="header-toggle" (click)="showNavbar('header','nav-bar','body-pd','header')"></i> 
+                <i class='pi pi-bars' id="header-toggle"></i> 
             </div>
             <div class="header_img"> Dashboard </div>
         </header>
         <div class="l-navbar" id="nav-bar">
             <nav class="nav">
                 <div>
-                    <a class="nav_logo">
+                    <!-- <a class="nav_logo">
                         <i class='pi pi-apple nav_logo-icon'></i>
                         <span class="nav_logo-name">BBBootstrap</span>
+                    </a> -->
+                    <a class="nav_logo">
+                        <i class='pi pi-credit-card nav_logo-icon'></i>
+                        <span class="nav_logo-name">Dashboard</span>
                     </a>
                     <div class="nav_list">
                         <a class="nav_link active">
-                            <i class='pi pi-credit-card nav_icon'></i>
-                            <span class="nav_name">Dashboard</span>
-                        </a>
-                        <a class="nav_link">
                             <i class='pi pi-user nav_icon'></i>
                             <span class="nav_name">Users</span>
                         </a>
@@ -40,12 +41,15 @@
                             <span class="nav_name">Stats</span>
                         </a>
                     </div>
+                    <a class="nav_link" routerLink="/auth/login">
+                        <i class='pi pi-sign-out nav_icon'></i>
+                        <span class="nav_name">SignOut</span>
+                    </a>
                 </div>
-                <a class="nav_link" routerLink="/auth/login">
-                    <i class='pi pi-sign-out nav_icon'></i>
-                    <span class="nav_name">SignOut</span>
-                </a>
+                
             </nav>
         </div>
     </div>
 </div>
+</div>
+<!-- <app-footer></app-footer> -->
