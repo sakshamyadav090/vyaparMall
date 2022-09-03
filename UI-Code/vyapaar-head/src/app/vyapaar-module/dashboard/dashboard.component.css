@@ -12,6 +12,8 @@
 .app_header{
 position: fixed;
 width: 100%;
+margin-top: -95px;
+z-index: 100;
 }
 
 .body {
@@ -154,4 +156,9 @@ a {
   .body-pd {
     padding-left: calc(68px + 188px);
   }
+}
+
+.profile{
+  margin-top: 95px;
+  margin-left: 80px;
 }

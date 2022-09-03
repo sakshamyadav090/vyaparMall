@@ -7,6 +7,7 @@ import {SidebarModule} from 'primeng/sidebar';
 import { HeaderComponent } from '../common/header/header.component';
 import { FooterComponent } from '../common/footer/footer.component';
 import { ProfileComponent } from './dashboard/profile/profile.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
   ],
   imports: [
     VyapaarRoutingModule,
-    SidebarModule
+    SidebarModule,
+    CommonModule
   ]
 })
 export class VyapaarModule { }

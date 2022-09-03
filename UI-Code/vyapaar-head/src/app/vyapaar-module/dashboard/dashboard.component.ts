@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   display: boolean = false
+  menuItem: String = "Profile"
 
   constructor() { }
 
@@ -17,6 +18,8 @@ export class DashboardComponent implements OnInit {
       if (linkColor) {
         linkColor.forEach(l => l.classList.remove('active'))
         this.classList.add('active')
+        this.menuItem = this.querySelectorAll('span')[0].textContent
+        console.log(this.menuItem)
       }
     }
     linkColor.forEach(l => l.addEventListener('click', colorLink))
