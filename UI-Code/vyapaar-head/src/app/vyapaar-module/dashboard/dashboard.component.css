@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
-*, ::before, ::after {
+/* *, ::before, ::after {
   box-sizing: border-box;
-}
+} */
 
 /* .main{
   display: flex;
@@ -127,9 +127,7 @@ a {
   height: 32px;
   background-color: #F7F6FB;
 }
-.height-100 {
-  height: 100vh;
-}
+
 @media screen and (min-width: 768px) {
   body {
     margin: calc(3rem + 1rem) 0 0 0;

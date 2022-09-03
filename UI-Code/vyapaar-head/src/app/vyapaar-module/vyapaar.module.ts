@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {SidebarModule} from 'primeng/sidebar';
 import { HeaderComponent } from '../common/header/header.component';
 import { FooterComponent } from '../common/footer/footer.component';
+import { ProfileComponent } from './dashboard/profile/profile.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { FooterComponent } from '../common/footer/footer.component';
     DashboardComponent,
     HomePageComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ProfileComponent
   ],
   imports: [
     VyapaarRoutingModule,
