@@ -8,6 +8,8 @@ import { HeaderComponent } from '../common/header/header.component';
 import { FooterComponent } from '../common/footer/footer.component';
 import { ProfileComponent } from './dashboard/profile/profile.component';
 import { CommonModule } from '@angular/common';
+import { ChatComponent } from './dashboard/chat/chat.component';
+import { ListingComponent } from './dashboard/listing/listing.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { CommonModule } from '@angular/common';
     HomePageComponent,
     HeaderComponent,
     FooterComponent,
-    ProfileComponent
+    ProfileComponent,
+    ChatComponent,
+    ListingComponent
   ],
   imports: [
     VyapaarRoutingModule,
