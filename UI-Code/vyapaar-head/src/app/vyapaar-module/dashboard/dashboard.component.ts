@@ -7,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  display: boolean = false
-  menuItem: String = "Profile"
+  display: boolean = false;
+  menuItem: String = "Profile";
+  ProfileComp:boolean=true;
 
   constructor() { }
 
