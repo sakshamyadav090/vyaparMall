@@ -3,9 +3,15 @@ package com.twecom.controller;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
 import com.twecom.service.ProductService;
 
@@ -45,6 +51,54 @@ public class ProductController {
 			
 		}
 		return responseModel;
+	}
+	 
+	@PostMapping("/product/add")
+	public ResponseModel addProduct(@RequestBody Product p) {
+		ResponseModel responseModel;
+		try {
+			responseModel = new ResponseModel(
+			ps.addProduct(p),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Save");
+			
+		}
+		return responseModel;
+		
+	}
+	
+	@DeleteMapping("/product/delete/{pId}")
+	public ResponseModel addProduct(@PathVariable int pId) {
+		ResponseModel responseModel;
+		try {
+			responseModel = new ResponseModel(
+			ps.deleteProduct(pId),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Delete");
+			
+		}
+		return responseModel;
+		
+	}
+	
+	@PutMapping("/product/update/{pId}")
+	public ResponseModel updateProduct(@RequestBody Product p,@PathVariable int pId) {
+		ResponseModel responseModel;
+		try {
+			responseModel = new ResponseModel(
+			ps.updateProduct(p,pId),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Save");
+			
+		}
+		return responseModel;
+		
 	}
 
 }

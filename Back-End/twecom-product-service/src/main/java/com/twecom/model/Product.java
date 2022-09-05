@@ -1,5 +1,7 @@
 package com.twecom.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,18 +13,26 @@ import javax.persistence.Table;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	private int pId;
 	private String pName;
 	private String pDescription;
 	private String pPriceRange;
-	private String pManufacturer;
-	private String pImage;
-	private int pSupplierId;
+	private String pManufacturer;	
+	private String pImage;	
+	private int pSupplierId;	
 	private int pCategory;
-	private String pOrigin;
+	private String pOrigin;	
+	private int createdBy;
+	private int modifiedBy;
+	private int isDeleted;
+	private Date modifiedAt;
 	
+	
+
+
 	public Product(int pId, String pName, String pDescription, String pPriceRange, String pManufacturer, String pImage,
-			int pSupplierId, int pCategory, String pOrigin) {
+			int pSupplierId, int pCategory, String pOrigin, int createdBy, int modifiedBy, int isDeleted,Date modifiedAt) {
 		super();
 		this.pId = pId;
 		this.pName = pName;
@@ -33,6 +43,26 @@ public class Product {
 		this.pSupplierId = pSupplierId;
 		this.pCategory = pCategory;
 		this.pOrigin = pOrigin;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
+		this.isDeleted = isDeleted;
+		this.modifiedAt = modifiedAt;
+	}
+
+	public int getIsDeleted() {
+		return isDeleted;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
+	public void setIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public int getpId() {
@@ -45,6 +75,22 @@ public class Product {
 
 	public String getpName() {
 		return pName;
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(int modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	public void setpName(String pName) {
@@ -106,6 +152,7 @@ public class Product {
 	public void setpOrigin(String pOrigin) {
 		this.pOrigin = pOrigin;
 	}
+
 
 	public Product() {
 		// TODO Auto-generated constructor stub
