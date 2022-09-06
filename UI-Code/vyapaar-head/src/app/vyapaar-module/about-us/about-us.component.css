@@ -240,7 +240,6 @@ input:focus, textarea:focus {
   outline: none;
   box-shadow: 0 6px #cecece;
   border-radius: 5px;
-  float: right;
   margin-right: 6px;
 }
 

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { VyapaarRoutingModule } from './vyapaar-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -10,6 +9,7 @@ import { ProfileComponent } from './dashboard/profile/profile.component';
 import { CommonModule } from '@angular/common';
 import { ChatComponent } from './dashboard/chat/chat.component';
 import { ListingComponent } from './dashboard/listing/listing.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 
 @NgModule({
@@ -20,12 +20,13 @@ import { ListingComponent } from './dashboard/listing/listing.component';
     FooterComponent,
     ProfileComponent,
     ChatComponent,
-    ListingComponent
+    ListingComponent,
+    AboutUsComponent
   ],
   imports: [
     VyapaarRoutingModule,
     SidebarModule,
-    CommonModule
+    CommonModule,
   ]
 })
 export class VyapaarModule { }
