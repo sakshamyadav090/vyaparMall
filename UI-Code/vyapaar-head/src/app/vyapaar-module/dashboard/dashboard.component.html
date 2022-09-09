@@ -15,11 +15,11 @@
                         <span class="nav_logo-name">Dashboard</span>
                     </a>
                     <div class="nav_list">
-                        <a class="nav_link active" (click)="ProfileComp=true">
+                        <a class="nav_link active" (click)="childSwitch('profile')">
                             <i class='pi pi-user nav_icon' ></i>
                             <span class="nav_name">Profile</span>
                         </a>
-                        <a class="nav_link" (click)="ProfileComp=false">
+                        <a class="nav_link" (click)="childSwitch('listing')">
                             <i class='pi pi-bookmark nav_icon'></i>
                             <span class="nav_name">My Listings</span>
                         </a>
@@ -50,5 +50,9 @@
     </div>
 </div>
 <div class="profile" >
-<app-profile *ngIf="ProfileComp"></app-profile>
+<app-profile *ngIf="profileComp"></app-profile>
 </div>
+<!-- <div>
+  <app-listing *ngIf="listComp"></app-listing>
+  </div> -->
+  <app-listing *ngIf="listComp"></app-listing>
