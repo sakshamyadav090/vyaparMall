@@ -12,7 +12,7 @@
 .app_header{
 position: fixed;
 width: 100%;
-margin-top: -95px;
+margin-top: -125px;
 z-index: 100;
 }
 
@@ -159,6 +159,7 @@ a {
 }
 
 .profile{
-  margin-top: 95px;
+  margin-top: 125px;
   margin-left: 80px;
+  margin-right: 10px;
 }
