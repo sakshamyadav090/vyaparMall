@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 public class VyapaarAuthenticationServiceApplication {
 
 	public static void main(String[] args) {

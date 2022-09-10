@@ -1,211 +1,62 @@
 package com.vyapaarmall.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "VM_USER_MST")
+@Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class User {
+	
 	@Id
-	@Column(name = "USER_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
-	@Column(name = "AADHAAR_NUMBER")
-	private String aadhaarNumber;
-	@Column(name = "CITY")
-	private String city;
-	@Column(name = "E_MAIL")
-	private String eMail;
-	@Column(name = "FIRM_NAME")
-	private String firmName;
-	private String fName;
-	private String lName;
-	private String gst;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private boolean isActive = true;	
+	private String firstName;
+	private String lastName;
+	@Column(unique = true)
 	private String mobileNumber;
+	@Column(unique = true)
+	private String email;
+	private String firmName;
 	private String natureOfBuisness;
+	@Column(unique = true)
+	private String gst;
+	@Column(unique = true)
+	private String aadhaarNumber;
+	@Column(unique = true)
 	private String panNumber;
 	private String password;
+	private String city;
 	private String pincode;
-	private String state;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String createdBy;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String modifiedBy;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Date createdDate = new Date();
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Date modifiedDate = new Date();
 	
-	private int roleId;
-
-	public User() {
-		super();
-	}
-
-	
-
-	public User(int userId, String aadhaarNumber, String city, String eMail, String firmName, String fName,
-			String lName, String gst, String mobileNumber, String natureOfBuisness, String panNumber, String password,
-			String pincode, String state, String createdBy, String modifiedBy, int roleId) {
-		super();
-		this.userId = userId;
-		this.aadhaarNumber = aadhaarNumber;
-		this.city = city;
-		this.eMail = eMail;
-		this.firmName = firmName;
-		this.fName = fName;
-		this.lName = lName;
-		this.gst = gst;
-		this.mobileNumber = mobileNumber;
-		this.natureOfBuisness = natureOfBuisness;
-		this.panNumber = panNumber;
-		this.password = password;
-		this.pincode = pincode;
-		this.state = state;
-		this.createdBy = createdBy;
-		this.modifiedBy = modifiedBy;
-		this.roleId = roleId;
-	}
-
-
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getAadhaarNumber() {
-		return aadhaarNumber;
-	}
-
-	public void setAadhaarNumber(String aadhaarNumber) {
-		this.aadhaarNumber = aadhaarNumber;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String geteMail() {
-		return eMail;
-	}
-
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-	public String getFirmName() {
-		return firmName;
-	}
-
-	public void setFirmName(String firmName) {
-		this.firmName = firmName;
-	}
-
-	public String getfName() {
-		return fName;
-	}
-
-	public void setfName(String fName) {
-		this.fName = fName;
-	}
-
-	public String getlName() {
-		return lName;
-	}
-
-	public void setlName(String lName) {
-		this.lName = lName;
-	}
-
-	public String getGst() {
-		return gst;
-	}
-
-	public void setGst(String gst) {
-		this.gst = gst;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public String getNatureOfBuisness() {
-		return natureOfBuisness;
-	}
-
-	public void setNatureOfBuisness(String natureOfBuisness) {
-		this.natureOfBuisness = natureOfBuisness;
-	}
-
-	public String getPanNumber() {
-		return panNumber;
-	}
-
-	public void setPanNumber(String panNumber) {
-		this.panNumber = panNumber;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getModifiedBy() {
-		return modifiedBy;
-	}
-
-	public void setModifiedBy(String modifiedBy) {
-		this.modifiedBy = modifiedBy;
-	}
-	
-	
+	@ManyToOne
+	@JoinColumn(name = "roleId")
+	private Role role;	
 	
 }
