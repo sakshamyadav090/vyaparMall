@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
 loadProfileData(){
   this.token=localStorage.getItem('token')
   if(!this.token){
-    this.router.navigate(['home']);
+    // this.router.navigate(['home']);
   }else{
     this.getByPost(`http://localhost:9090/auth-service/auth/verify-token/${this.token}`).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
@@ -52,7 +52,7 @@ loadProfileData(){
           console.log(err)
         });
   }
-  
+
 }
 
 getByPost(url: string): Observable<any> {
