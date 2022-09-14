@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   loading:boolean=false;
   token:string=undefined
   networkFlag:boolean=false;
+  editFlag:boolean=false
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -53,6 +54,14 @@ loadProfileData(){
         });
   }
 
+}
+
+enableEdit(){
+  this.editFlag=true
+}
+
+saveProfile(){
+  this.editFlag=false
 }
 
 getByPost(url: string): Observable<any> {
