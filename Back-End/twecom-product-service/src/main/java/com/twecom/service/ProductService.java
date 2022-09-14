@@ -27,9 +27,9 @@ public class ProductService {
 		return repo.save(p);
 	}
 
-	public Product updateProduct(Product p,int pId) {
-		repo.save(p);
-		return null;
+	public Product updateProduct(Product p) {
+		p.setModifiedAt(new Date());
+		return repo.save(p);
 	}
 	
 	public String deleteProduct(int pId) {
