@@ -9,7 +9,8 @@ export class DashboardComponent implements OnInit {
 
   display: boolean = false;
   menuItem: String = "Profile";
-  ProfileComp:boolean=true;
+  profileComp:boolean=true;
+  listComp:boolean=false;
 
   constructor() { }
 
@@ -48,6 +49,19 @@ export class DashboardComponent implements OnInit {
         headerpd.classList.toggle('body-pd')
       })
     }
+  }
+
+  childSwitch(event:String){
+    if(event=='profile') {
+      this.profileComp=true;
+      this.listComp=false;
+    }
+    else {
+      this.profileComp=false;
+      this.listComp=true;
+    }
+    // if(event='listing') this.listComp=true;
+    // else this.listComp=false;
   }
 
 }

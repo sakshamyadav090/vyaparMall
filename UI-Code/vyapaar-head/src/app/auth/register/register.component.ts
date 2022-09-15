@@ -110,24 +110,26 @@ export class RegisterComponent implements OnInit {
         }
        let registerJson = {
         "roleId":roleId,
-        "eMail": this.registerForm.controls["email"].value != undefined ? this.registerForm.controls["email"].value:null,
+        "email": this.registerForm.controls["email"].value != undefined ? this.registerForm.controls["email"].value:null,
         "city": roleId == 2 ? this.selectedCityValue:null,
         "firmName":roleId == 2 ? this.registerForm.controls["firmName"].value:null,
-        "fName": this.registerForm.controls["fName"].value,
-        "lName": this.registerForm.controls["lName"].value,
+        "firstName": this.registerForm.controls["fName"].value,
+        "lastName": this.registerForm.controls["lName"].value,
         "gst":roleId == 2 ?  this.registerForm.controls["gst"].value!=null?this.registerForm.controls["gst"].value:null:null,
         "mobileNumber":this.registerForm.controls["mobileNumber"].value,
         "password": this.registerForm.controls["password"].value,
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null
     };
-        this.getByPost('http://localhost:8080/auth/register',registerJson).subscribe(Response=>{
+        this.getByPost('http://localhost:9090/auth-service/auth/register',registerJson).subscribe(Response=>{
           this.router.navigate(['home']);
           this.loading=false;
+          console.log(Response)
           },
           err => {
             this.messageService.add({severity:'error',detail:'Error while Register'});
             this.loading=false;
-            // alert('nhi ho rha bhaiya');
+            console.log(Response)
+            alert('nhi ho rha bhaiya');
           });
       }else if(this.selectedCityValue==null && this.registerForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});

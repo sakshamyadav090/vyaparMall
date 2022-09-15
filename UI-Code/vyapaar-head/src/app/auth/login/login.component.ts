@@ -44,17 +44,21 @@ export class LoginComponent implements OnInit {
         "userName": this.loginForm.controls["userName"].value,
         "password": this.loginForm.controls["password"].value
       };
-      this.getByPost('http://localhost:8080/auth/login',loginJson).subscribe(Response=>{
-        if(Response.message='Invalid Credentials'){
+      this.getByPost('http://localhost:9090/auth-service/login',loginJson).subscribe(Response=>{
+        if(Response.access_token==null){
           this.credentialFlag=true;
-        }else if(Response.message='Valid Credentials'){
-        this.router.navigate(['home']);
-        this.loading=false;
+          this.loading=false;
+          console.log(Response)
+        }else if(Response.access_token!=null){
+          localStorage.setItem('token',Response.access_token)
+          this.loading=false;
+          this.router.navigate(['home']);        
         }
         },
         err => {
           this.networkFlag=true;
           this.loading=false;
+          console.log(err)
         });
     }else{
       // const invalid = [];

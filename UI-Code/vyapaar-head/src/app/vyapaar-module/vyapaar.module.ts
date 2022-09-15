@@ -10,6 +10,16 @@ import { CommonModule } from '@angular/common';
 import { ChatComponent } from './dashboard/chat/chat.component';
 import { ListingComponent } from './dashboard/listing/listing.component';
 import { AboutUsComponent } from './about-us/about-us.component';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TableModule } from 'primeng/table';
+import { RatingModule } from "primeng/rating";
+import { DialogModule } from "primeng/dialog";
+import { DropdownModule } from "primeng/dropdown";
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputNumberModule } from "primeng/inputnumber";
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -27,6 +37,16 @@ import { AboutUsComponent } from './about-us/about-us.component';
     VyapaarRoutingModule,
     SidebarModule,
     CommonModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
+    RatingModule,
+    DialogModule,
+    DropdownModule,
+    RadioButtonModule,
+    ConfirmDialogModule,
+    InputNumberModule,
+    FormsModule
   ]
 })
 export class VyapaarModule { }

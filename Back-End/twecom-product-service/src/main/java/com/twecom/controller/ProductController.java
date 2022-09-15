@@ -85,12 +85,12 @@ public class ProductController {
 		
 	}
 	
-	@PutMapping("/product/update/{pId}")
-	public ResponseModel updateProduct(@RequestBody Product p,@PathVariable int pId) {
+	@PutMapping("/product/update")
+	public ResponseModel updateProduct(@RequestBody Product p) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct(p,pId),200,true,"Fetched Successfully");
+			ps.updateProduct(p),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(

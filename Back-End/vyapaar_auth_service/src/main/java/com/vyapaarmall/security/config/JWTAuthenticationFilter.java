@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vyapaarmall.model.LoginCredentials;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 	
@@ -34,12 +35,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
-		
-		return authenticationManager.authenticate(authToken);
+		try {
+			LoginCredentials creds = new ObjectMapper()
+			        .readValue(request.getInputStream(), LoginCredentials.class);
+			
+			return authenticationManager.authenticate(
+	                new UsernamePasswordAuthenticationToken(
+	                        creds.getUserName(),
+	                        creds.getPassword(),
+	                        new ArrayList<>())
+	        );
+		} catch (IOException e) {
+			throw new RuntimeException();
+		} 
 	}
 
 	@Override
@@ -64,8 +72,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		Map<String, String> res = new HashMap<>();
 		res.put("access_token", access_token);
-		res.put("usernameId", user.getUsername().split(":")[0]);
-		res.put("email/mobileNo", user.getUsername().split(":")[1]);
+		res.put("userId", user.getUsername());
 		response.setContentType("application/json");
 		new ObjectMapper().writeValue(response.getOutputStream(), res);
 		
