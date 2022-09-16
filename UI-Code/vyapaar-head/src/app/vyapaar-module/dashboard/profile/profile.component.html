@@ -1,5 +1,5 @@
 <div class="container emp-profile">
-    <form method="post">
+      <form [formGroup]="profileForm" method="post">
         <div class="row">
             <!-- <div class="col-md-4">
                 <div class="profile-img">
@@ -13,11 +13,10 @@
             <div class="col-md-10">
                 <div class="profile-head">
                             <h5>
-                                {{profileData['firstName'] +" "+ profileData['lastName']}}
+                                <input type="text" formControlName="firmName"/>
                             </h5>
                             <h6>
-                                {{profileData['firmName']+" ("+profileData['natureOfBuisness']+")"}}
-                            </h6>
+                              <input type="text" formControlName="natureOfBusiness" placeholder="Nature of Business"/>                            </h6>
                             <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -56,7 +55,7 @@
                                         <label>Name</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="Name" value="NA" [disabled]="!editFlag"/>
+                                        <input type="text" placeholder="Name" formControlName="name"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -64,7 +63,7 @@
                                         <label>Email</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="Email" value="NA" [disabled]="!editFlag"/>
+                                        <input type="text" placeholder="Email" formControlName="email"/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -72,19 +71,30 @@
                                         <label>Phone</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <span>+91</span><input type="text"  placeholder="Phone Number" value="NA" [disabled]="!editFlag"/>
+                                        <span>+91</span><input type="text"  placeholder="Phone Number" formControlName="mobileNumber"/>
                                     </div>
                                 </div>
                                 <div class="row">
+                                  <div class="col-md-6">
+                                      <label>City</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p-dropdown *ngIf="editFlag" [options]="cities" placeholder="Select City *" [showClear]="true"
+                                   formControlName="city">
+                                  </p-dropdown>
+                                  <input *ngIf="!editFlag" formControlName="city" [disabled]="true"/>
+                                  </div>
+                              </div>
+                                <div class="row">
                                     <div class="col-md-6">
-                                        <label>Address</label>
+                                        <label>Pin Code</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{profileData['city'] +", "+ profileData['pincode']}}</p>
+                                      <input type="number" placeholder="Pin Code" (keyup)="getCity()" formControlName="pincode"/>
                                     </div>
                                 </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="col-md-6">
@@ -93,7 +103,7 @@
                         <label>Aadhaar Number</label>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" placeholder="Aadhaar Number" value="NA" [disabled]="!editFlag"/>
+                        <input type="text" placeholder="Aadhaar Number" formControlName="aadhaar"/>
                     </div>
                 </div>
                 <div class="row">
@@ -101,7 +111,7 @@
                         <label>PAN Number</label>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" placeholder="PAN Number" value="NA" [disabled]="!editFlag"/>
+                        <input type="text" placeholder="PAN Number" formControlName="pan"/>
                     </div>
                 </div>
                 <div class="row">
@@ -109,7 +119,7 @@
                         <label>GSTIN</label>
                     </div>
                     <div class="col-md-6">
-                        <input type="text" placeholder="GST Number" value="NA" [disabled]="!editFlag"/>
+                        <input type="text" placeholder="GST Number" formControlName="gst"/>
                     </div>
                 </div>
             </div>
