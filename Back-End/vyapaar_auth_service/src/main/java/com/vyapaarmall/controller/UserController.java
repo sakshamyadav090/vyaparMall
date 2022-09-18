@@ -1,5 +1,7 @@
 package com.vyapaarmall.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,5 +47,11 @@ public class UserController {
 		return new ResponseModel(
 				e.getMessage(), 404, false, "Please provide a valid token");
 	}
+	}
+	@GetMapping("/testImage")
+	public List<String> testImage () {
+		
+	return userService.fetchImage();
+		
 	}
 }

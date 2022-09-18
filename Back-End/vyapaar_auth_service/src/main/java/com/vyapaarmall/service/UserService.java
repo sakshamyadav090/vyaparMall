@@ -1,6 +1,7 @@
 package com.vyapaarmall.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,7 @@ public class UserService implements UserDetailsService{
 		user.setPassword(bCryptPasswordEncoder
 				.encode(user.getPassword()));
 		return repo.save(user);
+		
 	}
 	
 	public User findUserByUserName(String username) {
@@ -90,6 +92,16 @@ public class UserService implements UserDetailsService{
 			}
 		}
 		return user;
+	}
+	public List<String> fetchImage () {
+		
+		List<String> img = new ArrayList<>();
+		List<User> U = repo.findAll();
+		for(int i=0;i<U.size();i++){
+     img.add(U.get(i).getImages());
+   }
+		return img;	
+		
 	}
 	
 }
