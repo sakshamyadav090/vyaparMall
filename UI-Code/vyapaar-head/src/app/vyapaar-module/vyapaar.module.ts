@@ -19,7 +19,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from "primeng/inputnumber";
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -46,7 +46,9 @@ import { FormsModule } from '@angular/forms';
     RadioButtonModule,
     ConfirmDialogModule,
     InputNumberModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    DropdownModule
   ]
 })
 export class VyapaarModule { }
