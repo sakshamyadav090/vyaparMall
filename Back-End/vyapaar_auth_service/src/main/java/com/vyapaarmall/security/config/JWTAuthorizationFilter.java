@@ -31,7 +31,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		if(request.getServletPath().equals(SecurityConstant.LOGIN_URL) || request.getServletPath().equals(SecurityConstant.REGISTER_URL)) {
+		if(request.getServletPath().equals(SecurityConstant.LOGIN_URL) || request.getServletPath().equals(SecurityConstant.REGISTER_URL) 
+				|| request.getServletPath().equals(SecurityConstant.TOKEN_VERIFY_URL)) {
 			chain.doFilter(request, response);
 		} else {
 			String header = request.getHeader(SecurityConstant.HEADER_STRING);

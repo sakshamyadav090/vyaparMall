@@ -27,7 +27,6 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private boolean isActive = true;	
 	private String firstName;
 	private String lastName;
@@ -46,13 +45,9 @@ public class User {
 	private String password;
 	private String city;
 	private String pincode;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String createdBy;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String modifiedBy;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Date createdDate = new Date();
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Date modifiedDate = new Date();
 	
 	@ManyToOne

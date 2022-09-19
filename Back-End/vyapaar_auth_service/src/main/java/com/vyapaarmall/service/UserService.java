@@ -1,6 +1,7 @@
 package com.vyapaarmall.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,6 +61,21 @@ public class UserService implements UserDetailsService{
 		
 		return user;
 				
+	}
+	
+	public User updateUser(User user) {
+		User dbUser = repo.findById(user.getUserId()).get();
+		if(dbUser==null) {
+			throw new UserException("Inavalid Operation");
+		}
+		user.setActive(dbUser.isActive());
+		user.setCreatedBy(dbUser.getCreatedBy());
+		user.setCreatedDate(dbUser.getCreatedDate());
+		user.setRole(dbUser.getRole());
+		user.setModifiedDate(new Date());
+		user.setPassword(bCryptPasswordEncoder
+				.encode(dbUser.getPassword()));
+		return repo.save(user);
 	}
 
 	@Override
