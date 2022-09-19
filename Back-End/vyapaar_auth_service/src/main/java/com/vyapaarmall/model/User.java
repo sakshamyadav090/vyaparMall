@@ -53,5 +53,6 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;	
-	
+	private String Images;
+	private String Description;
 }

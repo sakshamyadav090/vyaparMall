@@ -139,7 +139,8 @@ saveProfile(){
       "pincode": this.profileForm.controls["pincode"].value,
       "aadhaarNumber": this.profileForm.controls["aadhaar"].value,
       "panNumber": this.profileForm.controls["pan"].value,
-      "natureOfBuisness": this.profileForm.controls["natureOfBusiness"].value
+      "natureOfBuisness": this.profileForm.controls["natureOfBusiness"].value,
+      "modifiedBy": this.profileForm.controls["name"].value
   };
       this.updateByPost('http://localhost:9090/auth-service/auth/user/updateUser',profileJson).subscribe(Response=>{
         this.loading=false;
