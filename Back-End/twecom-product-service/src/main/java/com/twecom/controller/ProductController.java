@@ -38,6 +38,21 @@ public class ProductController {
 		return responseModel;
 	}
 	
+	@GetMapping("/product/list/{userId}")
+	public ResponseModel getProductListByUser(@PathVariable int userId){
+		ResponseModel responseModel;
+		try {
+			responseModel = new ResponseModel(
+			ps.getProductByUser(userId),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Fetch");
+			
+		}
+		return responseModel;
+	}
+	
 	@GetMapping("/product/getProduct/{pId}")
 	public ResponseModel getById(@PathVariable int pId) {
 		ResponseModel responseModel;

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable,throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ApiUrls } from 'src/app/vyapaar-module/utilities/api-urls';
 
 @Component({
   selector: 'app-login',
@@ -44,15 +45,16 @@ export class LoginComponent implements OnInit {
         "userName": this.loginForm.controls["userName"].value,
         "password": this.loginForm.controls["password"].value
       };
-      this.getByPost('http://localhost:9090/auth-service/login',loginJson).subscribe(Response=>{
+      this.getByPost(ApiUrls.LOGIN,loginJson).subscribe(Response=>{
         if(Response.access_token==null){
           this.credentialFlag=true;
           this.loading=false;
           console.log(Response)
         }else if(Response.access_token!=null){
-          localStorage.setItem('token',Response.access_token)
+          localStorage.setItem('token',Response.access_token);
           this.loading=false;
-          this.router.navigate(['home']);        
+          this.router.navigate(['home']);
+          console.log(Response)
         }
         },
         err => {
@@ -82,11 +84,11 @@ hideMessage() {
   setTimeout(() => { this.networkFlag = false,this.credentialFlag=false }, 3000);
 }
 
-getById(url: string): Observable<any> {
-  return this.http.get<any>(url).pipe(
-    catchError(this.handleError)
-  );
-}
+// getById(url: string): Observable<any> {
+//   return this.http.get<any>(url).pipe(
+//     catchError(this.handleError)
+//   );
+// }
 
 
 getByPost(url: string, body: any): Observable<any> {

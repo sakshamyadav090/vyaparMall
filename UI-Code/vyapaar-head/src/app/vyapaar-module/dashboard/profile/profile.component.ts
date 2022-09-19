@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ApiUrls } from '../../utilities/api-urls';
 
 @Component({
   selector: 'app-profile',
@@ -60,7 +61,7 @@ loadProfileData(){
   if(!this.token){
     // this.router.navigate(['home']);
   }else{
-    this.getByHeader(`http://localhost:9090/auth-service/auth/verify-token`).subscribe(Response=>{
+    this.getByHeader(ApiUrls.VERIFY_TOKEN).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
           // this.loading=false;
           // this.router.navigate(['home']);
@@ -142,7 +143,7 @@ saveProfile(){
       "natureOfBuisness": this.profileForm.controls["natureOfBusiness"].value,
       "modifiedBy": this.profileForm.controls["name"].value
   };
-      this.updateByPost('http://localhost:9090/auth-service/auth/user/updateUser',profileJson).subscribe(Response=>{
+      this.updateByPost(ApiUrls.UPDATE_USER,profileJson).subscribe(Response=>{
         this.loading=false;
         console.log(Response)
         },
@@ -152,10 +153,10 @@ saveProfile(){
           console.log(Response)
           alert('nhi ho rha bhaiya');
         });
-    
+
   this.editFlag=false;
   this.profileForm.disable();
-   
+
 }
 
 

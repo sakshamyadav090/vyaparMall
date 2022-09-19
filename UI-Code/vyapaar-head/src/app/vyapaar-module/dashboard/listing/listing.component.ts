@@ -3,6 +3,8 @@ import { Product } from './product';
 import { ProductService } from './productservice';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { ApiService } from 'src/app/common/services/api.service';
+import { ApiUrls } from '../../utilities/api-urls';
 
 @Component({
   selector: 'app-listing',
@@ -18,16 +20,41 @@ export class ListingComponent implements OnInit {
   selectedProducts: Product[];
   submitted: boolean;
   statuses: any[];
+  listingColumn: any[];
+  listData:any;
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(
+    private productService: ProductService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.productService.getProducts().then(data => this.products = data);
-
+    //this.productService.getProducts().then(data => this.products = data);
+    this.getProductList();
     this.statuses = [
         {label: 'INSTOCK', value: 'instock'},
         {label: 'LOWSTOCK', value: 'lowstock'},
         {label: 'OUTOFSTOCK', value: 'outofstock'}
+    ];
+  }
+
+  getProductList(){
+    this.apiService.getById(ApiUrls.PRODUCT_LIST_BY_SUPPLIER,3).subscribe(response=>{
+      if(response.data.length>0){
+        this.listData=response.data;
+      }
+      console.log(response.data);
+    })
+
+    this.listingColumn = [
+      { field: 'pname', header: 'Name' },
+      // { field: '', header: 'Image' },
+      { field: 'pPriceRange', header: 'Price Range'},
+      { field: 'pCategory', header: 'Category' },
+      { field: 5 , header: 'Reviews' },
+      { field: 'quantity', header: 'Status' },
+      { field: '', header: 'Action(s)', width: "8%", class: "text-center tableaction"}
     ];
   }
 

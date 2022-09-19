@@ -13,7 +13,7 @@
         </ng-template> -->
     </p-toolbar>
 
-    <p-table #dt [value]="products" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
+    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pName','worker','pPriceRange','pCategory']" responsiveLayout="scroll"
         [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
@@ -30,12 +30,12 @@
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th>Image</th>
-                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="pName">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="">Category</th>
+                <th pSortableColumn="pPriceRange">Price Range <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="pCategory">Category <p-sortIcon field="category"></p-sortIcon></th>
                 <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-                <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                <th pSortableColumn="quantity">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
                 <th></th>
             </tr>
         </ng-template>

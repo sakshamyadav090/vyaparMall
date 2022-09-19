@@ -19,6 +19,10 @@ public class ProductService {
 	 return repo.findAll();
 	}
 	
+	public List<Product> getProductByUser(int id){
+		 return repo.findBypSupplierId(id);
+		}
+	
 	public Product getByProductId(int pId) {
 		return repo.findById(pId).get();
 	}
