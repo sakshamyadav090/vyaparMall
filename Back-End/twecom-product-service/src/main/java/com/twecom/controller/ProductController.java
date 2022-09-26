@@ -23,6 +23,8 @@ public class ProductController {
 	@Autowired
 	private ProductService ps;
 	
+	
+	
 	@GetMapping("/product/list")
 	public ResponseModel getAllProductList(){
 		ResponseModel responseModel;
