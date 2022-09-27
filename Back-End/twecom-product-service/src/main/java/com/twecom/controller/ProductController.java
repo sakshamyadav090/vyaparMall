@@ -40,7 +40,7 @@ public class ProductController {
 		return responseModel;
 	}
 	
-	@GetMapping("/product/user")
+	@GetMapping("/product/supplier")
 	public ResponseModel getProductListByUser(@RequestHeader("Authorization") String token){
 		ResponseModel responseModel;
 		try {

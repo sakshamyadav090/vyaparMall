@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -23,17 +25,19 @@ public class Product {
 	
 	private int pId;
 	private String pName;
-	private String pDescription;
-	private String pPriceRange;
+	private String pDescription; 
+	private int pPriceStartRange;
+	private int pPriceEndRange;
 	private String pManufacturer;	
 	private String pImage;	
 	private int pSupplierId;	
-	private int pCategory;
 	private String pOrigin;	
 	private int createdBy;
 	private int modifiedBy;
 	private int isDeleted;
 	private Date modifiedAt;
 	private int quantity;
+	@ManyToOne @JoinColumn(name = "categoryId")
+	private Category category;
 
 }

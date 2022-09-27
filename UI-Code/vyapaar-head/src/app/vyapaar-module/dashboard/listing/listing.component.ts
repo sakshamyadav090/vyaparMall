@@ -19,7 +19,7 @@ export class ListingComponent implements OnInit {
   product: Product;
   selectedProducts: Product[];
   submitted: boolean;
-  statuses: any[];
+  category: any[];
   listingColumn: any[];
   listData:any;
 
@@ -32,7 +32,8 @@ export class ListingComponent implements OnInit {
   ngOnInit(): void {
     //this.productService.getProducts().then(data => this.products = data);
     this.getProductList();
-    this.statuses = [
+
+    this.category = [
         {label: 'INSTOCK', value: 'instock'},
         {label: 'LOWSTOCK', value: 'lowstock'},
         {label: 'OUTOFSTOCK', value: 'outofstock'}
@@ -40,11 +41,11 @@ export class ListingComponent implements OnInit {
   }
 
   getProductList(){
-    this.apiService.getById(ApiUrls.PRODUCT_LIST_BY_SUPPLIER,3).subscribe(response=>{
+    this.apiService.getWithoutId(ApiUrls.PRODUCT_LIST_BY_SUPPLIER).subscribe(response=>{
       if(response.data.length>0){
         this.listData=response.data;
       }
-      console.log(response.data);
+      console.log(this.listData);
     })
 
     this.listingColumn = [
@@ -52,7 +53,7 @@ export class ListingComponent implements OnInit {
       // { field: '', header: 'Image' },
       { field: 'pPriceRange', header: 'Price Range'},
       { field: 'pCategory', header: 'Category' },
-      { field: 5 , header: 'Reviews' },
+      { field: 4 , header: 'Reviews' },
       { field: 'quantity', header: 'Status' },
       { field: '', header: 'Action(s)', width: "8%", class: "text-center tableaction"}
     ];

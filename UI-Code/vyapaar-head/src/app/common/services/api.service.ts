@@ -23,6 +23,13 @@ export class ApiService {
     })
   }
 
+  httpOptions1 = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem("token")
+    })
+  }
+
 
   list(url: string): Observable<any> {
     //  let commissionPlansdata = "assets/data/commissionPlans.json";
@@ -31,6 +38,12 @@ export class ApiService {
 
   getById(url: string, body: any): Observable<any> {
     return this.http.get<any>(url + body, body).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getWithoutId(url: string): Observable<any> {
+    return this.http.get<any>(url,this.httpOptions1).pipe(
       catchError(this.handleError)
     );
   }
