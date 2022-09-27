@@ -3,6 +3,8 @@ import { Product } from './product';
 import { ProductService } from './productservice';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { ApiService } from 'src/app/common/services/api.service';
+import { ApiUrls } from '../../utilities/api-urls';
 
 @Component({
   selector: 'app-listing',
@@ -17,17 +19,43 @@ export class ListingComponent implements OnInit {
   product: Product;
   selectedProducts: Product[];
   submitted: boolean;
-  statuses: any[];
+  category: any[];
+  listingColumn: any[];
+  listData:any;
 
-  constructor(private productService: ProductService, private messageService: MessageService, private confirmationService: ConfirmationService) { }
+  constructor(
+    private productService: ProductService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.productService.getProducts().then(data => this.products = data);
+    //this.productService.getProducts().then(data => this.products = data);
+    this.getProductList();
 
-    this.statuses = [
+    this.category = [
         {label: 'INSTOCK', value: 'instock'},
         {label: 'LOWSTOCK', value: 'lowstock'},
         {label: 'OUTOFSTOCK', value: 'outofstock'}
+    ];
+  }
+
+  getProductList(){
+    this.apiService.getWithoutId(ApiUrls.PRODUCT_LIST_BY_SUPPLIER).subscribe(response=>{
+      if(response.data.length>0){
+        this.listData=response.data;
+      }
+      console.log(this.listData);
+    })
+
+    this.listingColumn = [
+      { field: 'pname', header: 'Name' },
+      // { field: '', header: 'Image' },
+      { field: 'pPriceRange', header: 'Price Range'},
+      { field: 'pCategory', header: 'Category' },
+      { field: 4 , header: 'Reviews' },
+      { field: 'quantity', header: 'Status' },
+      { field: '', header: 'Action(s)', width: "8%", class: "text-center tableaction"}
     ];
   }
 
@@ -35,6 +63,25 @@ export class ListingComponent implements OnInit {
     this.product = {};
     this.submitted = false;
     this.productDialog = true;
+    this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
+        let categories = response.data;
+        this.category=[
+            {
+                label: "OTHER",
+                value: 0
+            }
+        ]
+        let categoryList:Array<String> = [];
+      categories.forEach(element => {
+        if(categoryList.indexOf(element.categoryId)==-1){
+            categoryList.push(element.categoryId);
+        this.category.push({
+          label : element.name,
+          value : element.categoryId
+        })
+      }
+    })
+    })
 }
 
 deleteSelectedProducts() {

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ApiUrls } from '../../utilities/api-urls';
 
 @Component({
   selector: 'app-profile',
@@ -15,8 +16,9 @@ import { catchError } from 'rxjs/operators';
 export class ProfileComponent implements OnInit {
 
   selectedCity:String='';
+  userId:Number=-1
+  mandatFlag:boolean=false;
   profileForm:FormGroup;
-  selectedCityValue:String=null;
   loading:boolean=false;
   token:string=undefined
   networkFlag:boolean=false;
@@ -24,7 +26,8 @@ export class ProfileComponent implements OnInit {
   cities = [];
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': "Bearer " + localStorage.getItem('token')
     })
   }
 
@@ -49,7 +52,6 @@ export class ProfileComponent implements OnInit {
       city:['',[Validators.required]]
     });
     this.profileForm.disable();
-    this.selectedCityValue='';
     this.loadProfileData()
   }
 
@@ -59,15 +61,16 @@ loadProfileData(){
   if(!this.token){
     // this.router.navigate(['home']);
   }else{
-    this.getByPost(`http://localhost:9090/auth-service/auth/verify-token/${this.token}`).subscribe(Response=>{
+    this.getByHeader(ApiUrls.VERIFY_TOKEN).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
           // this.loading=false;
           // this.router.navigate(['home']);
           console.log(Response.code, Response.sucess)
-          console.log(Response.data)
+          console.log(Response)
         }else if(Response.code==200 && Response.success){
+          console.log(Response)
           this.profileForm.patchValue({
-            name:Response.data.firstName +''+ Response.data.lastName,
+            name:Response.data.firstName +' '+ Response.data.lastName,
             aadhaar:Response.data.aadhaarNumber,
             city:Response.data.city,
             email:Response.data.email,
@@ -78,6 +81,7 @@ loadProfileData(){
             pincode:Response.data.pincode,
             gst:Response.data.gst,
           });
+          this.userId = Response.data.userId;
           this.cities.push(Response.data.city);
           this.loading=false;
         }
@@ -90,11 +94,7 @@ loadProfileData(){
   }
 
 }
-getById(url: string): Observable<any> {
-  return this.http.get<any>(url).pipe(
-    catchError(this.handleError)
-  );
-}
+
 getCity(){
   if(this.profileForm.value.pincode!=null){
     if(this.profileForm.value.pincode.toString().length=='6'){
@@ -113,25 +113,72 @@ getCity(){
         });
     }else{
       this.cities=[];
-      this.selectedCityValue=null;
     }
   }else{
     this.cities=[];
-    this.selectedCityValue=null;
   }
 }
 
 enableEdit(){
   this.editFlag=true;
   this.profileForm.enable();
+  this.getCity();
 }
 
 saveProfile(){
+
+    this.loading=true;
+     let profileJson = {
+      userId:this.userId,
+      "email": this.profileForm.controls["email"].value != undefined ? this.profileForm.controls["email"].value:null,
+      "city":  this.profileForm.controls["city"].value,
+      "firmName":this.profileForm.controls["firmName"].value,
+      "firstName": this.profileForm.controls["name"].value.split(' ')[0],
+      "lastName": this.profileForm.controls["name"].value.split(' ')[1],
+      "gst":this.profileForm.controls["gst"].value!=null?this.profileForm.controls["gst"].value:null,
+      "mobileNumber":this.profileForm.controls["mobileNumber"].value,
+      "pincode": this.profileForm.controls["pincode"].value,
+      "aadhaarNumber": this.profileForm.controls["aadhaar"].value,
+      "panNumber": this.profileForm.controls["pan"].value,
+      "natureOfBuisness": this.profileForm.controls["natureOfBusiness"].value,
+      "modifiedBy": this.profileForm.controls["name"].value
+  };
+      this.updateByPost(ApiUrls.UPDATE_USER,profileJson).subscribe(Response=>{
+        this.loading=false;
+        console.log(Response)
+        },
+        err => {
+          this.messageService.add({severity:'error',detail:'Error while Updating'});
+          this.loading=false;
+          console.log(Response)
+          alert('nhi ho rha bhaiya');
+        });
+
   this.editFlag=false;
   this.profileForm.disable();
+
 }
 
-getByPost(url: string): Observable<any> {
+
+getByPost(url: string, body: any): Observable<any> {
+  return this.http.post<any>(url, body, this.httpOptions).pipe(
+    catchError(this.handleError)
+  );
+}
+
+updateByPost(url: string, body: any): Observable<any> {
+  return this.http.put<any>(url, body, this.httpOptions).pipe(
+    catchError(this.handleError)
+  );
+}
+
+getById(url: string): Observable<any> {
+  return this.http.get<any>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+getByHeader(url: string): Observable<any> {
   return this.http.get<any>(url, this.httpOptions).pipe(
     catchError(this.handleError)
   );

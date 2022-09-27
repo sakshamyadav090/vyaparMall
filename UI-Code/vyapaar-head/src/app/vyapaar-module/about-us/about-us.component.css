@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -78,7 +79,6 @@ body {
   padding-top: 0px;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 /* body {
 	  background:#2d3b36 url()no-repeat center center fixed;
   	-webkit-background-size: cover;
@@ -89,10 +89,10 @@ body {
 } */
 
 h1 {
-   color: #fff; 
+   color: #fff;
    text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
    padding-top: 30px;
-   font-size: 100px; 
+   font-size: 100px;
    font-weight: 700;
    text-align: center;
    font-family: 'Source Sans Pro', sans-serif;
@@ -110,12 +110,12 @@ form {
     border-radius: 10px;
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
-    background-clip: padding-box; 
-    overflow: hidden; 
+    background-clip: padding-box;
+    overflow: hidden;
 }
 
 textarea{
-	  background: rgba(0, 0, 0, 0.4); 
+	  background: rgba(0, 0, 0, 0.4);
     width: 894px;
     height: 110px;
     border: none;
@@ -124,7 +124,7 @@ textarea{
     border-radius: 10px;
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
-    background-clip: padding-box; 
+    background-clip: padding-box;
     display: block;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 18px;
@@ -167,7 +167,7 @@ select {
     border-radius: 10px;
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
-    background-clip: padding-box; 
+    background-clip: padding-box;
     display: block;
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 18px;
@@ -182,7 +182,7 @@ input[type=submit] {
 }
 
 input.nameinput {
-	  background: rgba(0, 0, 0, 0.4); 
+	  background: rgba(0, 0, 0, 0.4);
 	  padding-left: 45px;
 }
 
@@ -205,24 +205,24 @@ select.indent {
 	  color: #fff;
 }
 
-:-moz-placeholder{ 
-    color: #fff; 
+:-moz-placeholder{
+    color: #fff;
 }
 
 ::-moz-placeholder {
     color: #fff;
 }
 
-:-ms-input-placeholder {  
-	  color: #fff; 
+:-ms-input-placeholder {
+	  color: #fff;
 }
 
-input:focus, textarea:focus { 
+input:focus, textarea:focus {
 	  background-color: rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
     -webkit-box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
     box-shadow: 0 0 5px 1px rgba(255,255,255,.5);
-	  overflow: hidden; 
+	  overflow: hidden;
 }
 
 .btn {

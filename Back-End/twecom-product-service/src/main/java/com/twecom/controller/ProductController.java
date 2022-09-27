@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.twecom.model.Product;
@@ -27,8 +28,24 @@ public class ProductController {
 	public ResponseModel getAllProductList(){
 		ResponseModel responseModel;
 		try {
+			
 			responseModel = new ResponseModel(
 			ps.getAllProduct(),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Fetch");
+			
+		}
+		return responseModel;
+	}
+	
+	@GetMapping("/product/supplier")
+	public ResponseModel getProductListByUser(@RequestHeader("Authorization") String token){
+		ResponseModel responseModel;
+		try {
+			responseModel = new ResponseModel(
+			ps.getProductByUser(token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -54,11 +71,11 @@ public class ProductController {
 	}
 	 
 	@PostMapping("/product/add")
-	public ResponseModel addProduct(@RequestBody Product p) {
+	public ResponseModel addProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.addProduct(p),200,true,"Fetched Successfully");
+			ps.addProduct(p,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -70,11 +87,11 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/product/delete/{pId}")
-	public ResponseModel addProduct(@PathVariable int pId) {
+	public ResponseModel addProduct(@PathVariable int pId, @RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.deleteProduct(pId),200,true,"Fetched Successfully");
+			ps.deleteProduct(pId,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -86,11 +103,11 @@ public class ProductController {
 	}
 	
 	@PutMapping("/product/update")
-	public ResponseModel updateProduct(@RequestBody Product p) {
+	public ResponseModel updateProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct(p),200,true,"Fetched Successfully");
+			ps.updateProduct(p,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(

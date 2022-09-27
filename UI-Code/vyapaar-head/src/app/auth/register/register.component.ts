@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, Observable, throwError } from 'rxjs';
+import { ApiUrls } from 'src/app/vyapaar-module/utilities/api-urls';
 
 @Component({
   selector: 'app-register',
@@ -120,7 +121,7 @@ export class RegisterComponent implements OnInit {
         "password": this.registerForm.controls["password"].value,
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null
     };
-        this.getByPost('http://localhost:9090/auth-service/auth/register',registerJson).subscribe(Response=>{
+        this.getByPost(ApiUrls.REGISTER,registerJson).subscribe(Response=>{
           this.router.navigate(['home']);
           this.loading=false;
           console.log(Response)
