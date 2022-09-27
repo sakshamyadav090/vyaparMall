@@ -67,7 +67,7 @@ export class ListingComponent implements OnInit {
         let categories = response.data;
         this.category=[
             {
-                label: "OTHER",
+                label: "Other",
                 value: 0
             }
         ]
@@ -122,23 +122,33 @@ hideDialog() {
 
 saveProduct() {
     this.submitted = true;
+  debugger
+  let json={
+    "pName":this.product.name,
+    "pDescription":this.product.description,
+    "pPriceStartRange":this.product.priceStart,
+    "pPriceEndRange":this.product.priceEnd,
+    "quantity":this.product.quantity
+  }
+  this.apiService.save(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
+    console.log(response);
+  })
+    // if (this.product.name.trim()) {
+    //     if (this.product.id) {
+    //         this.products[this.findIndexById(this.product.id)] = this.product;
+    //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
+    //     }
+    //     else {
+    //         this.product.id = this.createId();
+    //         this.product.image = 'product-placeholder.svg';
+    //         this.products.push(this.product);
+    //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+    //     }
 
-    if (this.product.name.trim()) {
-        if (this.product.id) {
-            this.products[this.findIndexById(this.product.id)] = this.product;
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-        }
-        else {
-            this.product.id = this.createId();
-            this.product.image = 'product-placeholder.svg';
-            this.products.push(this.product);
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-        }
-
-        this.products = [...this.products];
-        this.productDialog = false;
-        this.product = {};
-    }
+    //     this.products = [...this.products];
+    //     this.productDialog = false;
+    //     this.product = {};
+    // }
 }
 
 findIndexById(id: string): number {
