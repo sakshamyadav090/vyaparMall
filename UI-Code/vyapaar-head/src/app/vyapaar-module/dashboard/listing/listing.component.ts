@@ -63,6 +63,25 @@ export class ListingComponent implements OnInit {
     this.product = {};
     this.submitted = false;
     this.productDialog = true;
+    this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
+        let categories = response.data;
+        this.category=[
+            {
+                label: "OTHER",
+                value: 0
+            }
+        ]
+        let categoryList:Array<String> = [];
+      categories.forEach(element => {
+        if(categoryList.indexOf(element.categoryId)==-1){
+            categoryList.push(element.categoryId);
+        this.category.push({
+          label : element.name,
+          value : element.categoryId
+        })
+      }
+    })
+    })
 }
 
 deleteSelectedProducts() {
