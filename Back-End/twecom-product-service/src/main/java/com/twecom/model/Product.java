@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,7 +30,8 @@ public class Product {
 	private int pPriceStartRange;
 	private int pPriceEndRange;
 	private String pManufacturer;	
-	private String pImage;	
+	@Lob
+	private byte[] pImage;	
 	private int pSupplierId;	
 	private String pOrigin;	
 	private int createdBy;
@@ -37,7 +39,8 @@ public class Product {
 	private int isDeleted;
 	private Date modifiedAt;
 	private int quantity;
-	@ManyToOne @JoinColumn(name = "categoryId")
+	@ManyToOne 
+	@JoinColumn(name = "categoryId")
 	private Category category;
 
 }

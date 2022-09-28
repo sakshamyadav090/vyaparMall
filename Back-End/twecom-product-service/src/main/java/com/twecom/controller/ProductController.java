@@ -1,20 +1,33 @@
 package com.twecom.controller;
 
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
+import com.twecom.repository.ProductRepository;
 import com.twecom.service.ProductService;
+
+import lombok.var;
 
 @RestController
 public class ProductController {
@@ -23,6 +36,10 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService ps;
+	
+
+	@Autowired
+	private ProductRepository repo;
 	
 	@GetMapping("/product/list")
 	public ResponseModel getAllProductList(){
@@ -38,6 +55,16 @@ public class ProductController {
 			
 		}
 		return responseModel;
+	}
+	
+	@GetMapping("/product/{pId}/image")
+	@ResponseBody
+	public void getProductImage(@PathVariable int pId, HttpServletResponse response) throws IOException {
+		response.setContentType(MediaType.IMAGE_PNG_VALUE);
+		Product p= repo.findById(pId).get();
+		response.getOutputStream().write(p.getPImage());
+		response.getOutputStream().close();
+		
 	}
 	
 	@GetMapping("/product/supplier")
@@ -71,11 +98,15 @@ public class ProductController {
 	}
 	 
 	@PostMapping("/product/add")
-	public ResponseModel addProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
+	public ResponseModel addProduct( 
+			@ModelAttribute Product p, 
+			@RequestParam("file") MultipartFile image,
+			@RequestHeader("Authorization") String token) {
+		
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.addProduct(p,token),200,true,"Fetched Successfully");
+			ps.addProduct(p,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
