@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Product } from './product';
 import { ProductService } from './productservice';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-listing',
@@ -14,6 +15,7 @@ import { ApiUrls } from '../../utilities/api-urls';
 })
 export class ListingComponent implements OnInit {
 
+  @ViewChild('fileUpload') fileUpload: any;
   productDialog: boolean;
   products: Product[];
   product: Product;
@@ -22,9 +24,13 @@ export class ListingComponent implements OnInit {
   category: any[];
   listingColumn: any[];
   listData:any;
+  uploadedFiles:File[];
+  file:File;
+  uploadForm: FormGroup;
 
   constructor(
     private productService: ProductService,
+    private fb: FormBuilder,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private apiService: ApiService) { }
@@ -38,6 +44,10 @@ export class ListingComponent implements OnInit {
         {label: 'LOWSTOCK', value: 'lowstock'},
         {label: 'OUTOFSTOCK', value: 'outofstock'}
     ];
+
+    this.uploadForm = this.fb.group({
+      file: ['',Validators.required]
+    });
   }
 
   getProductList(){
@@ -121,18 +131,25 @@ hideDialog() {
 }
 
 saveProduct() {
-    this.submitted = true;
+  if(this.fileUpload._files.length<4){
+    const formData = new FormData();
+  for(let i=0;i<this.fileUpload._files.length;i++){
+    formData.append('fileToUpload'+(i+1), this.fileUpload._files[i]);
+  }
+  this.submitted = true;
   let json={
     "pname":this.product.name,
     "pdescription":this.product.description,
     "ppriceStartRange":this.product.priceStart,
     "ppriceEndRange":this.product.priceEnd,
     "quantity":this.product.quantity,
-    "category":{"categoryId":this.product.category}
+    "category":{"categoryId":this.product.category},
+    "file":formData
   }
   this.apiService.save(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
     console.log(response);
   })
+}
     // if (this.product.name.trim()) {
     //     if (this.product.id) {
     //         this.products[this.findIndexById(this.product.id)] = this.product;
@@ -150,6 +167,8 @@ saveProduct() {
     //     this.product = {};
     // }
 }
+
+
 
 findIndexById(id: string): number {
     let index = -1;
@@ -171,4 +190,16 @@ createId(): string {
     }
     return id;
 }
+
+test(event){
+
+console.log(this.fileUpload._files.length);
+// for(let j=0;j<this.fileUpload._files.length;j++)
+// this.fileUpload.remove(event,j);
+
+}
+
+
+
+
 }
