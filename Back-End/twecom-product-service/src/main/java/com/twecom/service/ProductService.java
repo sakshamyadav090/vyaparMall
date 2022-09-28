@@ -1,10 +1,14 @@
 package com.twecom.service;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.Product;
@@ -32,8 +36,13 @@ public class ProductService {
 		return repo.findById(pId).get();
 	}
 	
-	public Product addProduct(Product p, String token) {
+	public Product addProduct(Product p,MultipartFile image, String token) throws IOException {
 		int userId = authorizer.isTokenValid(token);
+		String fileName = StringUtils.cleanPath(image.getOriginalFilename());
+		if(fileName.contains("..")) {
+			throw new RuntimeException("Invalid Filename");
+		}
+		p.setPImage(image.getBytes());
 		p.setPSupplierId(userId);
 		return repo.save(p);
 	}
@@ -58,4 +67,9 @@ public class ProductService {
 		repo.save(pr);
 		return "Deleted Successfully!";
 	}
+
+//	public String getImage(int pId) {
+//		Product p= repo.findById(pId).get();
+//		return p.getPImage();
+//	}
 }
