@@ -51,8 +51,8 @@ export class ListingComponent implements OnInit {
     this.listingColumn = [
       { field: 'pname', header: 'Name' },
       // { field: '', header: 'Image' },
-      { field: 'pPriceRange', header: 'Price Range'},
-      { field: 'pCategory', header: 'Category' },
+      { field: 'ppriceStartRange', header: 'Price Range'},
+      { field: 'category.name', header: 'Category' },
       { field: 4 , header: 'Reviews' },
       { field: 'quantity', header: 'Status' },
       { field: '', header: 'Action(s)', width: "8%", class: "text-center tableaction"}
@@ -122,13 +122,13 @@ hideDialog() {
 
 saveProduct() {
     this.submitted = true;
-  debugger
   let json={
-    "pName":this.product.name,
-    "pDescription":this.product.description,
-    "pPriceStartRange":this.product.priceStart,
-    "pPriceEndRange":this.product.priceEnd,
-    "quantity":this.product.quantity
+    "pname":this.product.name,
+    "pdescription":this.product.description,
+    "ppriceStartRange":this.product.priceStart,
+    "ppriceEndRange":this.product.priceEnd,
+    "quantity":this.product.quantity,
+    "category":{"categoryId":this.product.category}
   }
   this.apiService.save(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
     console.log(response);

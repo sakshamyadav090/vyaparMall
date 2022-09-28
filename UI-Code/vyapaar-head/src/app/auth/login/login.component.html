@@ -43,7 +43,7 @@
           <!-- Password input -->
           <div class="form-outline mb-3">
             <input type="password" formControlName="password" class="form-control form-control-lg"
-              placeholder="Enter password" />
+              placeholder="Enter password" (keydown.enter)="submit()"/>
             <label class="form-label">Password</label>
           </div>
 
