@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-listing',
@@ -30,6 +31,7 @@ export class ListingComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private http: HttpClient,
     private fb: FormBuilder,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
@@ -134,7 +136,7 @@ saveProduct() {
   if(this.fileUpload._files.length<4){
     const formData = new FormData();
   for(let i=0;i<this.fileUpload._files.length;i++){
-    formData.append('fileToUpload'+(i+1), this.fileUpload._files[i]);
+    formData.append('file', this.fileUpload._files[0]);
   }
   this.submitted = true;
   let json={
@@ -146,7 +148,7 @@ saveProduct() {
     "category":{"categoryId":this.product.category},
     "file":formData
   }
-  this.apiService.save(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
+  this.http.post<any>(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
     console.log(response);
   })
 }
