@@ -31,7 +31,7 @@ public class Product {
 	private int pPriceEndRange;
 	private String pManufacturer;	
 	@Lob
-	private byte[] pImage;	
+	private String pImage;	
 	private int pSupplierId;	
 	private String pOrigin;	
 	private int createdBy;

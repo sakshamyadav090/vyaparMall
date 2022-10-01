@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
 import com.twecom.repository.ProductRepository;
@@ -41,29 +43,27 @@ public class ProductController {
 	@Autowired
 	private ProductRepository repo;
 	
-	@GetMapping("/product/list")
-	public ResponseModel getAllProductList(){
+	@PostMapping("/product/add")
+	public ResponseModel addProduct( 
+			@RequestParam("data") String prod, 
+			@RequestParam("file") MultipartFile[] image,
+			@RequestHeader("Authorization") String token) {
+		
+//		JSONPObject json = new JSONPObject(prod, token);
+		  
+		
 		ResponseModel responseModel;
 		try {
-			
+			Product p = new ObjectMapper().readValue(prod, Product.class);
 			responseModel = new ResponseModel(
-			ps.getAllProduct(),200,true,"Fetched Successfully");
+			ps.addProduct(p,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
-					e.getMessage(),200,false,"Unable to Fetch");
+					e.getMessage(),200,false,"Unable to Save");
 			
 		}
 		return responseModel;
-	}
-	
-	@GetMapping("/product/{pId}/image")
-	@ResponseBody
-	public void getProductImage(@PathVariable int pId, HttpServletResponse response) throws IOException {
-		response.setContentType(MediaType.IMAGE_PNG_VALUE);
-		Product p= repo.findById(pId).get();
-		response.getOutputStream().write(p.getPImage());
-		response.getOutputStream().close();
 		
 	}
 	
@@ -82,6 +82,36 @@ public class ProductController {
 		return responseModel;
 	}
 	
+	@GetMapping("/product/list")
+	public ResponseModel getAllProductList(){
+		ResponseModel responseModel;
+		try {
+			
+			responseModel = new ResponseModel(
+			ps.getAllProduct(),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Fetch");
+			
+		}
+		return responseModel;
+	}
+	
+	@GetMapping("/product/{pId}/image")
+	@ResponseBody
+	public String getProductImage(@PathVariable int pId, HttpServletResponse response) throws IOException {
+//		response.setContentType(MediaType.IMAGE_PNG_VALUE);
+		Product p= repo.findById(pId).get();
+		
+		return p.getPImage();
+		
+//		System.out.println(p.getPImage().toString());
+//		response.getOutputStream().write(p.getPImage());
+//		response.getOutputStream().close();
+		
+	}
+	
 	@GetMapping("/product/getProduct/{pId}")
 	public ResponseModel getById(@PathVariable int pId) {
 		ResponseModel responseModel;
@@ -96,17 +126,13 @@ public class ProductController {
 		}
 		return responseModel;
 	}
-	 
-	@PostMapping("/product/add")
-	public ResponseModel addProduct( 
-			@ModelAttribute Product p, 
-			@RequestParam("file") MultipartFile image,
-			@RequestHeader("Authorization") String token) {
-		
+	
+	@PutMapping("/product/update")
+	public ResponseModel updateProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.addProduct(p,image,token),200,true,"Fetched Successfully");
+			ps.updateProduct(p,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -127,22 +153,6 @@ public class ProductController {
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
 					e.getMessage(),200,false,"Unable to Delete");
-			
-		}
-		return responseModel;
-		
-	}
-	
-	@PutMapping("/product/update")
-	public ResponseModel updateProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
-		ResponseModel responseModel;
-		try {
-			responseModel = new ResponseModel(
-			ps.updateProduct(p,token),200,true,"Fetched Successfully");
-		}catch(Exception e){
-			logger.error(e.getMessage());
-			responseModel = new ResponseModel(
-					e.getMessage(),200,false,"Unable to Save");
 			
 		}
 		return responseModel;

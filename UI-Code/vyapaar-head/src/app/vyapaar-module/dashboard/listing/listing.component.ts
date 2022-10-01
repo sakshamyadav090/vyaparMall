@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-listing',
@@ -28,6 +28,7 @@ export class ListingComponent implements OnInit {
   uploadedFiles:File[];
   file:File;
   uploadForm: FormGroup;
+  formData=new FormData();
 
   constructor(
     private productService: ProductService,
@@ -132,11 +133,16 @@ hideDialog() {
     this.submitted = false;
 }
 
+httpOptions1 = {
+  headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + localStorage.getItem("token")
+  })
+}
+
 saveProduct() {
   if(this.fileUpload._files.length<4){
-    const formData = new FormData();
   for(let i=0;i<this.fileUpload._files.length;i++){
-    formData.append('file', this.fileUpload._files[0]);
+    this.formData.append('file', this.fileUpload._files[i]);
   }
   this.submitted = true;
   let json={
@@ -146,9 +152,10 @@ saveProduct() {
     "ppriceEndRange":this.product.priceEnd,
     "quantity":this.product.quantity,
     "category":{"categoryId":this.product.category},
-    "file":formData
+    // "file":this.formData
   }
-  this.http.post<any>(ApiUrls.SAVE_PRODUCT,json).subscribe(response=>{
+  this.formData.append('data', JSON.stringify(json));
+  this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
     console.log(response);
   })
 }

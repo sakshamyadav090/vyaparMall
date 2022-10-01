@@ -36,13 +36,19 @@ public class ProductService {
 		return repo.findById(pId).get();
 	}
 	
-	public Product addProduct(Product p,MultipartFile image, String token) throws IOException {
+	public Product addProduct(Product p,MultipartFile[] image, String token) throws IOException {
+		
 		int userId = authorizer.isTokenValid(token);
-		String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-		if(fileName.contains("..")) {
-			throw new RuntimeException("Invalid Filename");
+		String images="";
+		for(int i=0;i<3;i++) {
+			String fileName = StringUtils.cleanPath(image[i].getOriginalFilename());
+			if(fileName.contains("..")) {
+				throw new RuntimeException("Invalid Filename");
+			}
+			images = images + Base64.getEncoder().encodeToString(image[i].getBytes()) + ";";
 		}
-		p.setPImage(image.getBytes());
+		
+		p.setPImage(images);
 		p.setPSupplierId(userId);
 		return repo.save(p);
 	}
