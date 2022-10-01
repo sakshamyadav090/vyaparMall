@@ -9,6 +9,8 @@ export interface Product {
   inventoryStatus?:string;
   category?:string;
   image?:string;
+  origin?:string;
   rating?:number;
+  manufacturer?:string;
 
 }

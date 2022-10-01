@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
         linkColor.forEach(l => l.classList.remove('active'))
         this.classList.add('active')
         this.menuItem = this.querySelectorAll('span')[0].textContent
-        console.log(this.menuItem)
+        // console.log(this.menuItem)
       }
     }
     linkColor.forEach(l => l.addEventListener('click', colorLink))

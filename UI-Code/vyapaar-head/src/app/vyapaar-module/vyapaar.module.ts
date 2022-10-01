@@ -20,6 +20,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FileUploadModule} from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
+    FileUploadModule,
+    ProgressSpinnerModule
   ]
 })
 export class VyapaarModule { }

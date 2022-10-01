@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
         if(Response.access_token==null){
           this.credentialFlag=true;
           this.loading=false;
-          console.log(Response)
         }else if(Response.access_token!=null){
           localStorage.setItem('token',Response.access_token);
           this.loading=false;

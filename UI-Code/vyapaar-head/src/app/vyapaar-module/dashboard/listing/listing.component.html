@@ -1,5 +1,7 @@
 <p-toast></p-toast>
-
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <div class="card">
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
@@ -13,78 +15,108 @@
         </ng-template> -->
     </p-toolbar>
 
-    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pName','worker','pPriceRange','pCategory']" responsiveLayout="scroll"
-        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pname','category','quantity']"
+    [responsive]="true" responsiveLayout="scroll"
+         [rowHover]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <h5 class="m-0">Manage Products</h5>
                 <span class="p-input-icon-right">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal('', 'contains')" placeholder="Search..." />
+                    <input pInputText type="text" (input)="search($event.target,dt)" placeholder="Search..." />
                 </span>
             </div>
         </ng-template>
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" let-columns>
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th pSortableColumn="pName">Name <p-sortIcon field="name"></p-sortIcon></th>
-                <th pSortableColumn="">Category</th>
-                <th pSortableColumn="pPriceRange">Price Range <p-sortIcon field="priceStart"></p-sortIcon></th>
-                <th pSortableColumn="pCategory">Category <p-sortIcon field="category"></p-sortIcon></th>
-                <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-                <th pSortableColumn="quantity">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                <th></th>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
+                  {{col.header}} <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)' && col.header !== 'Status' && col.header !== 'Image' && col.header !== 'Price Range'"></p-sortIcon>
+
+                </th>
+                <!-- <th pSortableColumn="pname">Name</th>
+                <th >Image</th>
+                <th >Price Range</th>
+                <th pSortableColumn="category">Category</th>
+                <th pSortableColumn="quantity">Quantity</th>
+                <th pSortableColumn="status" >Status</th>
+                <th></th> -->
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-product>
+        <ng-template pTemplate="body" let-columns>
             <tr>
                 <td>
-                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                    <p-tableCheckbox [value]="columns"></p-tableCheckbox>
                 </td>
-                <td>{{product.name}}</td>
-                <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td>
-                <td>{{product.priceStart | currency:'INR'}}</td>
-                <td>{{product.category}}</td>
-                <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
-                <td><span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span></td>
+                <td>{{columns.pname}}</td>
+                <td><img [src]="'data:image/jpg;base64,' + columns.pimage" [alt]="columns.pname" width="100" class="shadow-4" /></td>
+                <td>{{columns.ppriceRange}}</td>
+                <td>{{columns.category}}</td>
+                <td>{{columns.quantity}}</td>
+                <td>{{columns.isApproved}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(columns.pid)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(columns.pid,columns.pname)"></button>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{products ? products.length : 0 }} products.
+                In total there are {{listData ? listData.length : 0 }} products.
             </div>
         </ng-template>
     </p-table>
 </div>
 
 <p-dialog [(visible)]="productDialog" [style]="{width: '550px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+
     <ng-template pTemplate="content">
-        <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image">
-        <div class="field">
+        <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
+        <!-- <div class="formgrid field row">
             <label for="name">Name</label>
             <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
             <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small>
-        </div>
+        </div> -->
+        <div class="formgrid grid row">
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
+          <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small>
+      </div>
+    </div>
+    <form [formGroup] = "uploadForm" >
+    <p-fileUpload #fileUpload id="file" name="uploadedFiles[]" [multiple]="true" accept="image/*"
+                  [customUpload]="true" [fileLimit]="3" [maxFileSize]="1000000"
+                  [showUploadButton]="false" [showCancelButton]="false" chooseLabel="Select Images"
+                  [previewWidth]="100" (onSelect)="test($event)" >
+                  <ng-template pTemplate="toolbar">
+                    <div>Upload 3 Files</div>
+                </ng-template>
+                </p-fileUpload>
+              </form>
         <div class="field">
             <label for="description">Description</label>
             <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="1" cols="40"></textarea>
         </div>
         <div class="field">
             <label for="inventoryStatus">Category</label>
-            <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" [options]="category" placeholder="Select">
+            <p-dropdown [(ngModel)]="product.category" inputId="inventoryStatus" [options]="category" placeholder="Select">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
             </p-dropdown>
         </div>
-
+        <div class="field col">
+          <label for="origin">Origin</label>
+          <input type="text" pInput id="origin" [(ngModel)]="product.origin"/>
+      </div>
+      <div class="field col">
+        <label for="manufacturer">Manufacturer</label>
+        <input type="text" pInput id="manufacturer" [(ngModel)]="product.manufacturer"/>
+    </div>
         <!-- <div class="field">
             <label class="mb-3">Category</label>
             <div class="formgrid grid">
@@ -110,8 +142,10 @@
         <div class="formgrid grid">
             <div class="field col">
                 <label for="priceStart">Price Range</label>
-                <p-inputNumber placeholder="Price Starting range" id="priceStart" [(ngModel)]="product.priceStart" mode="currency" currency="INR" locale="en-IN"></p-inputNumber>
-                <p-inputNumber placeholder="Price End range" id="priceEnd" [(ngModel)]="product.priceEnd" mode="currency" currency="INR" locale="en-IN"></p-inputNumber>
+                <div class="formgrid grid row">
+                <p-inputNumber class="field col" placeholder="Price Starting range" id="priceStart" [(ngModel)]="product.priceStart" mode="currency" currency="INR" locale="en-IN"></p-inputNumber>
+                <p-inputNumber class="field col" placeholder="Price End range" id="priceEnd" [(ngModel)]="product.priceEnd" mode="currency" currency="INR" locale="en-IN"></p-inputNumber>
+              </div>
             </div>
             <div class="field col">
                 <label for="quantity">Quantity</label>
@@ -124,6 +158,6 @@
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
     </ng-template>
-</p-dialog>
+  </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
