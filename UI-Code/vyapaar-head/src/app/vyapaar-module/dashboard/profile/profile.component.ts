@@ -39,6 +39,7 @@ export class ProfileComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.loading=true;
     this.profileForm = this.fb.group({
       name:['',[Validators.required,Validators.pattern('^[A-Z.a-z]*$')]],
       mobileNumber: ['',[Validators.required,Validators.pattern('^[6-9][0-9]{9}$')]],
@@ -63,12 +64,11 @@ loadProfileData(){
   }else{
     this.getByHeader(ApiUrls.VERIFY_TOKEN).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
-          // this.loading=false;
+          this.loading=false;
           // this.router.navigate(['home']);
-          console.log(Response.code, Response.sucess)
           console.log(Response)
         }else if(Response.code==200 && Response.success){
-          console.log(Response)
+          this.loading=false;
           this.profileForm.patchValue({
             name:Response.data.firstName +' '+ Response.data.lastName,
             aadhaar:Response.data.aadhaarNumber,
@@ -89,6 +89,7 @@ loadProfileData(){
         err => {
           this.networkFlag=true;
           this.loading=false;
+          this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
           console.log(err)
         });
   }

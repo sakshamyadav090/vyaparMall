@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { EnvService } from './common/services/env-service';
 @NgModule({
   declarations: [
@@ -16,8 +15,7 @@ import { EnvService } from './common/services/env-service';
     AppRoutingModule,
     CommonModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    ProgressSpinnerModule
+    HttpClientModule
 
   ],
   providers: [{

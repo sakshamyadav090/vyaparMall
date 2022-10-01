@@ -72,7 +72,7 @@ public class ProductController {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.getProductByUser(token),200,true,"Fetched Successfully");
+			ps.getProductBySupplier(token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(

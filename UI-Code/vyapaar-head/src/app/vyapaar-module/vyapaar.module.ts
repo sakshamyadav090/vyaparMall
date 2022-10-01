@@ -21,6 +21,7 @@ import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import {FileUploadModule} from 'primeng/fileupload';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    FileUploadModule
+    FileUploadModule,
+    ProgressSpinnerModule
   ]
 })
 export class VyapaarModule { }

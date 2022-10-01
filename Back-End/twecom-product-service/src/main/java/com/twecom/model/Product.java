@@ -37,6 +37,7 @@ public class Product {
 	private int createdBy;
 	private int modifiedBy;
 	private int isDeleted;
+	private int isApproved;
 	private Date modifiedAt;
 	private int quantity;
 	@ManyToOne 
