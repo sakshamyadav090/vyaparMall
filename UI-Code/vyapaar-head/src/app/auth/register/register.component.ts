@@ -110,7 +110,9 @@ export class RegisterComponent implements OnInit {
           roleId=2;
         }
        let registerJson = {
-        "roleId":roleId,
+        "role":{
+          "roleId": roleId
+        },
         "email": this.registerForm.controls["email"].value != undefined ? this.registerForm.controls["email"].value:null,
         "city": roleId == 2 ? this.selectedCityValue:null,
         "firmName":roleId == 2 ? this.registerForm.controls["firmName"].value:null,
@@ -122,9 +124,11 @@ export class RegisterComponent implements OnInit {
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null
     };
         this.getByPost(ApiUrls.REGISTER,registerJson).subscribe(Response=>{
+          localStorage.setItem('token',Response.data.access_token);
           this.router.navigate(['home']);
           this.loading=false;
           console.log(Response)
+
           },
           err => {
             this.messageService.add({severity:'error',detail:'Error while Register'});

@@ -15,7 +15,7 @@
         </ng-template> -->
     </p-toolbar>
 
-    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pname','category','quantity']"
+    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pname','category','quantity','status']"
     [responsive]="true" responsiveLayout="scroll"
          [rowHover]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
