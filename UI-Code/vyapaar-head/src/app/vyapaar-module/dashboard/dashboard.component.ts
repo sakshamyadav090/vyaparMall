@@ -9,8 +9,9 @@ export class DashboardComponent implements OnInit {
 
   display: boolean = false;
   menuItem: String = "Profile";
-  profileComp:boolean=true;
+  profileComp:boolean=false;
   listComp:boolean=false;
+  admManageComp:boolean=true
 
   constructor() { }
 
@@ -55,10 +56,17 @@ export class DashboardComponent implements OnInit {
     if(event=='profile') {
       this.profileComp=true;
       this.listComp=false;
+      this.admManageComp=false;
     }
-    else {
+    else if(event=='listing'){
       this.profileComp=false;
       this.listComp=true;
+      this.admManageComp=false;
+    } 
+    else if(event=='adm-manage'){
+      this.profileComp=false;
+      this.listComp=false;
+      this.admManageComp=true;
     }
     // if(event='listing') this.listComp=true;
     // else this.listComp=false;

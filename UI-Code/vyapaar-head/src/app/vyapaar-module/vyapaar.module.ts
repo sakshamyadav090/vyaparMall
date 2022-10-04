@@ -22,6 +22,7 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ProfileComponent,
     ChatComponent,
     ListingComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    AdminManageComponent
   ],
   imports: [
     VyapaarRoutingModule,
