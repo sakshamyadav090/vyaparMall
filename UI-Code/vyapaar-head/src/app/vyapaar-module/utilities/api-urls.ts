@@ -9,6 +9,7 @@ export class ApiUrls {
   public static CATEGORY_LIST = ApiUrls.API_ENDPOINT + 'product-service/category';
   public static SAVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/add';
   public static DELETE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/delete/';
+  public static GET_BY_PRODUCT_ID = ApiUrls.API_ENDPOINT + 'product-service/product/getProduct/';
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
 

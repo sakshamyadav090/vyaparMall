@@ -23,6 +23,7 @@ export class ListingComponent implements OnInit {
   selectedProducts: Product[];
   submitted: boolean;
   category: any[];
+  selectedCategory:any;
   listingColumn: any[];
   listData:any;
   uploadedFiles:File[];
@@ -30,6 +31,7 @@ export class ListingComponent implements OnInit {
   uploadForm: FormGroup;
   formData=new FormData();
   loading:boolean=false;
+  mandatFlag:boolean=false;
 
 
   constructor(
@@ -41,13 +43,19 @@ export class ListingComponent implements OnInit {
     private apiService: ApiService) { }
 
   ngOnInit(): void {
-    //this.productService.getProducts().then(data => this.products = data);
     this.getProductList();
 
     this.category = [];
 
     this.uploadForm = this.fb.group({
-      file: ['',Validators.required]
+      name: ['',Validators.required],
+      description: ['',Validators.required],
+      priceStart: ['',Validators.required],
+      priceEnd: ['',Validators.required],
+      quantity: ['',Validators.required],
+      category: ['',Validators.required],
+      origin: ['',Validators.required],
+      manufacturer: ['',Validators.required]
     });
   }
 
@@ -115,8 +123,47 @@ deleteSelectedProducts() {
 }
 
 editProduct(event) {
-
-    this.productDialog = true;
+  this.loading=true;
+  this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
+    let categories = response.data;
+    this.category=[
+        {
+            label: "Other",
+            value: 0
+        }
+    ]
+    let categoryList:Array<String> = [];
+  categories.forEach(element => {
+    if(categoryList.indexOf(element.categoryId)==-1){
+        categoryList.push(element.categoryId);
+    this.category.push({
+      label : element.name,
+      value : element.categoryId
+    })
+  }
+})
+})
+  this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
+    if(response.success){
+      this.selectedCategory=response.data.category;
+      this.uploadForm.patchValue({
+        name:response.data.name,
+        description: response.data.description,
+        priceStart: response.data.priceStart,
+        priceEnd: response.data.priceEnd,
+        quantity: response.data.quantity,
+        origin: response.data.origin,
+        manufacturer: response.data.manufacturer
+      });
+      this.productDialog = true;
+      this.loading=false;
+  }
+  },
+  err => {
+    this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch!', life: 3000});
+    this.loading=false;
+    console.log(err)
+  });
 }
 
 deleteProduct(id,name) {
@@ -146,6 +193,7 @@ deleteProduct(id,name) {
 hideDialog() {
     this.productDialog = false;
     this.submitted = false;
+    this.uploadForm.reset();
 }
 
 httpOptions1 = {
@@ -156,21 +204,20 @@ httpOptions1 = {
 
 saveProduct() {
   this.loading=true;
-  if(this.fileUpload._files.length<4){
+  if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
   for(let i=0;i<this.fileUpload._files.length;i++){
     this.formData.append('file', this.fileUpload._files[i]);
   }
   this.submitted = true;
   let json={
-    "pname":this.product.name,
-    "pdescription":this.product.description,
-    "ppriceStartRange":this.product.priceStart,
-    "ppriceEndRange":this.product.priceEnd,
-    "quantity":this.product.quantity,
-    "category":{"categoryId":this.product.category},
-    "porigin":this.product.origin,
-    "pmanufacturer":this.product.manufacturer
-    // "file":this.formData
+    "pname":this.uploadForm.value.name,
+    "pdescription":this.uploadForm.value.description,
+    "ppriceStartRange":this.uploadForm.value.priceStart,
+    "ppriceEndRange":this.uploadForm.value.priceEnd,
+    "quantity":this.uploadForm.value.quantity,
+    "category":{"categoryId":this.uploadForm.value.category},
+    "porigin":this.uploadForm.value.origin,
+    "pmanufacturer":this.uploadForm.value.manufacturer
   }
   this.formData.append('data', JSON.stringify(json));
   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
@@ -182,29 +229,23 @@ saveProduct() {
     this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
   }
   this.getProductList();
+  this.uploadForm.reset();
   },
   err => {
     this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
     this.loading=false;
     console.log(err)
   });
+}    else {
+  this.mandatFlag = true;
+  var fieldsControls = this.uploadForm.controls;
+  for (let field in fieldsControls) {
+    const control = this.uploadForm.get(field);
+    if (control.disabled == false && control.invalid) {
+      control.markAsDirty({ onlySelf: true });
+    }
+  }
 }
-    // if (this.product.name.trim()) {
-    //     if (this.product.id) {
-    //         this.products[this.findIndexById(this.product.id)] = this.product;
-    //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-    //     }
-    //     else {
-    //         this.product.id = this.createId();
-    //         this.product.image = 'product-placeholder.svg';
-    //         this.products.push(this.product);
-    //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-    //     }
-
-    //     this.products = [...this.products];
-    //     this.productDialog = false;
-    //     this.product = {};
-    // }
 }
 
 
@@ -231,7 +272,9 @@ createId(): string {
 }
 
 test(event){
-
+  console.log(event);
+  console.log(this.selectedCategory);
+// this.selectedCategory=event.originalEvent.srcElement.innerText;
 // console.log(this.fileUpload._files.length);
 // for(let j=0;j<this.fileUpload._files.length;j++)
 // this.fileUpload.remove(event,j);

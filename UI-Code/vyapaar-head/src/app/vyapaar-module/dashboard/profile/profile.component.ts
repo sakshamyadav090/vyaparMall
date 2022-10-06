@@ -152,7 +152,6 @@ saveProfile(){
           this.messageService.add({severity:'error',detail:'Error while Updating'});
           this.loading=false;
           console.log(Response)
-          alert('nhi ho rha bhaiya');
         });
 
   this.editFlag=false;

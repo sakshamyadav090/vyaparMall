@@ -23,6 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
+import { MessageModule } from 'primeng/message';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.comp
     ReactiveFormsModule,
     DropdownModule,
     FileUploadModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    MessageModule
   ]
 })
 export class VyapaarModule { }

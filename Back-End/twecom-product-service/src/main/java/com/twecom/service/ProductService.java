@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.Product;
+import com.twecom.model.ProductById;
 import com.twecom.model.ProductList;
 import com.twecom.repository.ProductRepository;
 
@@ -43,8 +44,9 @@ public class ProductService {
 		 return proList;
 		}
 	
-	public Product getByProductId(int pId) {
-		return repo.findById(pId).get();
+	public ProductById getByProductId(int pId) {
+		ProductById pl=new ProductById();
+		return pl.List(repo.findById(pId).get());
 	}
 	
 	public Product addProduct(Product p,MultipartFile[] image, String token) throws IOException {
