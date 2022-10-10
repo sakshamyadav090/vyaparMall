@@ -154,5 +154,16 @@ public class ProductController {
 		return responseModel;
 		
 	}
+	
+	@GetMapping("/product/unapproved")
+	public ResponseModel getUnapprovedProducts(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+			ps.fetchUnapprovedProducts(token),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			return new ResponseModel(
+					e.getMessage(),200,false,"Unable to Delete");
+		}
+	}
 
 }

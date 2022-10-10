@@ -35,10 +35,10 @@ export class CarService {
 
     generateCar(id?: any): Car {
         return {
-            vin: this.generateVin(),
-            brand: this.generateBrand(),
-            color: this.generateColor(),
-            year: this.generateYear()
+            name: this.generateVin(),
+            firmName: this.generateBrand(),
+            email: this.generateColor(),
+            city: this.generateYear()
         }
     }
 

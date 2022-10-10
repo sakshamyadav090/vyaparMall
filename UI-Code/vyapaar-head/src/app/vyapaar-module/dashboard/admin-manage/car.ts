@@ -1,8 +1,8 @@
 export interface Car {
-    vin?;
-    year?;
-    brand?;
-    color?;
-    price?;
+    name?;
+    firmName?;
+    email?;
+    city?;
+    createdDate?;
     saleDate?;
 }

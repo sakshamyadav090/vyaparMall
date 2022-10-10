@@ -16,7 +16,7 @@ public class ProductList {
 	private int quantity;
 	private String category;
 	private int isDeleted;
-	private String isApproved;
+	private ApprovalStatus isApproved;
 	
 	public ProductList List(Product p){
 		String[] arrOfStr;
@@ -28,7 +28,7 @@ public class ProductList {
 		this.quantity=p.getQuantity();
 		this.category=p.getCategory().getName();
 		this.isDeleted=p.getIsDeleted();
-		this.isApproved=(p.getIsApproved()) == 0 ? "Pending" : "Approved";
+		this.isApproved=p.getIsApproved();
 		return this;
 		
 	}

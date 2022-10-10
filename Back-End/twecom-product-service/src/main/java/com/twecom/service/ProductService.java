@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
+import com.twecom.model.ApprovalStatus;
 import com.twecom.model.Product;
 import com.twecom.model.ProductById;
 import com.twecom.model.ProductList;
@@ -89,5 +90,14 @@ public class ProductService {
 		pr.setModifiedAt(new Date());
 		repo.save(pr);
 		return "Deleted Successfully!";		
+	}
+
+	public List<Product> fetchUnapprovedProducts(String token) {
+		int userId = authorizer.isTokenValid(token);
+//		if(userId!=1) {
+//			throw new RuntimeException("Unauthorized User");
+//		}
+		return repo.findByIsApproved(ApprovalStatus.PENDING);
+//		return null;
 	}
 }

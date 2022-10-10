@@ -10,6 +10,8 @@ export class ApiUrls {
   public static SAVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/add';
   public static DELETE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/delete/';
   public static GET_BY_PRODUCT_ID = ApiUrls.API_ENDPOINT + 'product-service/product/getProduct/';
+  public static UNAPPROVED_SUPPLIER = ApiUrls.API_ENDPOINT + 'auth-service/auth/suppliers/unapproved';
+  public static UNAPPROVED_PRODUCTS = ApiUrls.API_ENDPOINT + 'product-service/product/unapproved';
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
 

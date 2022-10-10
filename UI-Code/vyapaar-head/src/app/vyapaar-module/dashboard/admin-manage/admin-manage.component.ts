@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
+import { ApiService } from 'src/app/common/services/api.service';
+import { ApiUrls } from '../../utilities/api-urls';
 import { Car } from './car';
 import { CarService } from './carservice';
 
@@ -12,25 +14,39 @@ import { CarService } from './carservice';
 export class AdminManageComponent implements OnInit {
 
   cars: Car[];
-
+  unapprovedSuppliers: any;
   virtualCars: Car[];
-
+  unapprovedProducts: any;
   cols: any[];
+  listingColumn: any;
 
-  constructor(private carService: CarService) { }
+  constructor(private carService: CarService,
+    private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.cols = [
-      { field: 'id', header: 'Name' },
-      { field: 'firm', header: 'Firm Name' },
-      { field: 'year', header: 'Email' },
-      { field: 'brand', header: 'City' },
-      { field: 'color', header: 'Created On' },
-      { field: 'color', header: 'Actions' }
+      { field: 'firstName', header: 'Name' },
+      { field: 'firmName', header: 'Firm Name' },
+      { field: 'email', header: 'Email' },
+      { field: 'city', header: 'City' },
+      { field: 'createdDate', header: 'Created On' }
     ];
 
-    this.cars = Array.from({ length: 10000 }).map((_, i) => this.carService.generateCar(i + 1));
-    this.virtualCars = Array.from({ length: 10000 });
+    this.listingColumn = [
+      { field: 'pname', header: 'Name',sortField:'pname' },
+      { field: '', header: 'Image',sortField:'' },
+      { field: 'ppriceRange', header: 'Price Range',sortField:''},
+      { field: 'category', header: 'Category',sortField:'category' },
+      { field: 'quantity' , header: 'Quantity',sortField:'quantity' },
+      { field: 'status', header: 'Status',sortField:'' },
+      { field: '', header: 'Action(s)',sortField:'', width: "8%", class: "text-center tableaction"}
+    ];
+
+    // this.cars = Array.from({ length: 10000 }).map((_, i) => this.carService.generateCar(i + 1));
+    // this.virtualCars = Array.from({ length: 10000 });
+    this.loadUnapprovedSuppliers();
+    this.loadUnapprovedProducts();
+    // this.cars=this.unapprovedSuppliers;
   }
 
   loadCarsLazy(event: LazyLoadEvent) {
@@ -45,6 +61,27 @@ export class AdminManageComponent implements OnInit {
         //trigger change detection
         event.forceUpdate();
     }, Math.random() * 1000 + 250);
-}
+  }
+  
+  loadUnapprovedSuppliers(){
+    this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
+      console.log(response.data);
+      this.unapprovedSuppliers = response.data;
+    },
+    err => {
+      console.log(err);
+    });
+  }
+
+  loadUnapprovedProducts(){
+    this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
+      console.log(response.data);
+      this.unapprovedProducts = response.data;
+    },
+    err => {
+      console.log(err);
+    });
+  }
+
 
 }
