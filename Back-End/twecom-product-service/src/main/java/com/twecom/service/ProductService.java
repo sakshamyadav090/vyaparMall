@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.Product;
 import com.twecom.model.ProductById;
@@ -66,11 +67,12 @@ public class ProductService {
 		return repo.save(p);
 	}
 
-	public Product updateProduct(Product p, String token) {
+	public Product updateProduct(String prod, MultipartFile images[], String token) throws IOException {
+		Product product = new ObjectMapper().readValue(prod, Product.class);
 		int userId = authorizer.isTokenValid(token);
-		if(p.getPSupplierId()==userId) {
-			p.setModifiedAt(new Date());
-			return repo.save(p);
+		if(product.getPSupplierId()==userId) {
+			product.setModifiedAt(new Date());
+			return addProduct(product,images,token);
 		}else {
 			throw new RuntimeException("Product Not Found");
 		}
@@ -80,15 +82,12 @@ public class ProductService {
 	public String deleteProduct(int pId, String token) {
 		int userId = authorizer.isTokenValid(token);
 		Product pr=repo.findById(pId).get();
-		//pr.setModifiedBy(pId);
+		if(pr.getPSupplierId()==userId) {
+			throw new RuntimeException("Product Not Found");
+		}
 		pr.setIsDeleted(1);
 		pr.setModifiedAt(new Date());
 		repo.save(pr);
-		return "Deleted Successfully!";
+		return "Deleted Successfully!";		
 	}
-
-//	public String getImage(int pId) {
-//		Product p= repo.findById(pId).get();
-//		return p.getPImage();
-//	}
 }

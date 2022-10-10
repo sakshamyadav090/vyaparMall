@@ -26,6 +26,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 	private boolean isActive = true;	
+	private boolean isApproved=false;
 	private String firstName;
 	private String lastName;
 	@Column(unique = true)

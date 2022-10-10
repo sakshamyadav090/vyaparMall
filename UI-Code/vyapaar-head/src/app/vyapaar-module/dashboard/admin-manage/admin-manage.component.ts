@@ -22,7 +22,7 @@ export class AdminManageComponent implements OnInit {
   ngOnInit(): void {
     this.cols = [
       { field: 'id', header: 'Name' },
-      { field: 'vin', header: 'Firm Name' },
+      { field: 'firm', header: 'Firm Name' },
       { field: 'year', header: 'Email' },
       { field: 'brand', header: 'City' },
       { field: 'color', header: 'Created On' },
