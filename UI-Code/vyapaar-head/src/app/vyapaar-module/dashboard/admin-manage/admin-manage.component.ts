@@ -33,13 +33,10 @@ export class AdminManageComponent implements OnInit {
     ];
 
     this.listingColumn = [
-      { field: 'pname', header: 'Name',sortField:'pname' },
-      { field: '', header: 'Image',sortField:'' },
-      { field: 'ppriceRange', header: 'Price Range',sortField:''},
-      { field: 'category', header: 'Category',sortField:'category' },
-      { field: 'quantity' , header: 'Quantity',sortField:'quantity' },
-      { field: 'status', header: 'Status',sortField:'' },
-      { field: '', header: 'Action(s)',sortField:'', width: "8%", class: "text-center tableaction"}
+      { field: 'pname', header: 'Prodoct Name' },
+      { field: 'ppriceRange', header: 'Price Range'},
+      { field: 'category', header: 'Category' },
+      { field: 'quantity' , header: 'Quantity'}
     ];
 
     // this.cars = Array.from({ length: 10000 }).map((_, i) => this.carService.generateCar(i + 1));

@@ -92,12 +92,21 @@ public class ProductService {
 		return "Deleted Successfully!";		
 	}
 
-	public List<Product> fetchUnapprovedProducts(String token) {
+	public List<ProductList> fetchUnapprovedProducts(String token) {
 		int userId = authorizer.isTokenValid(token);
 //		if(userId!=1) {
 //			throw new RuntimeException("Unauthorized User");
 //		}
-		return repo.findByIsApproved(ApprovalStatus.PENDING);
+		List<ProductList> proList=new ArrayList<>();
+		List<Product> list=repo.findByIsApproved(ApprovalStatus.PENDING);
+		list.forEach((n) -> {
+			ProductList pl=new ProductList();
+			if(n.getIsDeleted()==0) {
+				proList.add(pl.List(n));
+			}
+		});
+		
+		 return proList;
 //		return null;
 	}
 }
