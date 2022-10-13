@@ -22,6 +22,8 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SearchComponent } from './home-page/search/search.component';
+import { ProductDescriptionComponent } from './home-page/product-description/product-description.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ProfileComponent,
     ChatComponent,
     ListingComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    SearchComponent,
+    ProductDescriptionComponent
   ],
   imports: [
     VyapaarRoutingModule,

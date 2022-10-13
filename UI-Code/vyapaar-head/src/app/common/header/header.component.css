@@ -18,6 +18,6 @@ img { display: block; max-width: 100%;}
 
 .navcategory ul { display: flex;  }
 .navcategory ul li { list-style: none; }
-.navcategory ul li a { text-decoration: none; padding: 5px 10px; color: #000; }
-.navcategory ul li a:hover { color: red;}
+.navcategory ul li a { text-decoration: none; padding: 5px 10px; color: #363d43; }
+.navcategory ul li a:hover { color:#0076d7;}
 .categorymain{padding: 0px 10px; margin-top: 3rem; height: 48px;}

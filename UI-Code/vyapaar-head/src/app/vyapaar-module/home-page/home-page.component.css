@@ -15,9 +15,11 @@
 
 
 .product2{ max-width: 70%; width: 100%; margin: 0 auto; width: 9%;  }
-.box2 { text-align: center; overflow: hidden;}
+.box2 { text-align: center; overflow: hidden; margin: 5px;}
 .box2 img { transition: 0.5s all; }
 .box2 img:hover { transform: scale(1.1); }
 .producttop{display: flex; justify-content: space-between; margin-top: 1rem;}
+.btn1{margin-bottom: 10px;}
+.Verified{text-align: left;}
 
 .body3image { max-width: 93%; width: 100%; margin: 0 auto; margin-top: 2rem; }
