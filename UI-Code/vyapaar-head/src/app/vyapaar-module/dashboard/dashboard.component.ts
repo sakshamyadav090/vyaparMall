@@ -72,4 +72,8 @@ export class DashboardComponent implements OnInit {
     // else this.listComp=false;
   }
 
+  logout(){
+    localStorage.removeItem("token");
+  }
+
 }

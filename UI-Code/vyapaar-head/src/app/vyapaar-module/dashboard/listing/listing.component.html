@@ -6,7 +6,7 @@
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
+           
         </ng-template>
       </p-toolbar>
 
@@ -25,9 +25,7 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
+                
                 <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
                   {{col.header}} <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)' && col.header !== 'Status' && col.header !== 'Image' && col.header !== 'Price Range'"></p-sortIcon>
 
