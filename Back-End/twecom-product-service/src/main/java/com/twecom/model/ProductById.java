@@ -1,10 +1,19 @@
 package com.twecom.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
+
+import javax.imageio.ImageIO;
 
 @Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class ProductById {
@@ -34,5 +43,6 @@ public class ProductById {
 		return this;
 		
 	}
+	
 	
 }
