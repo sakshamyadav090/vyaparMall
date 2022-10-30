@@ -16,12 +16,9 @@ import com.twilio.type.PhoneNumber;
 
 @Service
 public class OtpService {
-	
-	 @Autowired
-	    private TwilioConfig twilioConfig;
 	 
-	 public static final String ACCOUNT_SID = "AC5607b1ed2915c5db75e6a7242a1a0604";
-	 public static final String AUTH_TOKEN = "bee22201c3b138bf1784a5ced07f7cf5";
+//	 public static final String ACCOUNT_SID = "AC5607b1ed2915c5db75e6a7242a1a0604";
+//	 public static final String AUTH_TOKEN = "bee22201c3b138bf1784a5ced07f7cf5";
 
 
 	    Map<String, String> otpMap = new HashMap<>();
@@ -29,18 +26,19 @@ public class OtpService {
 	    public String sendOTPForPasswordReset(OtpDto otpDto) {
 
 
-	            PhoneNumber to = new PhoneNumber(otpDto.getPhoneNumber());
-	            PhoneNumber from = new PhoneNumber("+12535232062");
+//	            PhoneNumber to = new PhoneNumber(otpDto.getPhoneNumber());
+//	            PhoneNumber from = new PhoneNumber("+12535232062");
 	            String otp = generateOTP();
 	            String otpMessage = "Dear Customer , Your OTP is ##" + otp + "##. Use this Passcode to complete your transaction. Thank You.";
-	            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	            Message message = Message.creator(
-	                    to,
-	                    from,
-	                    otpMessage)
-	                .create();
+//	            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+//	            Message message = Message.creator(
+//	                    to,
+//	                    from,
+//	                    otpMessage)
+//	                .create();
+	            
 
-	            System.out.println(message.getSid());
+	            System.out.println(otpDto.getUserName()+"---"+otp);
 	            otpMap.put(otpDto.getUserName(), otp);
 	            return otpMessage;
 	    }
