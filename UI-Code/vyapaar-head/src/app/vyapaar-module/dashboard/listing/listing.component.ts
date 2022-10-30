@@ -32,6 +32,7 @@ export class ListingComponent implements OnInit {
   formData=new FormData();
   loading:boolean=false;
   mandatFlag:boolean=false;
+  byte:any;
 
 
   constructor(
@@ -123,6 +124,7 @@ deleteSelectedProducts() {
 }
 
 editProduct(event) {
+
   this.loading=true;
   this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
     let categories = response.data;
@@ -146,6 +148,7 @@ editProduct(event) {
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
     if(response.success){
       this.selectedCategory=response.data.category;
+
       this.uploadForm.patchValue({
         name:response.data.name,
         description: response.data.description,
@@ -157,6 +160,17 @@ editProduct(event) {
       });
       this.productDialog = true;
       this.loading=false;
+      debugger
+      console.log(blob);
+      this.byte=this.base64ToArrayBuffer(response.data.image[0]);
+      var blob = new Blob([this.byte], {type: "image/*"});
+      var file = new File([blob], "name");
+
+      for(let i=0;i<1;i++){
+        // this.fileUpload._files.push(blob);
+      }
+      console.log(file);
+      console.log(this.fileUpload);
   }
   },
   err => {
@@ -203,49 +217,49 @@ httpOptions1 = {
 }
 
 saveProduct() {
-  this.loading=true;
-  if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
-  for(let i=0;i<this.fileUpload._files.length;i++){
-    this.formData.append('file', this.fileUpload._files[i]);
-  }
-  this.submitted = true;
-  let json={
-    "pname":this.uploadForm.value.name,
-    "pdescription":this.uploadForm.value.description,
-    "ppriceStartRange":this.uploadForm.value.priceStart,
-    "ppriceEndRange":this.uploadForm.value.priceEnd,
-    "quantity":this.uploadForm.value.quantity,
-    "category":{"categoryId":this.uploadForm.value.category},
-    "porigin":this.uploadForm.value.origin,
-    "pmanufacturer":this.uploadForm.value.manufacturer
-  }
-  this.formData.append('data', JSON.stringify(json));
-  this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
-    this.loading=false;
-    this.formData.delete('data');
-    this.formData.delete('file');
-    if(response.success){
-    this.productDialog=false;
-    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-  }
-  this.getProductList();
-  this.uploadForm.reset();
-  },
-  err => {
-    this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
-    this.loading=false;
-    console.log(err)
-  });
-}    else {
-  this.mandatFlag = true;
-  var fieldsControls = this.uploadForm.controls;
-  for (let field in fieldsControls) {
-    const control = this.uploadForm.get(field);
-    if (control.disabled == false && control.invalid) {
-      control.markAsDirty({ onlySelf: true });
-    }
-  }
-}
+//   this.loading=true;
+//   if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
+//   for(let i=0;i<this.fileUpload._files.length;i++){
+//     this.formData.append('file', this.fileUpload._files[i]);
+//   }
+//   this.submitted = true;
+//   let json={
+//     "pname":this.uploadForm.value.name,
+//     "pdescription":this.uploadForm.value.description,
+//     "ppriceStartRange":this.uploadForm.value.priceStart,
+//     "ppriceEndRange":this.uploadForm.value.priceEnd,
+//     "quantity":this.uploadForm.value.quantity,
+//     "category":{"categoryId":this.uploadForm.value.category},
+//     "porigin":this.uploadForm.value.origin,
+//     "pmanufacturer":this.uploadForm.value.manufacturer
+//   }
+//   this.formData.append('data', JSON.stringify(json));
+//   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
+//     this.loading=false;
+//     this.formData.delete('data');
+//     this.formData.delete('file');
+//     if(response.success){
+//     this.productDialog=false;
+//     this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+//   }
+//   this.getProductList();
+//   this.uploadForm.reset();
+//   },
+//   err => {
+//     this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
+//     this.loading=false;
+//     console.log(err)
+//   });
+// }    else {
+//   this.mandatFlag = true;
+//   var fieldsControls = this.uploadForm.controls;
+//   for (let field in fieldsControls) {
+//     const control = this.uploadForm.get(field);
+//     if (control.disabled == false && control.invalid) {
+//       control.markAsDirty({ onlySelf: true });
+//     }
+//   }
+// }
 }
 
 
@@ -285,7 +299,15 @@ search(event,table){
   table.filterGlobal(event.value, 'contains')
 }
 
-
+base64ToArrayBuffer(base64) {
+  var binary_string = window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
 
 
 }

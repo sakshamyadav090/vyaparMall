@@ -1,3 +1,8 @@
+import { Injectable } from "@angular/core";
+
+@Injectable({
+  providedIn:'root'
+})
 export class ApiUrls {
   public static API_ENDPOINT:string=sessionStorage.getItem("baseUrl");
 
@@ -12,6 +17,10 @@ export class ApiUrls {
   public static GET_BY_PRODUCT_ID = ApiUrls.API_ENDPOINT + 'product-service/product/getProduct/';
   public static UNAPPROVED_SUPPLIER = ApiUrls.API_ENDPOINT + 'auth-service/auth/suppliers/unapproved';
   public static UNAPPROVED_PRODUCTS = ApiUrls.API_ENDPOINT + 'product-service/product/unapproved';
+  public static SEND_OTP = ApiUrls.API_ENDPOINT + 'otp-service/genarateOTP';
+  public static VALIDATE_OTP = ApiUrls.API_ENDPOINT + 'otp-service/validateOTP';
+  public static GET_PINCODE = 'https://api.postalpincode.in/pincode/';
+
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
 
