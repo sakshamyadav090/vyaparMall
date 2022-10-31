@@ -251,7 +251,7 @@ validatePhoneNo(){
   let json={
     "phoneNumber":this.profileForm.value.mobileNumber.toString()
   };
-// remove 235 to 240 when you implemented the API and uncomment line 242 to 255 and 230
+// remove 255 to 260 when you implemented the API and uncomment line 262 to 275 and 250
   this.OTP=true;
   this.sentOTP=true;
   this.sendOTP='Resend OTP';
@@ -287,7 +287,7 @@ submitOTP(){
   let json={
     "oneTimePassword": this.otpForm.value.otp.toString()
   };
-// remove 271 to 273 when you implemented the API and uncomment line 274 to 281
+// remove 290 to 292 when you implemented the API and uncomment line 293 to 300
   this.isPhoneNoValidated=true;
 //
   // this.apiService.getByPost('this.apiUrls.VALIDATE_OTP',json).subscribe(res=>{
