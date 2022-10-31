@@ -147,7 +147,7 @@ enableEdit(){
 
 saveProfile(){
   this.mandatFlag = false;
-  if(this.profileForm.valid && this.isPhoneNoValidated){
+  if(this.profileForm.valid && (this.isPhoneNoValidated || this.profileForm.controls['mobileNumber'].value==this.httpResponse.mobileNumber)){
     if(
       this.profileForm.controls["email"].value!=this.httpResponse.email ||
       this.profileForm.controls["pincode"].value!=this.httpResponse.pincode ||

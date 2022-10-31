@@ -84,7 +84,7 @@
                                         <span>+91</span><input type="text"  placeholder="Phone Number" formControlName="mobileNumber"/>
                                     </div>
                                     <div class="col-md-3 mb-4 pb-2"
-                                    *ngIf="this.profileForm.controls['mobileNumber'].valid && this.profileForm.controls['mobileNumber'].value!=httpResponse.mobileNumber && (this.profileForm.controls['mobileNumber'].dirty || this.profileForm.controls['mobileNumber'].touched) && !isPhoneNoValidated">
+                                    *ngIf="profileForm.controls['mobileNumber'].valid && profileForm.controls['mobileNumber'].value!=httpResponse.mobileNumber && (this.profileForm.controls['mobileNumber'].dirty || this.profileForm.controls['mobileNumber'].touched) && !isPhoneNoValidated">
                                     <button (click)="validatePhoneNo()" type="button" [disabled]="OTP" class="btn btn-lg"
                                       data-mdb-ripple-color="info"><span>{{sendOTP}}</span></button>
                                     <span *ngIf="OTP">resend in {{seconds}} seconds</span>
