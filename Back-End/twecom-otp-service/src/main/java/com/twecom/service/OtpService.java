@@ -28,7 +28,7 @@ public class OtpService {
 
 //	            PhoneNumber to = new PhoneNumber(otpDto.getPhoneNumber());
 //	            PhoneNumber from = new PhoneNumber("+12535232062");
-	            String otp = generateOTP();
+	            String otp = new String(OTP(6));
 	            String otpMessage = "Dear Customer , Your OTP is ##" + otp + "##. Use this Passcode to complete your transaction. Thank You.";
 //	            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 //	            Message message = Message.creator(
@@ -38,7 +38,7 @@ public class OtpService {
 //	                .create();
 	            
 
-	            System.out.println(otpDto.getUserName()+"---"+otp);
+	            System.out.println(otpDto.getPhoneNumber()+"---"+otp);
 	            otpMap.put(otpDto.getUserName(), otp);
 	            return otpMessage;
 	    }
@@ -52,10 +52,22 @@ public class OtpService {
 	        }
 	    }
 
-	    //6 digit otp
-	    private String generateOTP() {
-	        return new DecimalFormat("000000")
-	                .format(new Random().nextInt(999999));
-	    }
+//	    //6 digit otp
+//	    private String generateOTP() {
+//	        return new DecimalFormat("000000")
+//	                .format(new Random().nextInt(999999));
+//	    }
+	    
+	    private char[] OTP(int len)
+		{
+			String numbers = "123456789";
+			Random rndm_method = new Random();
+			char[] otp = new char[len];
+			for (int i = 0; i < len; i++)
+			{
+				otp[i] = numbers.charAt(rndm_method.nextInt(numbers.length()));
+			}
+			return otp;
+		}
 
 }
