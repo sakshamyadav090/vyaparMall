@@ -285,16 +285,6 @@ createId(): string {
     return id;
 }
 
-test(event){
-  console.log(event);
-  console.log(this.selectedCategory);
-// this.selectedCategory=event.originalEvent.srcElement.innerText;
-// console.log(this.fileUpload._files.length);
-// for(let j=0;j<this.fileUpload._files.length;j++)
-// this.fileUpload.remove(event,j);
-
-}
-
 search(event,table){
   table.filterGlobal(event.value, 'contains')
 }

@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit {
     });
     this.selectedCityValue='';
     this.otpForm = this.fb.group({
-      otp: ['', [Validators.required,Validators.min(100000),Validators.max(999999)]]
+      otp: ['', [Validators.required,Validators.pattern('^[0-9]{6}$')]]
     });
   }
 
@@ -84,8 +84,8 @@ export class RegisterComponent implements OnInit {
       email:['',[Validators.required,Validators.email]],
       password:['',Validators.required],
       confirmPassword:['',Validators.required],
-      pincode: ['', [Validators.required,Validators.pattern('^[0-9]*$'),Validators.maxLength(6),Validators.minLength(6)]],
-      gst:['',[Validators.pattern('^[A-Z0-9]*$'),Validators.maxLength(15)]],
+      pincode: ['', [Validators.required,Validators.pattern('^[0-9]{6}$')]],
+      gst:['',[Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
       firmName:['',[Validators.required,Validators.pattern('^[A-Z .a-z]*$'),Validators.maxLength(30)]],
       termAndCond:['',Validators.required]
     })
@@ -185,7 +185,7 @@ export class RegisterComponent implements OnInit {
 
 getCity(){
   if(this.registerForm.value.pincode!=null){
-    if(this.registerForm.value.pincode.toString().length=='6'){
+    if(this.registerForm.controls['pincode'].valid){
       this.loading=true;
       this.apiService.getById('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
         this.cities=[];
