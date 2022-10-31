@@ -20,6 +20,7 @@ export class ApiUrls {
   public static SEND_OTP = ApiUrls.API_ENDPOINT + 'otp-service/genarateOTP';
   public static VALIDATE_OTP = ApiUrls.API_ENDPOINT + 'otp-service/validateOTP';
   public static GET_PINCODE = 'https://api.postalpincode.in/pincode/';
+  public static BUSINESS_LIST = ApiUrls.API_ENDPOINT + 'otp-service/validateOTP';
 
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
