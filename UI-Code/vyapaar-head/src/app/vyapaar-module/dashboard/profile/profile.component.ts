@@ -76,6 +76,7 @@ loadProfileData(){
   this.token=localStorage.getItem('token')
   if(!this.token){
     // this.router.navigate(['home']);
+    this.loading=false;
   }else{
     this.getByHeader(ApiUrls.VERIFY_TOKEN).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
@@ -230,6 +231,7 @@ cancel(){
 
 getBusinesTypes(){
   this.apiService.list(ApiUrls.BUSINESS_LIST).subscribe(response=>{
+    this.loading=false;
     let businessTemp = response.data;
     this.business=[];
     let businessList:Array<String> = [];
@@ -242,6 +244,8 @@ getBusinesTypes(){
     })
   }
 })
+},err=>{
+  this.loading=false;
 })
 }
 
