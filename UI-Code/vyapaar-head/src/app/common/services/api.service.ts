@@ -33,7 +33,7 @@ export class ApiService {
 
   list(url: string): Observable<any> {
     //  let commissionPlansdata = "assets/data/commissionPlans.json";
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, this.httpOptions1);
   }
 
   getById(url: string, body: any): Observable<any> {

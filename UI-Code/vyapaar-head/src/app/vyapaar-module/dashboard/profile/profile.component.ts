@@ -233,6 +233,7 @@ getBusinesTypes(){
   this.apiService.list(ApiUrls.BUSINESS_LIST).subscribe(response=>{
     this.loading=false;
     let businessTemp = response.data;
+    console.log(response.data)
     this.business=[];
     let businessList:Array<String> = [];
   businessTemp.forEach(element => {

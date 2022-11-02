@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vyapaarmall.model.ResponseModel;
 import com.vyapaarmall.model.User;
 import com.vyapaarmall.security.config.SecurityConstant;
+import com.vyapaarmall.service.BusinessTypeService;
 import com.vyapaarmall.service.UserService;
 
 @RestController
@@ -25,6 +26,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private BusinessTypeService btService;
 	
 	
 	@PostMapping("/register")
@@ -83,6 +87,17 @@ public class UserController {
 		} catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(), 404, false, "Update Failed");
+		}
+	}
+	
+	@GetMapping("/businessTypes")
+	public ResponseModel getAllBusinessTypes(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					btService.getBusinessTypes(token), 200, true, "Fetch Success");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Fetch Failed");
 		}
 	}
 	
