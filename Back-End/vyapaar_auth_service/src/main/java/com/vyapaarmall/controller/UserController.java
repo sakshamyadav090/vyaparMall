@@ -1,11 +1,12 @@
 package com.vyapaarmall.controller;
 
-import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,6 +69,17 @@ public class UserController {
 		try {
 			return new ResponseModel(
 					userService.updateUser(user), 200, true, "User updated");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Update Failed");
+		}
+	}
+	
+	@PatchMapping("/user/updatePassword")
+	public ResponseModel updatePassword(@RequestBody User user) {
+		try {
+			return new ResponseModel(
+					userService.updatePassword(user), 200, true, "User updated");
 		} catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(), 404, false, "Update Failed");

@@ -23,6 +23,7 @@ export class ApiUrls {
   public static VALIDATE_OTP = 'http://localhost:8110/validateOTP';
   public static GET_PINCODE = 'https://api.postalpincode.in/pincode/';
   public static BUSINESS_LIST = ApiUrls.API_ENDPOINT + 'otp-service/validateOTP';
+  public static PASSWORD_UPDATE = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/updatePassword';
 
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 

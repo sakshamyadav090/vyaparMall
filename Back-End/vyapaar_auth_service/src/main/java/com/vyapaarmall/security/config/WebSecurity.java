@@ -46,6 +46,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstant.REGISTER_URL).permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, SecurityConstant.TOKEN_VERIFY_URL).permitAll();
+		http.authorizeRequests().antMatchers(HttpMethod.PATCH, SecurityConstant.UPDATE_PASSWORD_URL).permitAll();
 		http.authorizeRequests().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager()));
 		http.addFilterBefore(new JWTAuthorizationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);

@@ -9,5 +9,6 @@ public class SecurityConstant {
 	public static final String LOGIN_URL = "/login";
 	public static final String REGISTER_URL = "/auth/register";
 	public static final String TOKEN_VERIFY_URL = "/auth/verify-token";
+	public static final String UPDATE_PASSWORD_URL = "/auth/user/updatePassword";
 	
 }

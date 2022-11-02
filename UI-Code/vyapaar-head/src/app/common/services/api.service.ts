@@ -61,6 +61,12 @@ export class ApiService {
     );
   }
 
+  updatePassword(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   delete(url: string, id: string): Observable<any> {
     return this.http.delete<any>(url + id, this.httpOptions1).pipe(
       catchError(this.handleError)

@@ -100,6 +100,14 @@ public class UserService implements UserDetailsService{
 				.encode(dbUser.getPassword()));
 		return repo.save(user);
 	}
+	
+	public String updatePassword(User user) {
+		User dbUser = findUserByUserName(user.getMobileNumber());
+		dbUser.setPassword(bCryptPasswordEncoder
+				.encode(user.getPassword()));
+		repo.save(dbUser);
+		return "Password Updated";
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

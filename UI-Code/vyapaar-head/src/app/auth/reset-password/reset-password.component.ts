@@ -99,13 +99,32 @@ export class ResetPasswordComponent implements OnInit {
 
   changePassword(){
    
-    this.messageService.add({severity:'success', summary:"Password Changed Successfully" , detail:""});
+    
     // setInterval(()=>{
     //   this.loading=false;
     //   this.router.navigate(['auth']);
     // },2000)
     
       //TODO:change password
+    let json = {
+      "mobileNumber":this.phoneNumber,
+      "password": this.otpForm.controls["password"].value
+    }
+
+    this.apiService.updatePassword(ApiUrls.PASSWORD_UPDATE, json).subscribe(res=>{
+      if(res.success){
+        this.messageService.add({severity:'success', summary:"Password Changed Successfully" , detail:""});
+        setTimeout(()=>{
+      this.loading=false;
+      this.router.navigate(['auth']);
+    },2000)
+      }
+      this.loading=false;
+      console.log(res);
+    }, err=>{
+      this.loading=false;
+      console.log(err);
+    })
 
   }
 
