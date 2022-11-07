@@ -1,6 +1,5 @@
 package com.twecom.service;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -8,14 +7,14 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.twecom.config.TwilioConfig;
 import com.twecom.model.OtpDto;
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+import com.twecom.repository.OTPRepository;
 
 @Service
 public class OtpService {
+	
+	@Autowired
+	private OTPRepository otpRepo;
 	 
 //	 public static final String ACCOUNT_SID = "AC5607b1ed2915c5db75e6a7242a1a0604";
 //	 public static final String AUTH_TOKEN = "bee22201c3b138bf1784a5ced07f7cf5";
@@ -36,16 +35,21 @@ public class OtpService {
 //	                    from,
 //	                    otpMessage)
 //	                .create();
-	            
+	            otpDto.setOneTimePassword(otp);
+	            otpRepo.save(otpDto);
 
 	            System.out.println(otpDto.getPhoneNumber()+"---"+otp);
-	            otpMap.put(otpDto.getUserName(), otp);
+	            otpMap.put(otpDto.getPhoneNumber(), otp);
 	            return otpMessage;
 	    }
 
 	    public String validateOTP(String userInputOtp, String userName) {
-	        if (userInputOtp.equals(otpMap.get(userName))) {
-	            otpMap.remove(userName,userInputOtp);
+	    	OtpDto otpDto = otpRepo.findById(userName).get();
+	    	System.out.println(otpDto.getOneTimePassword());
+	    	System.out.println(userInputOtp);
+	    	System.out.println(userInputOtp.equals(otpDto.getOneTimePassword()));
+	        if (userInputOtp.equals(otpDto.getOneTimePassword())) {
+	        	otpRepo.deleteById(userName);
 	            return "Valid OTP please proceed with your transaction !";
 	        } else {
 	            throw new IllegalArgumentException("Invalid otp please retry !");

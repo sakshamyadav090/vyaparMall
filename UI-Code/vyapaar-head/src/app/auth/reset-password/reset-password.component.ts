@@ -47,7 +47,7 @@ export class ResetPasswordComponent implements OnInit {
       
       //TODO: check for user exists with provided phone number first
 
-      this.apiService.getByPost(ApiUrls.SEND_OTP,json).subscribe(res=>{
+      this.apiService.sendOTP(ApiUrls.SEND_OTP,json).subscribe(res=>{
         if(res.success){
           this.phoneNumber=this.resetForm.controls["phoneNumber"].value;
           this.enableOTP=true
@@ -77,7 +77,7 @@ export class ResetPasswordComponent implements OnInit {
       "phoneNumber":this.phoneNumber,
       "oneTimePassword": this.otpForm.controls["otp"].value
     };
-    this.apiService.getByPost(ApiUrls.VALIDATE_OTP,json).subscribe(res=>{
+    this.apiService.verifyOtp(ApiUrls.VALIDATE_OTP,json).subscribe(res=>{
       if(res.success){
         // this.loading=false;
         if(this.otpForm.controls["password"].value == this.otpForm.controls["confirmPassword"].value){

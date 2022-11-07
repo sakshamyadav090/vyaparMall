@@ -106,6 +106,18 @@ export class ApiService {
       catchError(this.handleError)
     );
   }
+
+  verifyOtp(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  sendOTP(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
   // public post(url: string, body: any) {
 
   //   return this.http.post(url, body).pipe(

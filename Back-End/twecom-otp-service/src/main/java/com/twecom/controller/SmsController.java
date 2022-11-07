@@ -2,7 +2,8 @@ package com.twecom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class SmsController {
 	private OtpService service;
 	
 	
-	@PostMapping("/genarateOTP")
+	@PutMapping("/genarateOTP")
 	public ResponseModel genrateOTP(@RequestBody OtpDto otpDto) {
 		try {
 			return new ResponseModel(service.sendOTPForPasswordReset(otpDto),200,true,"Success");
@@ -28,10 +29,10 @@ public class SmsController {
 		
 	}
 	
-	@PostMapping("/validateOTP")
+	@PutMapping("/validateOTP")
 	public ResponseModel validateOTP(@RequestBody OtpDto otpDto) {
 		try {
-			return new ResponseModel(service.validateOTP(otpDto.getOneTimePassword(), otpDto.getUserName()),200,true,"Success");
+			return new ResponseModel(service.validateOTP(otpDto.getOneTimePassword(), otpDto.getPhoneNumber()),200,true,"Success");
 		}catch(Exception ex) {
 			return new ResponseModel(ex.getMessage(),200,false,"Failed");
 		}
