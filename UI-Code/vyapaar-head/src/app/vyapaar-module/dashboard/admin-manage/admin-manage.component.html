@@ -1,11 +1,17 @@
+<p-toast position="top-right"></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="my-2">
 <h5>Add Category</h5>
-<form [formGroup]="addCategoryForm" method="post" >
+<form [formGroup]="addCategoryForm" method="post">
 <div>
     <input class="" type="text" placeholder="Enter Category Name" formControlName="category"/> 
     <input class="mx-3" type="submit" value="Add" (click)="addCategory()"/>
 </div>
 </form>
-<h5>Manage Suppliers</h5>
+</div>
+<!-- <h5>Manage Suppliers</h5>
 <div class="card">
     <p-table [columns]="cols" [value]="unapprovedSuppliers" [scrollable]="true" scrollHeight="250px"
         [virtualScroll]="true" [virtualScrollItemSize]="40">
@@ -53,5 +59,52 @@
             </tr>
         </ng-template>
     </p-table>
+</div> -->
+
+
+<div class="card">
+
+    <p-table #dt [value]="unapprovedProducts" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Products</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="pname" >Name </th>
+                <!-- <th>Image</th> -->
+                <th pSortableColumn="ppriceRange" style="min-width:inherit">Price </th>
+                <th pSortableColumn="category" >Category </th>
+                <th pSortableColumn="quantity">Quantity </th>
+                <th >Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.pname}}</td>
+                <!-- <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td> -->
+                <td>{{product.ppriceRange }}</td>
+                <td>{{product.category}}</td>
+                <td>{{product.quantity}}</td>
+                <td><button pButton type="button" class="p-button-info">View Details</button></td>
+                <!-- <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                </td> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedProducts ? unapprovedProducts.length : 0 }} unapproved products.
+            </div>
+        </ng-template>
+    </p-table>
 </div>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
