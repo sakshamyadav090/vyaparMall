@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LazyLoadEvent } from 'primeng/api';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
@@ -14,6 +15,7 @@ import { CarService } from './carservice';
 export class AdminManageComponent implements OnInit {
 
   cars: Car[];
+  addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
   virtualCars: Car[];
   unapprovedProducts: any;
@@ -21,9 +23,13 @@ export class AdminManageComponent implements OnInit {
   listingColumn: any;
 
   constructor(private carService: CarService,
-    private apiService: ApiService) { }
+    private apiService: ApiService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.addCategoryForm = this.fb.group({
+      category: ['',[Validators.required]]
+    });
     this.cols = [
       { field: 'firstName', header: 'Name' },
       { field: 'firmName', header: 'Firm Name' },
@@ -62,7 +68,7 @@ export class AdminManageComponent implements OnInit {
   
   loadUnapprovedSuppliers(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
-      console.log(response.data);
+      // console.log(response.data);
       this.unapprovedSuppliers = response.data;
     },
     err => {
@@ -72,7 +78,7 @@ export class AdminManageComponent implements OnInit {
 
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
-      console.log(response.data);
+      if(response.success)
       this.unapprovedProducts = response.data;
     },
     err => {
@@ -80,5 +86,19 @@ export class AdminManageComponent implements OnInit {
     });
   }
 
+  addCategory() {
+    if(this.addCategoryForm.valid){
+      let json={
+        "name": this.addCategoryForm.controls["category"].value
+      };
+      this.apiService.getByPost(ApiUrls.ADD_CATEGORY, json).subscribe(res=>{
+        console.log(res);
+      }, err=>{
+        console.log(err);
+      })
+    }
+    
+  }
+  
 
 }

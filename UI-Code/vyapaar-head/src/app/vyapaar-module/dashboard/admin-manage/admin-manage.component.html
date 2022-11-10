@@ -1,4 +1,10 @@
-
+<h5>Add Category</h5>
+<form [formGroup]="addCategoryForm" method="post" >
+<div>
+    <input class="" type="text" placeholder="Enter Category Name" formControlName="category"/> 
+    <input class="mx-3" type="submit" value="Add" (click)="addCategory()"/>
+</div>
+</form>
 <h5>Manage Suppliers</h5>
 <div class="card">
     <p-table [columns]="cols" [value]="unapprovedSuppliers" [scrollable]="true" scrollHeight="250px"

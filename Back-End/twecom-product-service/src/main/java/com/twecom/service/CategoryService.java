@@ -17,4 +17,9 @@ public class CategoryService {
 	public List<Category> getCategoryList(){
 		return repo.findAll();
 	}
+
+	public Category addCategory(Category category) {
+		
+		return repo.save(category);
+	}
 }

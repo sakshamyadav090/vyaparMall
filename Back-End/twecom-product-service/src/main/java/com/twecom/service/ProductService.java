@@ -93,12 +93,15 @@ public class ProductService {
 	}
 
 	public List<ProductList> fetchUnapprovedProducts(String token) {
-		int userId = authorizer.isTokenValid(token);
+//		int userId = authorizer.isTokenValid(token);
 //		if(userId!=1) {
 //			throw new RuntimeException("Unauthorized User");
 //		}
 		List<ProductList> proList=new ArrayList<>();
 		List<Product> list=repo.findByIsApproved(ApprovalStatus.PENDING);
+		if(list.isEmpty()) {
+			throw new RuntimeException("No products Found");
+		}
 		list.forEach((n) -> {
 			ProductList pl=new ProductList();
 			if(n.getIsDeleted()==0) {
