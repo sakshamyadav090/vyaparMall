@@ -112,4 +112,13 @@ public class ProductService {
 		 return proList;
 //		return null;
 	}
+
+	public Object approvedProducts(String token, Product product) {
+		int userId = authorizer.isTokenValid(token);
+//		if(userId!=1) {
+//			throw new RuntimeException("Unauthorized User");
+//		}
+		repo.save(product);
+		return null;
+	}
 }

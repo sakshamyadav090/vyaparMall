@@ -27,11 +27,13 @@ export class AdminManageComponent implements OnInit {
   unapprovedProducts: any;
   cols: any[];
   listingColumn: any;
+  uploadForm: FormGroup;
 
-  productDialog: boolean;
+  productDialog: boolean=false;
   products: Product[];
   product: Product;
   selectedProducts: Product[];
+  selectedProduct: any ;
   submitted: boolean;
   statuses: any[];
 
@@ -140,6 +142,34 @@ export class AdminManageComponent implements OnInit {
     }
     
   }
+
+  viewProduct(userId){
+    this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,userId).subscribe(res=>{
+      console.log(res);
+      if(res.success){
+        this.selectedProduct=res.data;
+      }
+           
+    },err=>{
+      console.log(err);
+    })
+    this.productDialog = true;
+  }
   
+  closeDialog(){
+    this.productDialog = false;
+  }
+
+  approveProduct(prodId){
+    let json = {
+      "pid":prodId,
+      "isApproved": 0
+    }
+    this.apiService.approve(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
 
 }

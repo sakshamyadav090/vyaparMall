@@ -61,6 +61,12 @@ export class ApiService {
     );
   }
 
+  approve(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   updatePassword(url: string, body: any): Observable<any> {
     return this.http.patch<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
