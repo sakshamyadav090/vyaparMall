@@ -78,10 +78,10 @@ export class AdminManageComponent implements OnInit {
     //simulate remote connection with a timeout
     setTimeout(() => {
         //load data of required page
-        let loadedCars = this.cars.slice(event.first, (event.first + event.rows));
+        // let loadedCars = this.cars.slice(event.first, (event.first + event.rows));
 
-        //populate page of virtual cars
-        Array.prototype.splice.apply(this.virtualCars, [...[event.first, event.rows], ...loadedCars]);
+        // //populate page of virtual cars
+        // Array.prototype.splice.apply(this.virtualCars, [...[event.first, event.rows], ...loadedCars]);
 
         //trigger change detection
         event.forceUpdate();
