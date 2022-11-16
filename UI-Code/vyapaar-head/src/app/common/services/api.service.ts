@@ -49,7 +49,7 @@ export class ApiService {
   }
 
   save(url: string, body: any): Observable<any> {
-    return this.http.post<any>(url, body, this.httpOptions1).pipe(
+    return this.http.post<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
 
     );
@@ -57,6 +57,12 @@ export class ApiService {
 
   update(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  approve(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions1).pipe(
       catchError(this.handleError)
     );
   }

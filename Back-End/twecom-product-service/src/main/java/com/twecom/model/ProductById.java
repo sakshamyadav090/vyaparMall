@@ -24,7 +24,7 @@ public class ProductById {
 	private int priceEnd;
 	private String[] image;
 	private int quantity;
-	private int category;
+	private String category;
 	private String description;
 	private String origin;
 	private String manufacturer;
@@ -36,7 +36,7 @@ public class ProductById {
 		this.priceEnd=p.getPPriceEndRange();
 		this.image = p.getPImage().split(";");
 		this.quantity=p.getQuantity();
-		this.category=p.getCategory().getCategoryId();
+		this.category=p.getCategory().getName();
 		this.description=p.getPDescription();
 		this.origin=p.getPOrigin();
 		this.manufacturer=p.getPManufacturer();

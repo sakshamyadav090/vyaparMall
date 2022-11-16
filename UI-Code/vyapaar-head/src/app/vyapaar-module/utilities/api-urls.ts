@@ -24,6 +24,8 @@ export class ApiUrls {
   public static GET_PINCODE = 'https://api.postalpincode.in/pincode/';
   public static BUSINESS_LIST = ApiUrls.API_ENDPOINT + 'auth-service/auth/businessTypes';
   public static PASSWORD_UPDATE = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/updatePassword';
+  public static ADD_CATEGORY = ApiUrls.API_ENDPOINT + 'product-service/category/add';
+  public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
 
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 

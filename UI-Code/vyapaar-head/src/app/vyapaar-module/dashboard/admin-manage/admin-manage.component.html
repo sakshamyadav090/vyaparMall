@@ -1,5 +1,17 @@
-
-<h5>Manage Suppliers</h5>
+<p-toast position="top-right"></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="my-2">
+    <h5>Add Category</h5>
+    <form [formGroup]="addCategoryForm" method="post">
+        <div>
+            <input class="" type="text" placeholder="Enter Category Name" formControlName="category" />
+            <input class="mx-3" type="submit" value="Add" (click)="addCategory()" />
+        </div>
+    </form>
+</div>
+<!-- <h5>Manage Suppliers</h5>
 <div class="card">
     <p-table [columns]="cols" [value]="unapprovedSuppliers" [scrollable]="true" scrollHeight="250px"
         [virtualScroll]="true" [virtualScrollItemSize]="40">
@@ -47,5 +59,150 @@
             </tr>
         </ng-template>
     </p-table>
+</div> -->
+
+
+<div class="product card">
+
+    <p-table #dt [value]="unapprovedProducts" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProducts"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Products</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="pname">Name </th>
+                <!-- <th>Image</th> -->
+                <th pSortableColumn="ppriceRange" style="min-width:inherit">Price </th>
+                <th pSortableColumn="category">Category </th>
+                <th pSortableColumn="quantity">Quantity </th>
+                <th>Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.pname}}</td>
+                <!-- <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td> -->
+                <td>{{product.ppriceRange }}</td>
+                <td>{{product.category}}</td>
+                <td>{{product.quantity}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewProduct(product.pid)">View
+                        Details</button></td>
+                <!-- <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                </td> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedProducts ? unapprovedProducts.length : 0 }} unapproved products.
+            </div>
+        </ng-template>
+    </p-table>
 </div>
 
+<div class="supplier card my-2">
+
+    <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProducts"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Suppliers</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="firstName">Name </th>
+                <!-- <th>Image</th> -->
+                <th pSortableColumn="firmName">Firm Name </th>
+                <th pSortableColumn="mobileNumber">Phone Number </th>
+                <th pSortableColumn="city">City </th>
+                <th>Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <!-- <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td> -->
+                <td>{{user.firmName }}</td>
+                <td>{{user.mobileNumber}}</td>
+                <td>{{user.city}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewProduct(user.userId)">View
+                        Details</button></td>
+                <!-- <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                </td> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedSuppliers ? unapprovedSuppliers.length : 0 }} unapproved suppliers.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '600px'}" header="Product Details" [modal]="true"
+    styleClass="p-fluid">
+    <section>
+        <div class="card" style="border-radius: 15px;">
+            <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+                data-mdb-ripple-color="light">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/12.webp"
+                    style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid"
+                    alt="Laptop" />
+                <a href="#!">
+                    <div class="mask"></div>
+                </a>
+            </div>
+            <div class="card-body pb-0">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p><span class="text-dark fw-bold h5">{{selectedProduct? selectedProduct.name:""}}</span></p>
+                        <p class="small text-muted">{{selectedProduct? selectedProduct.category:""}}</p>
+                    </div>
+                    <div>
+                        <!-- <div class="d-flex flex-row justify-content-end mt-1 mb-4 text-danger">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div> -->
+                        <span class="small">Manufacturer: </span><span class="small text-muted">{{selectedProduct? selectedProduct.manufacturer:""}}</span>
+                        <p><span class="small">Origin: </span><span class="small text-muted">{{selectedProduct? selectedProduct.origin:""}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-0" />
+            <div class="card-body pb-0">
+                <div class="d-flex justify-content-between">
+                    <p><span>&#8377;</span><span class="text-dark"> {{selectedProduct? (selectedProduct.priceStart+"-"+selectedProduct.priceEnd ) :""}}</span></p>
+                </div>
+                <p class="small text-muted">{{selectedProduct? selectedProduct.description:""}}</p>
+            </div>
+            <hr class="my-0" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
+                    <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
+                    <div>
+                    <button type="button" class="btn btn-danger mx-1">Deny</button>
+                    <button type="button" class="btn btn-success mx-1" (click)="approveProduct(selectedProduct.id)">Approve</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

@@ -17,7 +17,7 @@ public class JwtTokenAuthorizer {
 	
 	@Autowired
 	private RestTemplate restTemplate;
-	
+	 
 	public int isTokenValid(String token) {
 		try {
 			HttpHeaders headers = new HttpHeaders();
@@ -29,7 +29,11 @@ public class JwtTokenAuthorizer {
 			ResponseModel rm = restTemplate.
 					exchange("http://localhost:9090/auth-service/auth/verify-token", HttpMethod.GET, entity, ResponseModel.class).getBody();
 			if(rm.isSuccess()) {
-				return Integer.parseInt(rm.getData().toString().substring(8,10));
+				String id = rm.getData().toString().substring(8,10).trim();
+				if(id.contains(",")) {
+					return Character.getNumericValue(id.charAt(0));
+				}
+				return Integer.parseInt(id);
 				 
 			}else {
 				throw new RuntimeException("Invalid JWT Token");
