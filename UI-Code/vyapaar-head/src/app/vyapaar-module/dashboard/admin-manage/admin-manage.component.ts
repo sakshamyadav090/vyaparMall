@@ -14,9 +14,9 @@ import { CarService } from './carservice';
 export class AdminManageComponent implements OnInit {
 
   cars: Car[];
-  unapprovedSuppliers: any;
+  unapprovedSuppliers = [];
   virtualCars: Car[];
-  unapprovedProducts: any;
+  unapprovedProducts = [];
   cols: any[];
   listingColumn: any;
 
@@ -59,11 +59,12 @@ export class AdminManageComponent implements OnInit {
         event.forceUpdate();
     }, Math.random() * 1000 + 250);
   }
-  
+
   loadUnapprovedSuppliers(){
+    debugger
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
       console.log(response.data);
-      this.unapprovedSuppliers = response.data;
+      // this.unapprovedSuppliers = response.data;
     },
     err => {
       console.log(err);
@@ -73,7 +74,7 @@ export class AdminManageComponent implements OnInit {
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
       console.log(response.data);
-      this.unapprovedProducts = response.data;
+      // this.unapprovedProducts = response.data;
     },
     err => {
       console.log(err);

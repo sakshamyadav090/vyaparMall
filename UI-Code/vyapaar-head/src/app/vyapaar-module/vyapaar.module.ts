@@ -24,6 +24,7 @@ import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 import { MessageModule } from 'primeng/message';
+import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MessageModule } from 'primeng/message';
     ChatComponent,
     ListingComponent,
     AboutUsComponent,
-    AdminManageComponent
+    AdminManageComponent,
+    TermAndCondComponent
   ],
   imports: [
     VyapaarRoutingModule,

@@ -148,7 +148,6 @@ editProduct(event) {
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
     if(response.success){
       this.selectedCategory=response.data.category;
-
       this.uploadForm.patchValue({
         name:response.data.name,
         description: response.data.description,

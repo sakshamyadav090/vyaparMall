@@ -26,8 +26,7 @@ export class ProfileComponent implements OnInit {
   networkFlag:boolean=false;
   editFlag:boolean=false;
   cities = [];
-  business: any[];
-  selectedBusiness:any;
+  business = [];
   httpResponse:any;
   isPhoneNoValidated:boolean=false;
   sendOTP:string='Validate Mobile Number';
@@ -35,6 +34,7 @@ export class ProfileComponent implements OnInit {
   sentOTP:Boolean=false;
   showValidateOtpButton:boolean=false;
   seconds:number;
+  selectedBusiness:any;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -82,11 +82,10 @@ loadProfileData(){
         if(Response.code!=200||!Response.success){
           this.loading=false;
           // this.router.navigate(['home']);
-          console.log(Response)
         }else if(Response.code==200 && Response.success){
           this.loading=false;
           this.httpResponse=Response.data;
-          this.selectedBusiness=Response.data.natureOfBuisness;
+          this.selectedBusiness=Response.data.natureOfBuisness.name;
           this.profileForm.patchValue({
             name:Response.data.firstName +' '+ Response.data.lastName,
             aadhaar:Response.data.aadhaarNumber,
@@ -97,8 +96,13 @@ loadProfileData(){
             pan:Response.data.panNumber,
             pincode:Response.data.pincode,
             gst:Response.data.gst,
-            natureOfBuisness:Response.data.natureOfBuisness
+            natureOfBusiness:Response.data.natureOfBuisness.businessTypeId
           });
+          //this.business.push(Response.data.natureOfBuisness.name);
+          // this.business.push({
+          //   label : Response.data.natureOfBuisness.name,
+          //   value : Response.data.natureOfBuisness.businessTypeId
+          // })
           this.userId = Response.data.userId;
           this.cities.push(Response.data.city);
           this.loading=false;
@@ -120,10 +124,15 @@ getCity(){
       this.loading=true;
       this.getById('https://api.postalpincode.in/pincode/'+this.profileForm.value.pincode).subscribe(Response=>{
         this.cities=[];
+        if(Response[0].Status=='Success'){
         for(let i=0;i<Response[0].PostOffice.length;i++){
           this.cities.push(Response[0].PostOffice[i].Name);
-          console.log(Response[0].PostOffice[i].Name);
           this.loading=false;
+        }
+      }
+        if(Response[0].Status=='Error'){
+          this.loading=false;
+          this.messageService.add({severity:'error',detail: Response[0].Message});
         }
         },
         err => {
@@ -143,6 +152,21 @@ enableEdit(){
   this.profileForm.enable();
   this.getCity();
   this.getBusinesTypes();
+}
+
+reset(){
+  this.profileForm.patchValue({
+    name:this.httpResponse.firstName +' '+ this.httpResponse.lastName,
+    aadhaar:this.httpResponse.aadhaarNumber,
+    city:this.httpResponse.city,
+    email:this.httpResponse.email,
+    firmName:this.httpResponse.firmName,
+    mobileNumber:this.httpResponse.mobileNumber,
+    pan:this.httpResponse.panNumber,
+    pincode:this.httpResponse.pincode,
+    gst:this.httpResponse.gst,
+    natureOfBusiness:this.httpResponse.natureOfBuisness.name
+  });
 }
 
 saveProfile(){
@@ -182,7 +206,7 @@ saveProfile(){
        err => {
          this.messageService.add({severity:'error',detail:'Error while Updating'});
          this.loading=false;
-         console.log(Response)
+         console.log(err)
        });
       }
   }else{
@@ -225,28 +249,29 @@ getByHeader(url: string): Observable<any> {
 cancel(){
   this.editFlag=false;
   this.profileForm.disable();
-  this.profileForm.reset();
+  this.reset();
   this.mandatFlag = false;
 }
 
 getBusinesTypes(){
   this.apiService.list(ApiUrls.BUSINESS_LIST).subscribe(response=>{
     this.loading=false;
-    let businessTemp = response.data;
-    console.log(response.data)
+    let businesses = response.data;
     this.business=[];
     let businessList:Array<String> = [];
-  businessTemp.forEach(element => {
-    if(businessList.indexOf(element.businessId)==-1){
-        businessList.push(element.businessId);
+  businesses.forEach(element => {
+    if(businessList.indexOf(element.businessTypeId)==-1){
+        businessList.push(element.businessTypeId);
     this.business.push({
       label : element.name,
-      value : element.businessId
+      value : element.businessTypeId
     })
   }
 })
 },err=>{
   this.loading=false;
+  this.messageService.add({severity:'error',detail:'Error while fetching nature of business'});
+  console.log(err);
 })
 }
 
