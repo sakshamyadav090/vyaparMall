@@ -102,7 +102,7 @@ public class ProductController {
 //		response.setContentType(MediaType.IMAGE_PNG_VALUE);
 		Product p= repo.findById(pId).get();
 		
-		return p.getPImage();
+		return "p.getPImage()";
 		
 //		System.out.println(p.getPImage().toString());
 //		response.getOutputStream().write(p.getPImage());

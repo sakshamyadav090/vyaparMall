@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.ApprovalStatus;
+import com.twecom.model.Image;
 import com.twecom.model.Product;
 import com.twecom.model.ProductById;
 import com.twecom.model.ProductList;
@@ -54,16 +55,24 @@ public class ProductService {
 	public Product addProduct(Product p,MultipartFile[] image, String token) throws IOException {
 		
 		int userId = authorizer.isTokenValid(token);
-		String images="";
+		String[] images=new String[image.length];
 		for(int i=0;i<image.length;i++) {
 			String fileName = StringUtils.cleanPath(image[i].getOriginalFilename());
 			if(fileName.contains("..")) {
 				throw new RuntimeException("Invalid Filename");
 			}
-			images = images + Base64.getEncoder().encodeToString(image[i].getBytes()) + ";";
+			images[i] = Base64.getEncoder().encodeToString(image[i].getBytes());
+		}
+		Image im = new Image();
+		im.setDeleted(false);
+		for(int i=0;i<images.length;i++) {
+			if(i==0) im.setImageOne(images[i]);
+			if(i==1) im.setImageTwo(images[i]);
+			if(i==2) im.setImageThree(images[i]);
 		}
 		
-		p.setPImage(images);
+		//p.setPImage(images);
+		p.setPImage(im);
 		p.setPSupplierId(userId);
 		return repo.save(p);
 	}

@@ -34,7 +34,11 @@ public class ProductById {
 		this.name=p.getPName();
 		this.priceStart=p.getPPriceStartRange();
 		this.priceEnd=p.getPPriceEndRange();
-		this.image = p.getPImage().split(";");
+		for(int i=0;i<3;i++) {
+			if(i==0) this.image[i] = p.getPImage().getImageOne();
+			if(i==1) this.image[i] = p.getPImage().getImageTwo();
+			if(i==2) this.image[i] = p.getPImage().getImageThree();
+		}
 		this.quantity=p.getQuantity();
 		this.category=p.getCategory().getName();
 		this.description=p.getPDescription();

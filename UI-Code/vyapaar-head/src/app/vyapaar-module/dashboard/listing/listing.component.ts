@@ -216,49 +216,49 @@ httpOptions1 = {
 }
 
 saveProduct() {
-//   this.loading=true;
-//   if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
-//   for(let i=0;i<this.fileUpload._files.length;i++){
-//     this.formData.append('file', this.fileUpload._files[i]);
-//   }
-//   this.submitted = true;
-//   let json={
-//     "pname":this.uploadForm.value.name,
-//     "pdescription":this.uploadForm.value.description,
-//     "ppriceStartRange":this.uploadForm.value.priceStart,
-//     "ppriceEndRange":this.uploadForm.value.priceEnd,
-//     "quantity":this.uploadForm.value.quantity,
-//     "category":{"categoryId":this.uploadForm.value.category},
-//     "porigin":this.uploadForm.value.origin,
-//     "pmanufacturer":this.uploadForm.value.manufacturer
-//   }
-//   this.formData.append('data', JSON.stringify(json));
-//   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
-//     this.loading=false;
-//     this.formData.delete('data');
-//     this.formData.delete('file');
-//     if(response.success){
-//     this.productDialog=false;
-//     this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-//   }
-//   this.getProductList();
-//   this.uploadForm.reset();
-//   },
-//   err => {
-//     this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
-//     this.loading=false;
-//     console.log(err)
-//   });
-// }    else {
-//   this.mandatFlag = true;
-//   var fieldsControls = this.uploadForm.controls;
-//   for (let field in fieldsControls) {
-//     const control = this.uploadForm.get(field);
-//     if (control.disabled == false && control.invalid) {
-//       control.markAsDirty({ onlySelf: true });
-//     }
-//   }
-// }
+  this.loading=true;
+  if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
+  for(let i=0;i<this.fileUpload._files.length;i++){
+    this.formData.append('file', this.fileUpload._files[i]);
+  }
+  this.submitted = true;
+  let json={
+    "pname":this.uploadForm.value.name,
+    "pdescription":this.uploadForm.value.description,
+    "ppriceStartRange":this.uploadForm.value.priceStart,
+    "ppriceEndRange":this.uploadForm.value.priceEnd,
+    "quantity":this.uploadForm.value.quantity,
+    "category":{"categoryId":this.uploadForm.value.category},
+    "porigin":this.uploadForm.value.origin,
+    "pmanufacturer":this.uploadForm.value.manufacturer
+  }
+  this.formData.append('data', JSON.stringify(json));
+  this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
+    this.loading=false;
+    this.formData.delete('data');
+    this.formData.delete('file');
+    if(response.success){
+    this.productDialog=false;
+    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+  }
+  this.getProductList();
+  this.uploadForm.reset();
+  },
+  err => {
+    this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
+    this.loading=false;
+    console.log(err)
+  });
+}    else {
+  this.mandatFlag = true;
+  var fieldsControls = this.uploadForm.controls;
+  for (let field in fieldsControls) {
+    const control = this.uploadForm.get(field);
+    if (control.disabled == false && control.invalid) {
+      control.markAsDirty({ onlySelf: true });
+    }
+  }
+}
 }
 
 

@@ -19,12 +19,10 @@ public class ProductList {
 	private ApprovalStatus isApproved;
 	
 	public ProductList List(Product p){
-		String[] arrOfStr;
 		this.pId=p.getPId();
 		this.pName=p.getPName();
 		this.pPriceRange=String.valueOf(p.getPPriceStartRange()) +'-'+ String.valueOf(p.getPPriceEndRange());
-		arrOfStr = p.getPImage().split(";", 2);
-		this.pImage=arrOfStr[0];
+		this.pImage=p.getPImage().getImageOne();
 		this.quantity=p.getQuantity();
 		this.category=p.getCategory().getName();
 		this.isDeleted=p.getIsDeleted();

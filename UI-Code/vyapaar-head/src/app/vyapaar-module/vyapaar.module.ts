@@ -25,6 +25,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 import { MessageModule } from 'primeng/message';
 import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
+import { MasterManageComponent } from './dashboard/master-manage/master-manage.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
     ListingComponent,
     AboutUsComponent,
     AdminManageComponent,
-    TermAndCondComponent
+    TermAndCondComponent,
+    MasterManageComponent
   ],
   imports: [
     VyapaarRoutingModule,
