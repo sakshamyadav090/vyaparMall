@@ -2,6 +2,7 @@ package com.twecom.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,10 +38,10 @@ public class Product {
 	private ApprovalStatus isApproved = ApprovalStatus.PENDING;
 	private Date modifiedAt;
 	private int quantity;
-	@ManyToOne 
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "imageId")
 	private Image pImage;
-	@ManyToOne 
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "categoryId")
 	private Category category;
 

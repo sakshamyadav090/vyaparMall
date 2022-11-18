@@ -232,10 +232,10 @@ saveProduct() {
     "porigin":this.uploadForm.value.origin,
     "pmanufacturer":this.uploadForm.value.manufacturer
   }
-  this.formData.append('data', JSON.stringify(json));
+  this.formData.append('pData', JSON.stringify(json));
   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
     this.loading=false;
-    this.formData.delete('data');
+    this.formData.delete('pData');
     this.formData.delete('file');
     if(response.success){
     this.productDialog=false;
