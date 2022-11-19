@@ -5,7 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ProductDescriptionComponent } from './home-page/product-description/product-description.component';
 import { SearchComponent } from './home-page/search/search.component';
-
+import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
 
 
 
@@ -15,7 +15,8 @@ const routes: Routes = [
   {path:'dashboard',component:DashboardComponent},
   {path:'aboutUs',component:AboutUsComponent},
   {path:'src',component:SearchComponent},
-  {path:'product',component:ProductDescriptionComponent}
+  {path:'product',component:ProductDescriptionComponent},
+  {path:'term',component:TermAndCondComponent}
 ];
 
 @NgModule({

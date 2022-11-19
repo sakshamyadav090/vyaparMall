@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiUrls } from 'src/app/vyapaar-module/utilities/api-urls';
+import { ApiService } from 'src/app/common/services/api.service';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,7 @@ export class RegisterComponent implements OnInit {
 
   title = 'vyapaar-head';
   registerForm : FormGroup;
+  otpForm : FormGroup;
   isSupplier:boolean=false;//false for user and true for supplier
   cities = [];
   mandatFlag:boolean=false;
@@ -27,12 +29,20 @@ export class RegisterComponent implements OnInit {
     })
   }
   loading:boolean=false;
+  isPhoneNoValidated:boolean=false;
+  sendOTP:string='Validate Mobile Number';
+  OTP:boolean=false;
+  sentOTP:Boolean=false;
+  showValidateOtpButton:boolean=false;
+  seconds:number;
 
   constructor(
     private router:Router,
     private fb: FormBuilder,
     private http: HttpClient,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private apiService: ApiService,
+    private apiUrls:ApiUrls) {
   }
 
   ngOnInit(): void {
@@ -47,6 +57,9 @@ export class RegisterComponent implements OnInit {
       termAndCond:['',Validators.required]
     });
     this.selectedCityValue='';
+    this.otpForm = this.fb.group({
+      otp: ['', [Validators.required,Validators.pattern('^[0-9]{6}$')]]
+    });
   }
 
   createUser():FormGroup{
@@ -71,8 +84,8 @@ export class RegisterComponent implements OnInit {
       email:['',[Validators.required,Validators.email]],
       password:['',Validators.required],
       confirmPassword:['',Validators.required],
-      pincode: ['', [Validators.required,Validators.pattern('^[0-9]*$'),Validators.maxLength(6),Validators.minLength(6)]],
-      gst:['',[Validators.pattern('^[A-Z0-9]*$'),Validators.maxLength(15)]],
+      pincode: ['', [Validators.required,Validators.pattern('^[0-9]{6}$')]],
+      gst:['',[Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
       firmName:['',[Validators.required,Validators.pattern('^[A-Z .a-z]*$'),Validators.maxLength(30)]],
       termAndCond:['',Validators.required]
     })
@@ -101,7 +114,7 @@ export class RegisterComponent implements OnInit {
     if(this.registerForm.value.password!=this.registerForm.value.confirmPassword){
       this.messageService.add({severity:'warn', summary:'Password mismatch', detail:'Password and Confirm password does not match'});
     }else{
-      if(this.registerForm.valid && this.selectedCityValue!=null && this.registerForm.controls['termAndCond'].value){
+      if(this.registerForm.valid && this.selectedCityValue!=null && this.registerForm.controls['termAndCond'].value && this.isPhoneNoValidated){
         this.loading=true;
         let roleId=0;
         if(this.registerForm.controls["role"].value=='user'){
@@ -123,7 +136,7 @@ export class RegisterComponent implements OnInit {
         "password": this.registerForm.controls["password"].value,
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null
     };
-        this.getByPost(ApiUrls.REGISTER,registerJson).subscribe(Response=>{
+        this.apiService.getByPost(ApiUrls.REGISTER,registerJson).subscribe(Response=>{
           localStorage.setItem('token',Response.data.access_token);
           this.router.navigate(['home']);
           this.loading=false;
@@ -136,7 +149,7 @@ export class RegisterComponent implements OnInit {
             console.log(Response)
             alert('nhi ho rha bhaiya');
           });
-      }else if(this.selectedCityValue==null && this.registerForm.valid){
+      }else if(this.selectedCityValue==null && this.registerForm.valid && this.otpForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});
       }
       else{
@@ -159,27 +172,32 @@ export class RegisterComponent implements OnInit {
   }
 }
 
-getById(url: string): Observable<any> {
-  return this.http.get<any>(url).pipe(
-    catchError(this.handleError)
-  );
-}
-getByPost(url: string, body: any): Observable<any> {
-  return this.http.post<any>(url, body, this.httpOptions).pipe(
-    catchError(this.handleError)
-  );
-}
+// getById(url: string): Observable<any> {
+//   return this.http.get<any>(url).pipe(
+//     catchError(this.handleError)
+//   );
+//}
+// getByPost(url: string, body: any): Observable<any> {
+//   return this.http.post<any>(url, body, this.httpOptions).pipe(
+//     catchError(this.handleError)
+//   );
+// }
 
 getCity(){
   if(this.registerForm.value.pincode!=null){
-    if(this.registerForm.value.pincode.toString().length=='6'){
+    if(this.registerForm.controls['pincode'].valid){
       this.loading=true;
-      this.getById('https://api.postalpincode.in/pincode/'+this.registerForm.value.pincode).subscribe(Response=>{
+      this.apiService.getById('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
         this.cities=[];
+        if(Response[0].Status=='Success'){
         for(let i=0;i<Response[0].PostOffice.length;i++){
           this.cities.push(Response[0].PostOffice[i].Name);
-          console.log(Response[0].PostOffice[i].Name);
           this.loading=false;
+        }
+      }
+        if(Response[0].Status=='Error'){
+          this.loading=false;
+          this.messageService.add({severity:'error',detail: Response[0].Message});
         }
         },
         err => {
@@ -212,6 +230,61 @@ private handleError(error: HttpErrorResponse) {
   }
   // Return an observable with a user-facing error message.
   return throwError(() => new Error('Something bad happened; please try again later.'));
+}
+
+validatePhoneNo(){
+  this.seconds=30;
+  // this.loading=true;
+  let json={
+    "phoneNumber":this.registerForm.value.mobileNumber.toString()
+  };
+// remove 235 to 240 when you implemented the API and uncomment line 242 to 255 and 230
+  this.OTP=true;
+  this.sentOTP=true;
+  this.sendOTP='Resend OTP';
+  setTimeout(() => {
+    this.OTP=false;
+  }, 30000);
+//
+  // this.apiService.getByPost('this.apiUrls.SEND_OTP',json).subscribe(res=>{
+  //   if(res.success){
+  //     this.OTP=true;
+  //     this.sentOTP=true;
+  //     this.sendOTP='Resend OTP';
+  //     setTimeout(() => {
+  //       this.OTP=false;
+  //     }, 30000);
+  //     this.loading=false;
+  //   }
+  // },err=>{
+  //   this.loading=false;
+  //   console.log(err);
+  // });
+
+  const myInterval = setInterval(() => {
+    this.seconds--;
+    if(this.seconds==0){
+      clearInterval(myInterval);
+    }
+  }, 1000);
+
+}
+
+submitOTP(){
+  let json={
+    "oneTimePassword": this.otpForm.value.otp.toString()
+  };
+// remove 271 to 273 when you implemented the API and uncomment line 274 to 281
+  this.isPhoneNoValidated=true;
+//
+  // this.apiService.getByPost('this.apiUrls.VALIDATE_OTP',json).subscribe(res=>{
+  //   if(res.success){
+  //     this.isPhoneNoValidated=true;
+  //   }
+  // },err=>{
+  //   this.loading=false;
+  //   console.log(err);
+  // });
 }
 
 }

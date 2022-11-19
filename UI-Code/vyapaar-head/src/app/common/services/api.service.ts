@@ -33,7 +33,7 @@ export class ApiService {
 
   list(url: string): Observable<any> {
     //  let commissionPlansdata = "assets/data/commissionPlans.json";
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, this.httpOptions1);
   }
 
   getById(url: string, body: any): Observable<any> {
@@ -49,7 +49,7 @@ export class ApiService {
   }
 
   save(url: string, body: any): Observable<any> {
-    return this.http.post<any>(url, body, this.httpOptions1).pipe(
+    return this.http.post<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
 
     );
@@ -57,6 +57,18 @@ export class ApiService {
 
   update(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  approve(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updatePassword(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
@@ -97,6 +109,18 @@ export class ApiService {
 
   getByPost(url: string, body: any): Observable<any> {
     return this.http.post<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  verifyOtp(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  sendOTP(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }

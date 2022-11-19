@@ -2,6 +2,10 @@
   <p-progressSpinner></p-progressSpinner>
 </div>
 <div class="container emp-profile">
+  <p-message severity="error"
+  text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag && !profileForm.valid">
+</p-message>
       <form [formGroup]="profileForm" method="post">
         <div class="row">
             <!-- <div class="col-md-4">
@@ -16,10 +20,15 @@
             <div class="col-md-10">
                 <div class="profile-head">
                             <h5>
-                                <input type="text" formControlName="firmName"/>
+                                <input type="text" formControlName="firmName" placeholder="Firm Name"/>
                             </h5>
-                            <h6>
-                              <input type="text" formControlName="natureOfBusiness" placeholder="Nature of Business"/>                            </h6>
+                            <h6><div class="field">
+                              <label>Nature of Business</label>
+                              <p-dropdown *ngIf="editFlag" formControlName="natureOfBusiness"  [options]="business"
+                              placeholder="Select Business *" [(ngModel)]="selectedBusiness" [showClear]="true">
+                              </p-dropdown>
+                              <input *ngIf="!editFlag" [value]="httpResponse.natureOfBuisness.name" />
+                          </div></h6>
                             <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -32,7 +41,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <input type="submit" (click)="enableEdit()" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <input type="submit" [disabled]="editFlag" (click)="enableEdit()" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
             </div>
         </div>
         <div class="row">
@@ -76,6 +85,18 @@
                                     <div class="col-md-6">
                                         <span>+91</span><input type="text"  placeholder="Phone Number" formControlName="mobileNumber"/>
                                     </div>
+                                    <div class="col-md-3 mb-4 pb-2"
+                                    *ngIf="profileForm.controls['mobileNumber'].valid && profileForm.controls['mobileNumber'].value!=httpResponse.mobileNumber && (this.profileForm.controls['mobileNumber'].dirty || this.profileForm.controls['mobileNumber'].touched) && !isPhoneNoValidated">
+                                    <button (click)="validatePhoneNo()" type="button" [disabled]="OTP" class="btn btn-lg"
+                                      data-mdb-ripple-color="info"><span>{{sendOTP}}</span></button>
+                                    <span *ngIf="OTP">resend in {{seconds}} seconds</span>
+                                    <form [formGroup]="otpForm">
+                                      <input *ngIf="sentOTP" formControlName="otp" placeholder="Enter OTP" type="number"
+                                        class="form-control form-control-lg" />
+                                    </form>
+                                    <button *ngIf="otpForm.valid" (click)="submitOTP()" type="button" class="btn btn-lg"
+                                      data-mdb-ripple-color="info">Validate OTP</button>
+                                  </div>
                                 </div>
                                 <div class="row">
                                   <div class="col-md-6">
@@ -127,8 +148,9 @@
                 </div>
             </div>
         </div>
-        <div >
-        <button class="btn btn-success" (click)="saveProfile()">Save</button>
+        <div *ngIf="editFlag">
+        <button  class="btn btn-success" (click)="saveProfile()">Save</button>
+        <button  class="btn btn-danger" (click)="cancel()">Cancel</button>
     </div>
     </form>
 </div>

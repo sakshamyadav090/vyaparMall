@@ -32,6 +32,7 @@ export class ListingComponent implements OnInit {
   formData=new FormData();
   loading:boolean=false;
   mandatFlag:boolean=false;
+  byte:any;
 
 
   constructor(
@@ -123,6 +124,7 @@ deleteSelectedProducts() {
 }
 
 editProduct(event) {
+
   this.loading=true;
   this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
     let categories = response.data;
@@ -157,6 +159,17 @@ editProduct(event) {
       });
       this.productDialog = true;
       this.loading=false;
+      debugger
+      console.log(blob);
+      this.byte=this.base64ToArrayBuffer(response.data.image[0]);
+      var blob = new Blob([this.byte], {type: "image/*"});
+      var file = new File([blob], "name");
+
+      for(let i=0;i<1;i++){
+        // this.fileUpload._files.push(blob);
+      }
+      console.log(file);
+      console.log(this.fileUpload);
   }
   },
   err => {
@@ -219,10 +232,10 @@ saveProduct() {
     "porigin":this.uploadForm.value.origin,
     "pmanufacturer":this.uploadForm.value.manufacturer
   }
-  this.formData.append('data', JSON.stringify(json));
+  this.formData.append('pData', JSON.stringify(json));
   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
     this.loading=false;
-    this.formData.delete('data');
+    this.formData.delete('pData');
     this.formData.delete('file');
     if(response.success){
     this.productDialog=false;
@@ -271,21 +284,19 @@ createId(): string {
     return id;
 }
 
-test(event){
-  console.log(event);
-  console.log(this.selectedCategory);
-// this.selectedCategory=event.originalEvent.srcElement.innerText;
-// console.log(this.fileUpload._files.length);
-// for(let j=0;j<this.fileUpload._files.length;j++)
-// this.fileUpload.remove(event,j);
-
-}
-
 search(event,table){
   table.filterGlobal(event.value, 'contains')
 }
 
-
+base64ToArrayBuffer(base64) {
+  var binary_string = window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
 
 
 }

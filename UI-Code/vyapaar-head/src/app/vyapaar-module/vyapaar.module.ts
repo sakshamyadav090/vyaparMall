@@ -22,13 +22,12 @@ import { InputNumberModule } from "primeng/inputnumber";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-<<<<<<< HEAD
 import { SearchComponent } from './home-page/search/search.component';
 import { ProductDescriptionComponent } from './home-page/product-description/product-description.component';
-=======
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 import { MessageModule } from 'primeng/message';
->>>>>>> b8c7f659f241969ee824cfc1b6147e474393fbe7
+import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
+import { MasterManageComponent } from './dashboard/master-manage/master-manage.component';
 
 
 @NgModule({
@@ -41,12 +40,11 @@ import { MessageModule } from 'primeng/message';
     ChatComponent,
     ListingComponent,
     AboutUsComponent,
-<<<<<<< HEAD
     SearchComponent,
-    ProductDescriptionComponent
-=======
-    AdminManageComponent
->>>>>>> b8c7f659f241969ee824cfc1b6147e474393fbe7
+    ProductDescriptionComponent,
+    AdminManageComponent,
+    TermAndCondComponent,
+    MasterManageComponent
   ],
   imports: [
     VyapaarRoutingModule,

@@ -11,7 +11,8 @@ export class DashboardComponent implements OnInit {
   menuItem: String = "Profile";
   profileComp:boolean=false;
   listComp:boolean=false;
-  admManageComp:boolean=true
+  admManageComp:boolean=true;
+  masterComp:boolean=false;
 
   constructor() { }
 
@@ -56,20 +57,33 @@ export class DashboardComponent implements OnInit {
     if(event=='profile') {
       this.profileComp=true;
       this.listComp=false;
+      this.masterComp=false;
       this.admManageComp=false;
     }
     else if(event=='listing'){
       this.profileComp=false;
       this.listComp=true;
+      this.masterComp=false;
       this.admManageComp=false;
-    } 
-    else if(event=='adm-manage'){
+    }
+    else if(event=='admin'){
       this.profileComp=false;
       this.listComp=false;
+      this.masterComp=false;
       this.admManageComp=true;
+    }
+    else if(event=='master'){
+      this.profileComp=false;
+      this.listComp=false;
+      this.admManageComp=false;
+      this.masterComp=true;
     }
     // if(event='listing') this.listComp=true;
     // else this.listComp=false;
+  }
+
+  logout(){
+    localStorage.removeItem("token");
   }
 
 }

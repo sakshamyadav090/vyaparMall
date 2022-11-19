@@ -17,4 +17,11 @@ public class CategoryService {
 	public List<Category> getCategoryList(){
 		return repo.findAll();
 	}
+
+	public Category addCategory(Category category) {
+		if(repo.findByNameIgnoreCase(category.getName())!=null) {
+			throw new RuntimeException("Category already present!");
+		}
+		return repo.save(category);
+	}
 }

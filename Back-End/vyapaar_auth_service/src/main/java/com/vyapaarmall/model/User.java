@@ -34,7 +34,7 @@ public class User {
 	@Column(unique = true)
 	private String email;
 	private String firmName;
-	private String natureOfBuisness;
+//	private String natureOfBuisness;
 	@Column(unique = true)
 	private String gst;
 	@Column(unique = true)
@@ -48,6 +48,10 @@ public class User {
 	private String modifiedBy;
 	private Date createdDate = new Date();
 	private Date modifiedDate = new Date();
+	
+	@ManyToOne 
+	@JoinColumn(name = "business_type_id")
+	private BusinessType natureOfBuisness;
 	
 	@ManyToOne
 	@JoinColumn(name = "roleId")
