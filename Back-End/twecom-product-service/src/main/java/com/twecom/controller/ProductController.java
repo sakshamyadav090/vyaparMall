@@ -7,15 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,13 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
 import com.twecom.repository.ProductRepository;
 import com.twecom.service.ProductService;
 
-import lombok.var;
 
 @RestController
 public class ProductController {
@@ -128,11 +122,13 @@ public class ProductController {
 	}
 	
 	@PutMapping("/product/update")
-	public ResponseModel updateProduct(@RequestBody Product p, @RequestHeader("Authorization") String token) {
+	public ResponseModel updateProduct(@RequestParam("data") String prod, 
+			@RequestParam("file") MultipartFile[] image, 
+			@RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct(p,token),200,true,"Fetched Successfully");
+			ps.updateProduct(prod,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -157,6 +153,17 @@ public class ProductController {
 		}
 		return responseModel;
 		
+	}
+	
+	@GetMapping("/product/unapproved")
+	public ResponseModel getUnapprovedProducts(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+			ps.fetchUnapprovedProducts(token),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			return new ResponseModel(
+					e.getMessage(),200,false,"Unable to Delete");
+		}
 	}
 
 }

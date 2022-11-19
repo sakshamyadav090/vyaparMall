@@ -10,7 +10,9 @@
             <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
                 (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button>
         </ng-template>
+      </p-toolbar>
 
+<<<<<<< HEAD
         <!-- <ng-template pTemplate="right">
             <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
             <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
@@ -21,6 +23,12 @@
         [globalFilterFields]="['pname','category','quantity']" [responsive]="true" responsiveLayout="scroll"
         [rowHover]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [showCurrentPageReport]="true">
+=======
+    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pname','category','quantity','status']"
+    [responsive]="true" responsiveLayout="scroll"
+         [rowHover]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+>>>>>>> b8c7f659f241969ee824cfc1b6147e474393fbe7
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">
                 <h5 class="m-0">Manage Products</h5>
@@ -42,13 +50,6 @@
                     </p-sortIcon>
 
                 </th>
-                <!-- <th pSortableColumn="pname">Name</th>
-                <th >Image</th>
-                <th >Price Range</th>
-                <th pSortableColumn="category">Category</th>
-                <th pSortableColumn="quantity">Quantity</th>
-                <th pSortableColumn="status" >Status</th>
-                <th></th> -->
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-columns>
@@ -79,17 +80,20 @@
     </p-table>
 </div>
 
+<<<<<<< HEAD
 <p-dialog [(visible)]="productDialog" [style]="{width: '550px'}" header="Product Details" [modal]="true"
     styleClass="p-fluid">
 
+=======
+<p-dialog [(visible)]="productDialog" [style]="{width: '550px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
+  <p-message severity="error" text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag">
+</p-message>
+>>>>>>> b8c7f659f241969ee824cfc1b6147e474393fbe7
     <ng-template pTemplate="content">
-        <!-- <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image"> -->
-        <!-- <div class="formgrid field row">
-            <label for="name">Name</label>
-            <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
-            <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small>
-        </div> -->
+      <form [formGroup] = "uploadForm">
         <div class="formgrid grid row">
+<<<<<<< HEAD
             <div class="field">
                 <label for="name">Name</label>
                 <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
@@ -158,12 +162,55 @@
                     <p-inputNumber class="field col" placeholder="Price End range" id="priceEnd"
                         [(ngModel)]="product.priceEnd" mode="currency" currency="INR" locale="en-IN"></p-inputNumber>
                 </div>
+=======
+        <div class="field">
+          <label>Name</label>
+          <input type="text" pInputText  formControlName="name" autofocus />
+          <!-- <small class="p-error" *ngIf="submitted && !uploadForm.value.name">Name is required.</small> -->
+      </div>
+    </div>
+
+    <p-fileUpload #fileUpload id="file" name="uploadedFiles[]" [multiple]="true" accept="image/*"
+                  [customUpload]="true" [fileLimit]="3" [maxFileSize]="1000000"
+                  [showUploadButton]="false" [showCancelButton]="false" chooseLabel="Select Images"
+                  [previewWidth]="100">
+                  <ng-template pTemplate="toolbar">
+                    <div>Upload 3 Files</div>
+                </ng-template>
+                </p-fileUpload>
+
+        <div class="field">
+            <label>Description</label>
+            <input pInputText type="text" formControlName="description"/>
+        </div>
+        <div class="field">
+            <label>Category</label>
+            <p-dropdown formControlName="category" (onChange)="test($event)" [(ngModel)]="selectedCategory" [options]="category" placeholder="Select">
+            </p-dropdown>
+        </div>
+        <div class="field col">
+          <label>Origin</label>
+          <input type="text" pInput formControlName="origin"/>
+      </div>
+      <div class="field col">
+        <label>Manufacturer</label>
+        <input type="text" pInput formControlName="manufacturer"/>
+    </div>
+    <div class="formgrid grid">
+            <div class="field col">
+                <label for="priceStart">Price Range</label>
+                <div class="formgrid grid row">
+                <input class="field col" type="number" placeholder="Price Starting range" formControlName="priceStart" mode="currency" currency="INR" locale="en-IN"/>
+                <input class="field col" type="number" placeholder="Price End range" formControlName="priceEnd" mode="currency" currency="INR" locale="en-IN"/>
+              </div>
+>>>>>>> b8c7f659f241969ee824cfc1b6147e474393fbe7
             </div>
             <div class="field col">
                 <label for="quantity">Quantity</label>
-                <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
+                <p-inputNumber formControlName="quantity"></p-inputNumber>
             </div>
         </div>
+      </form>
     </ng-template>
 
     <ng-template pTemplate="footer">

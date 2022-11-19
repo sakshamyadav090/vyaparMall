@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
+import com.twecom.model.ApprovalStatus;
 import com.twecom.model.Product;
+import com.twecom.model.ProductById;
 import com.twecom.model.ProductList;
 import com.twecom.repository.ProductRepository;
 
@@ -43,8 +46,9 @@ public class ProductService {
 		 return proList;
 		}
 	
-	public Product getByProductId(int pId) {
-		return repo.findById(pId).get();
+	public ProductById getByProductId(int pId) {
+		ProductById pl=new ProductById();
+		return pl.List(repo.findById(pId).get());
 	}
 	
 	public Product addProduct(Product p,MultipartFile[] image, String token) throws IOException {
@@ -64,11 +68,12 @@ public class ProductService {
 		return repo.save(p);
 	}
 
-	public Product updateProduct(Product p, String token) {
+	public Product updateProduct(String prod, MultipartFile images[], String token) throws IOException {
+		Product product = new ObjectMapper().readValue(prod, Product.class);
 		int userId = authorizer.isTokenValid(token);
-		if(p.getPSupplierId()==userId) {
-			p.setModifiedAt(new Date());
-			return repo.save(p);
+		if(product.getPSupplierId()==userId) {
+			product.setModifiedAt(new Date());
+			return addProduct(product,images,token);
 		}else {
 			throw new RuntimeException("Product Not Found");
 		}
@@ -78,15 +83,30 @@ public class ProductService {
 	public String deleteProduct(int pId, String token) {
 		int userId = authorizer.isTokenValid(token);
 		Product pr=repo.findById(pId).get();
-		//pr.setModifiedBy(pId);
+		if(pr.getPSupplierId()==userId) {
+			throw new RuntimeException("Product Not Found");
+		}
 		pr.setIsDeleted(1);
 		pr.setModifiedAt(new Date());
 		repo.save(pr);
-		return "Deleted Successfully!";
+		return "Deleted Successfully!";		
 	}
 
-//	public String getImage(int pId) {
-//		Product p= repo.findById(pId).get();
-//		return p.getPImage();
-//	}
+	public List<ProductList> fetchUnapprovedProducts(String token) {
+		int userId = authorizer.isTokenValid(token);
+//		if(userId!=1) {
+//			throw new RuntimeException("Unauthorized User");
+//		}
+		List<ProductList> proList=new ArrayList<>();
+		List<Product> list=repo.findByIsApproved(ApprovalStatus.PENDING);
+		list.forEach((n) -> {
+			ProductList pl=new ProductList();
+			if(n.getIsDeleted()==0) {
+				proList.add(pl.List(n));
+			}
+		});
+		
+		 return proList;
+//		return null;
+	}
 }

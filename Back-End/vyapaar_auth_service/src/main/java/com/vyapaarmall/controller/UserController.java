@@ -1,5 +1,7 @@
 package com.vyapaarmall.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +35,17 @@ public class UserController {
 		}catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(),404,false,"Failed to Create User");
+		}
+	}
+	
+	@GetMapping("/suppliers/unapproved")
+	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.getUnapprovedSuppliers(token), 200, true, "User updated");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 403, false, "Unauthorized");
 		}
 	}
 	

@@ -2,8 +2,12 @@ package com.vyapaarmall.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,14 +39,32 @@ public class UserService implements UserDetailsService{
 	public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
 		    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 	
-	public User registerUser(User user) {
+	public Map<String,String> registerUser(User user) {
 		if(repo.findByEmail(user.getEmail())!=null 
 				|| repo.findByMobileNumber(user.getMobileNumber())!=null) {
 			throw new UserException("User Already Registered");
 		}
 		user.setPassword(bCryptPasswordEncoder
 				.encode(user.getPassword()));
-		return repo.save(user);
+		user.setCreatedBy(user.getFirstName()+ " "+ user.getLastName());
+		user.setModifiedBy(user.getFirstName()+ " "+ user.getLastName());
+		if(user.getRole().getRoleId()!=2) {
+			user.setApproved(true);
+		}
+		repo.save(user);
+		Algorithm algo = Algorithm.HMAC256(SecurityConstant.SECRET.getBytes());
+		
+		String access_token = JWT.create()
+				.withSubject(user.getMobileNumber())
+				.withExpiresAt(new Date(System.currentTimeMillis()+ SecurityConstant.TOKEN_EXPIRE_TIME))
+				.withIssuedAt(new Date())
+				.withClaim("username", new ArrayList<>())
+				.sign(algo);
+		
+		Map<String,String> response = new HashMap<>();
+		response.put("access_token", access_token);
+		response.put("userId", user.getMobileNumber());
+		return response;
 		
 	}
 	
@@ -107,5 +129,19 @@ public class UserService implements UserDetailsService{
 			}
 		}
 		return user;
+	}
+
+	public List<User> getUnapprovedSuppliers(String header) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
+		User dbUser = verifyToken(token);
+		if(dbUser.getRole().getRoleId()!=1) {
+			throw new RuntimeException("Unauthorized User");
+		}
+		List<User> unapprovedUsers = repo.findByIsApproved(false);
+		
+		return unapprovedUsers
+		.stream()
+		.filter(user -> user.getRole().getRoleId()==2)
+		.collect(Collectors.toList());
 	}
 }
