@@ -24,6 +24,8 @@ import {FileUploadModule} from 'primeng/fileupload';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 import { MessageModule } from 'primeng/message';
+import {CarouselModule} from 'primeng/carousel';
+import { DetailsDialogComponent } from './dashboard/admin-manage/details-dialog/details-dialog.component';
 
 
 @NgModule({
@@ -36,7 +38,8 @@ import { MessageModule } from 'primeng/message';
     ChatComponent,
     ListingComponent,
     AboutUsComponent,
-    AdminManageComponent
+    AdminManageComponent,
+    DetailsDialogComponent
   ],
   imports: [
     VyapaarRoutingModule,
@@ -56,7 +59,8 @@ import { MessageModule } from 'primeng/message';
     DropdownModule,
     FileUploadModule,
     ProgressSpinnerModule,
-    MessageModule
+    MessageModule,
+    CarouselModule
   ]
 })
 export class VyapaarModule { }

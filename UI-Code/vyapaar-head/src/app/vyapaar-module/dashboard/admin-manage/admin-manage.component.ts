@@ -25,51 +25,25 @@ export class AdminManageComponent implements OnInit {
   addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
   unapprovedProducts: any;
+
   cols: any[];
-  listingColumn: any;
-  uploadForm: FormGroup;
 
   productDialog: boolean=false;
-  products: Product[];
-  product: Product;
-  selectedProducts: Product[];
   selectedProduct: any ;
-  submitted: boolean;
-  statuses: any[];
+  prodId: any;
+  popupFlag: any;
+  showPopup: any;
 
   constructor(
     private messageService: MessageService,
-    private productService: ProductService,
-    private confirmationService: ConfirmationService,
     private apiService: ApiService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
 
-        this.statuses = [
-            {label: 'INSTOCK', value: 'instock'},
-            {label: 'LOWSTOCK', value: 'lowstock'},
-            {label: 'OUTOFSTOCK', value: 'outofstock'}
-        ];
-
     this.addCategoryForm = this.fb.group({
       category: ['',[Validators.required]]
     });
-    this.cols = [
-      { field: 'firstName', header: 'Name' },
-      { field: 'firmName', header: 'Firm Name' },
-      { field: 'email', header: 'Email' },
-      { field: 'city', header: 'City' },
-      { field: 'createdDate', header: 'Created On' }
-    ];
-
-    this.listingColumn = [
-      { field: 'pname', header: 'Prodoct Name' },
-      { field: 'ppriceRange', header: 'Price Range'},
-      { field: 'category', header: 'Category' },
-      { field: 'quantity' , header: 'Quantity'}
-    ];
-
     this.loadUnapprovedSuppliers();
     this.loadUnapprovedProducts();
   }
@@ -91,36 +65,12 @@ export class AdminManageComponent implements OnInit {
         this.unapprovedProducts = response.data;
         // console.log(response.data);
       }
-      
     },
     err => {
       console.log(err);
     });
   }
 
-  //neww
-
-// editProduct(product: Product) {
-//     this.product = {...product};
-//     this.productDialog = true;
-// }
-
-// deleteProduct(product: Product) {
-//     this.confirmationService.confirm({
-//         message: 'Are you sure you want to delete ' + product.name + '?',
-//         header: 'Confirm',
-//         icon: 'pi pi-exclamation-triangle',
-//         accept: () => {
-//             this.products = this.products.filter(val => val.id !== product.id);
-//             this.product = {};
-//             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-//         }
-//     });
-// }
-
-
-
-//new
   addCategory() {
     this.loading=true;
     if(this.addCategoryForm.valid){
@@ -143,16 +93,12 @@ export class AdminManageComponent implements OnInit {
     
   }
 
-  viewProduct(userId){
-    this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,userId).subscribe(res=>{
-      console.log(res);
-      if(res.success){
-        this.selectedProduct=res.data;
-      }
-           
-    },err=>{
-      console.log(err);
-    })
+  viewProduct(productId){
+    this.prodId = productId;
+    this.productDialog = true;
+  }
+
+  viewSupplier(userId){
     this.productDialog = true;
   }
   
@@ -170,6 +116,18 @@ export class AdminManageComponent implements OnInit {
     },err=>{
       console.log(err);
     })
+  }
+
+  changePopupFlag(event) {
+    this.popupFlag = event;
+    this.showPopup = event;
+  }
+
+  receiveMessage(event) {
+    this.messageService.add({ severity: 'success', detail: event });
+    // this.getData();
+    // this.searchValue = '';
+    // this.table.reset();
   }
 
 }

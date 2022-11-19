@@ -1,0 +1,49 @@
+<div>
+    <p>{{prodId}}</p>
+    <p-dialog [style]="{width: '600px'}" header="Product Details"><p>Hello world</p></p-dialog>
+    <!-- <p-dialog [style]="{width: '600px'}" header="Product Details" [modal]="true"
+     *ngIf="productDialog" [baseZIndex]="10000" styleClass="body lm">
+    <section>
+        <div class="card" style="border-radius: 15px;">
+            <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+                data-mdb-ripple-color="light">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/12.webp"
+                    style="border-top-left-radius: 15px; border-top-right-radius: 15px;" class="img-fluid"
+                    alt="Laptop" />
+                <a href="#!">
+                    <div class="mask"></div>
+                </a>
+            </div>
+            <div class="card-body pb-0">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p><span class="text-dark fw-bold h5">{{selectedProduct? selectedProduct.name:""}}</span></p>
+                        <p class="small text-muted">{{selectedProduct? selectedProduct.category:""}}</p>
+                    </div>
+                    <div>
+                        <span class="small">Manufacturer: </span><span class="small text-muted">{{selectedProduct? selectedProduct.manufacturer:""}}</span>
+                        <p><span class="small">Origin: </span><span class="small text-muted">{{selectedProduct? selectedProduct.origin:""}}</span></p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-0" />
+            <div class="card-body pb-0">
+                <div class="d-flex justify-content-between">
+                    <p><span>&#8377;</span><span class="text-dark"> {{selectedProduct? (selectedProduct.priceStart+"-"+selectedProduct.priceEnd ) :""}}</span></p>
+                </div>
+                <p class="small text-muted">{{selectedProduct? selectedProduct.description:""}}</p>
+            </div>
+            <hr class="my-0" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
+                    <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
+                    <div>
+                    <button type="button" class="btn btn-danger mx-1">Deny</button>
+                    <button type="button" class="btn btn-success mx-1" (click)="approveProduct(selectedProduct.id)">Approve</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</p-dialog> -->
+</div>

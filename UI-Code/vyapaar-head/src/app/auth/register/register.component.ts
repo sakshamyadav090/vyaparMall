@@ -151,6 +151,8 @@ export class RegisterComponent implements OnInit {
           });
       }else if(this.selectedCityValue==null && this.registerForm.valid && this.otpForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});
+      }else if(!this.isPhoneNoValidated){
+        this.messageService.add({severity:'warn', detail:'Please validate Phone no'});
       }
       else{
         // const invalid = [];
@@ -229,32 +231,31 @@ private handleError(error: HttpErrorResponse) {
 
 validatePhoneNo(){
   this.seconds=30;
-  // this.loading=true;
+  this.loading=true;
   let json={
     "phoneNumber":this.registerForm.value.mobileNumber.toString()
   };
-// remove 235 to 240 when you implemented the API and uncomment line 242 to 255 and 230
-  this.OTP=true;
-  this.sentOTP=true;
-  this.sendOTP='Resend OTP';
+  // this.sendOTP='Resend OTP';
   setTimeout(() => {
     this.OTP=false;
   }, 30000);
 //
-  // this.apiService.getByPost('this.apiUrls.SEND_OTP',json).subscribe(res=>{
-  //   if(res.success){
-  //     this.OTP=true;
-  //     this.sentOTP=true;
-  //     this.sendOTP='Resend OTP';
-  //     setTimeout(() => {
-  //       this.OTP=false;
-  //     }, 30000);
-  //     this.loading=false;
-  //   }
-  // },err=>{
-  //   this.loading=false;
-  //   console.log(err);
-  // });
+  this.apiService.sendOTP(ApiUrls.SEND_OTP,json).subscribe(res=>{
+    if(res.success){
+      this.messageService.add({severity:'success',detail:'OTP Sent'});
+      this.OTP=true;
+      this.sentOTP=true;
+      this.sendOTP='Resend OTP';
+      setTimeout(() => {
+        this.OTP=false;
+      }, 30000);
+      this.loading=false;
+    }
+  },err=>{
+    this.loading=false;
+    this.messageService.add({severity:'error',detail:'Unable to Send OTP.Try Again!'});
+    console.log(err);
+  });
 
   const myInterval = setInterval(() => {
     this.seconds--;
@@ -266,20 +267,26 @@ validatePhoneNo(){
 }
 
 submitOTP(){
+  this.loading=true;
   let json={
+    "phoneNumber":this.registerForm.value.mobileNumber.toString(),
     "oneTimePassword": this.otpForm.value.otp.toString()
   };
-// remove 271 to 273 when you implemented the API and uncomment line 274 to 281
-  this.isPhoneNoValidated=true;
-//
-  // this.apiService.getByPost('this.apiUrls.VALIDATE_OTP',json).subscribe(res=>{
-  //   if(res.success){
-  //     this.isPhoneNoValidated=true;
-  //   }
-  // },err=>{
-  //   this.loading=false;
-  //   console.log(err);
-  // });
+  this.apiService.verifyOtp(ApiUrls.VALIDATE_OTP,json).subscribe(res=>{
+    if(res.success){
+      this.loading=false;
+      this.messageService.add({severity:'success',detail:'OTP validated Sucessfully'});
+      this.isPhoneNoValidated=true;
+    }else{
+      this.messageService.add({severity:'error',detail:'Invalid OTP'});
+      this.loading=false;
+      console.log(res);
+    }
+  },err=>{
+    this.messageService.add({severity:'error',detail:'Error while fetching city'});
+    this.loading=false;
+    console.log(err);
+  });
 }
 
 }
