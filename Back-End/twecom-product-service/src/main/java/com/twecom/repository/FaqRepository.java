@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.twecom.model.Faq;
 
 public interface FaqRepository extends JpaRepository<Faq, Integer> {
-	List<Faq> FindByProductId(int pId);
+	List<Faq> findByProductId(int pId);
 }
