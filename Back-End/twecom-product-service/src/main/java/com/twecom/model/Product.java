@@ -2,12 +2,12 @@ package com.twecom.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,9 +29,7 @@ public class Product {
 	private String pDescription; 
 	private int pPriceStartRange;
 	private int pPriceEndRange;
-	private String pManufacturer;	
-	@Lob
-	private String pImage;	
+	private String pManufacturer;		
 	private int pSupplierId;	
 	private String pOrigin;	
 	private int createdBy;
@@ -40,7 +38,10 @@ public class Product {
 	private ApprovalStatus isApproved = ApprovalStatus.PENDING;
 	private Date modifiedAt;
 	private int quantity;
-	@ManyToOne 
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "imageId")
+	private Image pImage;
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "categoryId")
 	private Category category;
 

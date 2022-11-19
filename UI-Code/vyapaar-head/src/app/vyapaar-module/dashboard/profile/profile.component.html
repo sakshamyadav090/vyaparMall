@@ -24,8 +24,10 @@
                             </h5>
                             <h6><div class="field">
                               <label>Nature of Business</label>
-                              <p-dropdown formControlName="natureOfBusiness" [(ngModel)]="selectedBusiness" [options]="business" placeholder="Select">
+                              <p-dropdown *ngIf="editFlag" formControlName="natureOfBusiness"  [options]="business"
+                              placeholder="Select Business *" [(ngModel)]="selectedBusiness" [showClear]="true">
                               </p-dropdown>
+                              <input *ngIf="!editFlag" [value]="httpResponse.natureOfBuisness.name" />
                           </div></h6>
                             <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -146,7 +148,7 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div *ngIf="editFlag">
         <button  class="btn btn-success" (click)="saveProfile()">Save</button>
         <button  class="btn btn-danger" (click)="cancel()">Cancel</button>
     </div>

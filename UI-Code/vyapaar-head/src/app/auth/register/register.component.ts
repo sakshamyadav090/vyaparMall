@@ -191,10 +191,15 @@ getCity(){
       this.loading=true;
       this.apiService.getById('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
         this.cities=[];
+        if(Response[0].Status=='Success'){
         for(let i=0;i<Response[0].PostOffice.length;i++){
           this.cities.push(Response[0].PostOffice[i].Name);
-          console.log(Response[0].PostOffice[i].Name);
           this.loading=false;
+        }
+      }
+        if(Response[0].Status=='Error'){
+          this.loading=false;
+          this.messageService.add({severity:'error',detail: Response[0].Message});
         }
         },
         err => {

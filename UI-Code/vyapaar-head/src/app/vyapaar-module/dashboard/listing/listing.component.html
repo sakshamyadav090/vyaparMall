@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 <div class="loading-indicator" *ngIf="loading">
-  <p-progressSpinner></p-progressSpinner>
+    <p-progressSpinner></p-progressSpinner>
 </div>
 <div class="card">
     <p-toolbar styleClass="mb-4">
@@ -27,7 +27,10 @@
             <tr>
                 
                 <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
-                  {{col.header}} <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)' && col.header !== 'Status' && col.header !== 'Image' && col.header !== 'Price Range'"></p-sortIcon>
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)'
+                   && col.header !== 'Status' && col.header !== 'Image' && col.header !== 'Price Range'">
+                    </p-sortIcon>
 
                 </th>
             </tr>
@@ -38,14 +41,17 @@
                     <p-tableCheckbox [value]="columns"></p-tableCheckbox>
                 </td>
                 <td>{{columns.pname}}</td>
-                <td><img [src]="'data:image/jpg;base64,' + columns.pimage" [alt]="columns.pname" width="100" class="shadow-4" /></td>
+                <td><img [src]="'data:image/jpg;base64,' + columns.pimage" [alt]="columns.pname" width="100"
+                        class="shadow-4" /></td>
                 <td>{{columns.ppriceRange}}</td>
                 <td>{{columns.category}}</td>
                 <td>{{columns.quantity}}</td>
                 <td>{{columns.isApproved}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(columns.pid)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(columns.pid,columns.pname)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="editProduct(columns.pid)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteProduct(columns.pid,columns.pname)"></button>
                 </td>
             </tr>
         </ng-template>
@@ -117,6 +123,6 @@
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
     </ng-template>
-  </p-dialog>
+</p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

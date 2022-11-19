@@ -48,8 +48,22 @@ export class AdminManageComponent implements OnInit {
     this.loadUnapprovedProducts();
   }
 
-  
+  loadCarsLazy(event: LazyLoadEvent) {
+    //simulate remote connection with a timeout
+    setTimeout(() => {
+        //load data of required page
+        // let loadedCars = this.cars.slice(event.first, (event.first + event.rows));
+
+        // //populate page of virtual cars
+        // Array.prototype.splice.apply(this.virtualCars, [...[event.first, event.rows], ...loadedCars]);
+
+        //trigger change detection
+        event.forceUpdate();
+    }, Math.random() * 1000 + 250);
+  }
+
   loadUnapprovedSuppliers(){
+    debugger
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
       // console.log(response.data);
       this.unapprovedSuppliers = response.data;
@@ -90,7 +104,7 @@ export class AdminManageComponent implements OnInit {
         console.log(err);
       })
     }
-    
+
   }
 
   viewProduct(productId){
@@ -101,7 +115,7 @@ export class AdminManageComponent implements OnInit {
   viewSupplier(userId){
     this.productDialog = true;
   }
-  
+
   closeDialog(){
     this.productDialog = false;
   }

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twecom.model.Faq;
 import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
 import com.twecom.repository.ProductRepository;
@@ -43,7 +44,8 @@ public class ProductController {
 	
 	@PostMapping("/add")
 	public ResponseModel addProduct( 
-			@RequestParam("data") String prod, 
+			@RequestParam("pData") String pData, 
+			@RequestParam("faqData") String[] faqData,
 			@RequestParam("file") MultipartFile[] image,
 			@RequestHeader("Authorization") String token) {
 		
@@ -52,9 +54,9 @@ public class ProductController {
 		
 		ResponseModel responseModel;
 		try {
-			Product p = new ObjectMapper().readValue(prod, Product.class);
+			Product p = new ObjectMapper().readValue(pData, Product.class);
 			responseModel = new ResponseModel(
-			ps.addProduct(p,image,token),200,true,"Fetched Successfully");
+			ps.addProduct(p,faqData,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -102,7 +104,7 @@ public class ProductController {
 //		response.setContentType(MediaType.IMAGE_PNG_VALUE);
 		Product p= repo.findById(pId).get();
 		
-		return p.getPImage();
+		return "p.getPImage()";
 		
 //		System.out.println(p.getPImage().toString());
 //		response.getOutputStream().write(p.getPImage());
@@ -126,13 +128,15 @@ public class ProductController {
 	}
 	
 	@PutMapping("/update")
-	public ResponseModel updateProduct(@RequestParam("data") String prod, 
+	public ResponseModel updateProduct(
+			@RequestParam("data") String prod, 
+			@RequestParam("faqData") String[] faqData,
 			@RequestParam("file") MultipartFile[] image, 
 			@RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct(prod,image,token),200,true,"Fetched Successfully");
+			ps.updateProduct(prod,faqData,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(

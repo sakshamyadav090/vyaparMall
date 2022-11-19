@@ -19,11 +19,15 @@
                             <i class='pi pi-user nav_icon' ></i>
                             <span class="nav_name">Profile</span>
                         </a>
+                        <a class="nav_link" (click)="childSwitch('master')">
+                          <i class='pi pi-user nav_icon' ></i>
+                          <span class="nav_name">Master</span>
+                      </a>
                         <a class="nav_link" (click)="childSwitch('listing')">
                             <i class='pi pi-bookmark nav_icon'></i>
                             <span class="nav_name">My Listings</span>
                         </a>
-                        <a class="nav_link active" (click)="childSwitch('adm-manage')">
+                        <a class="nav_link active" (click)="childSwitch('admin')">
                             <i class='pi pi-cog nav_icon'></i>
                             <span class="nav_name">Manage</span>
                         </a>
@@ -33,7 +37,7 @@
                         </a>
                     </div>
                 </div>
-                
+
             </nav>
         </div>
     </div>
@@ -42,8 +46,9 @@
 <app-profile *ngIf="profileComp"></app-profile>
 <app-listing *ngIf="listComp"></app-listing>
 <app-admin-manage *ngIf="admManageComp"></app-admin-manage>
+<app-master-manage *ngIf="masterComp"></app-master-manage>
 </div>
 <!-- <div>
   <app-listing *ngIf="listComp"></app-listing>
   </div> -->
-  
+
