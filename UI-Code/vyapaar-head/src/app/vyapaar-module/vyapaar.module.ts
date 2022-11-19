@@ -46,6 +46,7 @@ import { MasterManageComponent } from './dashboard/master-manage/master-manage.c
     SearchComponent,
     ProductDescriptionComponent,
     AdminManageComponent,
+    DetailsDialogComponent,
     TermAndCondComponent,
     MasterManageComponent
   ],

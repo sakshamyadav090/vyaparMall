@@ -159,7 +159,6 @@ editProduct(event) {
       });
       this.productDialog = true;
       this.loading=false;
-      debugger
       console.log(blob);
       this.byte=this.base64ToArrayBuffer(response.data.image[0]);
       var blob = new Blob([this.byte], {type: "image/*"});

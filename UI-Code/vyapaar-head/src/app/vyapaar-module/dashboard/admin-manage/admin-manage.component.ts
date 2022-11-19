@@ -63,7 +63,6 @@ export class AdminManageComponent implements OnInit {
   }
 
   loadUnapprovedSuppliers(){
-    debugger
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
       // console.log(response.data);
       this.unapprovedSuppliers = response.data;
