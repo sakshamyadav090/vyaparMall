@@ -25,6 +25,7 @@ export class AdminManageComponent implements OnInit {
   addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
   unapprovedProducts: any;
+  display: string="none";
 
   cols: any[];
 
@@ -74,9 +75,10 @@ export class AdminManageComponent implements OnInit {
 
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
+      // console.log(response.data);
       if(response.success){
         this.unapprovedProducts = response.data;
-        // console.log(response.data);
+        
       }
     },
     err => {

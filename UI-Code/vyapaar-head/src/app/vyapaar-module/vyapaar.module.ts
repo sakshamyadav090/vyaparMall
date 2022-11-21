@@ -30,6 +30,7 @@ import {CarouselModule} from 'primeng/carousel';
 import { DetailsDialogComponent } from './dashboard/admin-manage/details-dialog/details-dialog.component';
 import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
 import { MasterManageComponent } from './dashboard/master-manage/master-manage.component';
+import { CareerComponent } from './career/career.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { MasterManageComponent } from './dashboard/master-manage/master-manage.c
     AdminManageComponent,
     DetailsDialogComponent,
     TermAndCondComponent,
-    MasterManageComponent
+    MasterManageComponent,
+    CareerComponent
   ],
   imports: [
     VyapaarRoutingModule,

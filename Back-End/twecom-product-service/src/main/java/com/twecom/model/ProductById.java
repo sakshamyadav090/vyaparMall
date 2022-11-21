@@ -11,7 +11,9 @@ import java.io.ByteArrayOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -22,7 +24,7 @@ public class ProductById {
 	private String name; 
 	private int priceStart;
 	private int priceEnd;
-	private String[] image;
+	private List<String> image = new ArrayList<>();
 	private int quantity;
 	private String category;
 	private String description;
@@ -34,10 +36,14 @@ public class ProductById {
 		this.name=p.getPName();
 		this.priceStart=p.getPPriceStartRange();
 		this.priceEnd=p.getPPriceEndRange();
-		for(int i=0;i<3;i++) {
-			if(i==0) this.image[i] = p.getPImage().getImageOne();
-			if(i==1) this.image[i] = p.getPImage().getImageTwo();
-			if(i==2) this.image[i] = p.getPImage().getImageThree();
+		if(p.getPImage().getImageOne()!=null) {
+			this.image.add(p.getPImage().getImageOne());
+		}
+		if(p.getPImage().getImageTwo()!=null) {
+			this.image.add(p.getPImage().getImageTwo());
+		}
+		if(p.getPImage().getImageThree()!=null) {
+			this.image.add(p.getPImage().getImageThree());
 		}
 		this.quantity=p.getQuantity();
 		this.category=p.getCategory().getName();

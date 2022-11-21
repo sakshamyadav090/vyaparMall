@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { EnvService } from './common/services/env-service';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     AppRoutingModule,
