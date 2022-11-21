@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
 import { Product } from './product';
@@ -21,6 +22,7 @@ import { ProductService } from './productservice';
 })
 export class AdminManageComponent implements OnInit {
 
+  // @ViewChild('dt') table: Table;
   loading: boolean = false;
   addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
@@ -33,7 +35,7 @@ export class AdminManageComponent implements OnInit {
   selectedProduct: any ;
   prodId: any;
   popupFlag: any;
-  showPopup: any;
+  showPopup: boolean = false;
 
   constructor(
     private messageService: MessageService,
@@ -78,7 +80,7 @@ export class AdminManageComponent implements OnInit {
       // console.log(response.data);
       if(response.success){
         this.unapprovedProducts = response.data;
-        
+
       }
     },
     err => {
@@ -109,6 +111,7 @@ export class AdminManageComponent implements OnInit {
   }
 
   viewProduct(productId){
+    this.showPopup= true;
     this.prodId = productId;
     this.productDialog = true;
   }
@@ -143,6 +146,8 @@ export class AdminManageComponent implements OnInit {
     // this.getData();
     // this.searchValue = '';
     // this.table.reset();
+    this.loadUnapprovedSuppliers();
+    this.loadUnapprovedProducts();
   }
 
 }

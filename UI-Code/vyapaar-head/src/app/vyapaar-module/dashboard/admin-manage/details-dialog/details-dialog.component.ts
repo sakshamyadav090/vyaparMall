@@ -16,6 +16,7 @@ export class DetailsDialogComponent implements OnInit {
   @Input() display: any;
   @Output() resetDisplayFlag = new EventEmitter<boolean>();
   @Output() messageEvent = new EventEmitter<String>();
+  loading: boolean = false;
 
   constructor(private apiService: ApiService) { }
 
@@ -25,9 +26,9 @@ export class DetailsDialogComponent implements OnInit {
   }
 
   closeDialog(){
-    this.productDialog = false;
+    // this.productDialog = false;
     this.resetDisplayFlag.emit(false);
-    this.messageEvent.emit("Error While updating");
+    // this.messageEvent.emit("Error While updating");
   }
 
   approveProduct(prodId){
@@ -43,17 +44,21 @@ export class DetailsDialogComponent implements OnInit {
   }
 
   viewProduct(productId){
+    this.loading=true;
+    debugger
     this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,productId).subscribe(res=>{
-      console.log(res);
       if(res.success){
+        console.log(res);
+        this.loading=false;
         this.selectedProduct=res.data;
         this.productDialog = true;
       }
-           
+
     },err=>{
+      this.loading=false;
       console.log(err);
     })
-   
+
   }
 
 

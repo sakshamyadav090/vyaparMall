@@ -88,13 +88,12 @@
     </p-table>
 </div>
 
-<p-dialog [style]="{width: '600px'}" header="Product Details" [modal]="true"
-[(visible)]="productDialog">
+
 <!-- <div *ngIf="productDialog"> -->
-    <!-- <app-details-dialog [prodId]="prodId" ></app-details-dialog> -->
+    <app-details-dialog *ngIf="productDialog" [prodId]="prodId"
+    [display]="showPopup" (messageEvent)="receiveMessage($event)" (resetDisplayFlag)="changePopupFlag($event)" >
+  </app-details-dialog>
 <!-- </div> -->
-    
-</p-dialog>
 
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
