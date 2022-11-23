@@ -56,7 +56,8 @@ export class ListingComponent implements OnInit {
       quantity: ['',Validators.required],
       category: ['',Validators.required],
       origin: ['',Validators.required],
-      manufacturer: ['',Validators.required]
+      manufacturer: ['',Validators.required],
+      faq:this.fb.array([])
     });
   }
 
