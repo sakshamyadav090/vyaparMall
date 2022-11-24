@@ -10,8 +10,9 @@ import { ApiUrls } from 'src/app/vyapaar-module/utilities/api-urls';
 export class DetailsDialogComponent implements OnInit {
 
   productDialog: boolean=false;
-  selectedProduct: any ;
-  @Input('prodId') prodId: any;
+  selectedItem: any ;
+  @Input('itemId') itemId: any;
+  isProduct: boolean = false;
 
   @Input() display: any;
   @Output() resetDisplayFlag = new EventEmitter<boolean>();
@@ -20,15 +21,16 @@ export class DetailsDialogComponent implements OnInit {
 
   constructor(private apiService: ApiService) { }
 
-  ngOnInit(): void {
-    console.log(this.prodId);
-    this.viewProduct(this.prodId);
+  ngOnInit() {
+    // console.log(this.itemId);
+    this.viewSupplier(this.itemId);
   }
 
   closeDialog(){
     // this.productDialog = false;
     this.resetDisplayFlag.emit(false);
-    // this.messageEvent.emit("Error While updating");
+    // this.messageEvent.emit("Refreshed");
+    this.selectedItem = {}
   }
 
   approveProduct(prodId){
@@ -45,12 +47,13 @@ export class DetailsDialogComponent implements OnInit {
 
   viewProduct(productId){
     this.loading=true;
-    debugger
+    
     this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,productId).subscribe(res=>{
       if(res.success){
-        console.log(res);
+        // debugger
+        // console.log(res);
         this.loading=false;
-        this.selectedProduct=res.data;
+        this.selectedItem=res.data.product;
         this.productDialog = true;
       }
 
@@ -61,5 +64,35 @@ export class DetailsDialogComponent implements OnInit {
 
   }
 
+  viewSupplier(userId){
+    this.loading=true;
+    
+    this.apiService.getById(ApiUrls.GET_BY_USER_ID,userId).subscribe(res=>{
+      if(res.success){
+        // debugger
+        // console.log(res);
+        this.loading=false;
+        this.selectedItem=res.data;
+        this.productDialog = true;
+      }
+
+    },err=>{
+      this.loading=false;
+      console.log(err);
+    })
+
+  }
+
+  approveSupplier(supplierId){
+    let json = {
+      "userId":this.itemId,
+      "isApproved": true
+    }
+    this.apiService.approve(ApiUrls.APPROVE_USER,json).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
 
 }

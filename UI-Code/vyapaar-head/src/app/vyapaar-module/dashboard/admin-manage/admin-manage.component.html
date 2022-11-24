@@ -65,7 +65,7 @@
                 <th pSortableColumn="firstName">Name </th>
                 <th pSortableColumn="firmName">Firm Name </th>
                 <th pSortableColumn="mobileNumber">Phone Number </th>
-                <th pSortableColumn="city">City </th>
+                <th pSortableColumn="created">Created Date </th>
                 <th>Action </th>
                 <th></th>
             </tr>
@@ -75,7 +75,7 @@
                 <td>{{user.firstName}} {{user.lastName}}</td>
                 <td>{{user.firmName }}</td>
                 <td>{{user.mobileNumber}}</td>
-                <td>{{user.city}}</td>
+                <td>{{user.createdDate}}</td>
                 <td><button pButton type="button" class="p-button-info" (click)="viewSupplier(user.userId)">View
                         Details</button></td>
             </tr>
@@ -90,7 +90,7 @@
 
 
 <!-- <div *ngIf="productDialog"> -->
-    <app-details-dialog *ngIf="productDialog" [prodId]="prodId"
+    <app-details-dialog *ngIf="popupFlag" [itemId]="itemId"
     [display]="showPopup" (messageEvent)="receiveMessage($event)" (resetDisplayFlag)="changePopupFlag($event)" >
   </app-details-dialog>
 <!-- </div> -->

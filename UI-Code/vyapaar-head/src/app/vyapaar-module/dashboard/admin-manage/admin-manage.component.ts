@@ -33,7 +33,7 @@ export class AdminManageComponent implements OnInit {
 
   productDialog: boolean=false;
   selectedProduct: any ;
-  prodId: any;
+  itemId: any;
   popupFlag: any;
   showPopup: boolean = false;
 
@@ -112,17 +112,20 @@ export class AdminManageComponent implements OnInit {
 
   viewProduct(productId){
     this.showPopup= true;
-    this.prodId = productId;
+    this.itemId = productId;
     this.productDialog = true;
   }
 
   viewSupplier(userId){
-    this.productDialog = true;
+    this.showPopup= true;
+    this.itemId = userId;
+    this.popupFlag = true;
+    // console.log(userId)
   }
 
-  closeDialog(){
-    this.productDialog = false;
-  }
+  // closeDialog(){
+  //   this.productDialog = false;
+  // }
 
   approveProduct(prodId){
     let json = {
