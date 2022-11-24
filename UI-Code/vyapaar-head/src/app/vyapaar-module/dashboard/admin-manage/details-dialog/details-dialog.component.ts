@@ -12,7 +12,7 @@ export class DetailsDialogComponent implements OnInit {
   productDialog: boolean=false;
   selectedItem: any ;
   @Input('itemId') itemId: any;
-  isProduct: boolean = false;
+  @Input('isProduct') isProduct: boolean;
 
   @Input() display: any;
   @Output() resetDisplayFlag = new EventEmitter<boolean>();
@@ -23,7 +23,13 @@ export class DetailsDialogComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.itemId);
-    this.viewSupplier(this.itemId);
+    if(this.isProduct){
+      this.viewProduct(this.itemId);
+    }else{
+      this.viewSupplier(this.itemId);
+    }
+    
+    // this.viewSupplier(this.itemId);
   }
 
   closeDialog(){
@@ -35,10 +41,10 @@ export class DetailsDialogComponent implements OnInit {
 
   approveProduct(prodId){
     let json = {
-      "pid":prodId,
+      "pid":this.itemId,
       "isApproved": 0
     }
-    this.apiService.approve(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
+    this.apiService.approveProd(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
       console.log(res);
     },err=>{
       console.log(err);
@@ -83,7 +89,7 @@ export class DetailsDialogComponent implements OnInit {
 
   }
 
-  approveSupplier(supplierId){
+  approveSupplier(){
     let json = {
       "userId":this.itemId,
       "isApproved": true

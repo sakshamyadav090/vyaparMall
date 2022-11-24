@@ -64,6 +64,12 @@ export class ApiService {
     );
   }
 
+  approveProd(url: string, body: any): Observable<any> {
+    return this.http.patch<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   approve(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions1).pipe(
       catchError(this.handleError)

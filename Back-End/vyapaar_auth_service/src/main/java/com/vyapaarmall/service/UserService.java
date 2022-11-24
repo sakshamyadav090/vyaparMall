@@ -160,7 +160,7 @@ public class UserService implements UserDetailsService{
 
 	public String approveUser(String token, User user) {
 		User dbUser = repo.findById(user.getUserId()).get();
-		dbUser.setApproved(user.isApproved());
+		dbUser.setApproved(true);
 		repo.save(dbUser);
 		return "Approved";
 	}
