@@ -58,7 +58,7 @@ public class ProductService {
 	
 	public Map<String,Object> getByProductId(int pId) {
 		ProductById pl=new ProductById();
-		List<Faq> faqs=faqRes.FindByProductId(pId);
+		List<Faq> faqs=faqRes.findByProductId(pId);
 		
 		  Map<String,Object> map  =new HashMap();
 		  map.put("faqList",faqs);
