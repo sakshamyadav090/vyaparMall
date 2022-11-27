@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.config.RepositoryBeanDefinitionParser;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,10 +147,12 @@ public class ProductService {
 
 	public Object approvedProducts(String token, Product product) {
 		int userId = authorizer.isTokenValid(token);
-//		if(userId!=1) {
-//			throw new RuntimeException("Unauthorized User");
-//		}
-		repo.save(product);
+//		if(roleId!=1) {
+//		throw news RuntimeException("Unauthorized User");
+//	}
+		Product dbProduct = repo.findById(product.getPId()).get();
+		dbProduct.setIsApproved(ApprovalStatus.APPROVED);
+		repo.save(dbProduct);
 		return null;
 	}
 }

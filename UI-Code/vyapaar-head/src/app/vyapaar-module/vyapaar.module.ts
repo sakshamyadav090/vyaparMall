@@ -26,8 +26,11 @@ import { SearchComponent } from './home-page/search/search.component';
 import { ProductDescriptionComponent } from './home-page/product-description/product-description.component';
 import { AdminManageComponent } from './dashboard/admin-manage/admin-manage.component';
 import { MessageModule } from 'primeng/message';
+import {CarouselModule} from 'primeng/carousel';
+import { DetailsDialogComponent } from './dashboard/admin-manage/details-dialog/details-dialog.component';
 import { TermAndCondComponent } from './term-and-cond/term-and-cond.component';
 import { MasterManageComponent } from './dashboard/master-manage/master-manage.component';
+import { CareerComponent } from './career/career.component';
 
 
 @NgModule({
@@ -40,11 +43,14 @@ import { MasterManageComponent } from './dashboard/master-manage/master-manage.c
     ChatComponent,
     ListingComponent,
     AboutUsComponent,
+    AdminManageComponent,
     SearchComponent,
     ProductDescriptionComponent,
     AdminManageComponent,
+    DetailsDialogComponent,
     TermAndCondComponent,
-    MasterManageComponent
+    MasterManageComponent,
+    CareerComponent
   ],
   imports: [
     VyapaarRoutingModule,
@@ -64,7 +70,8 @@ import { MasterManageComponent } from './dashboard/master-manage/master-manage.c
     DropdownModule,
     FileUploadModule,
     ProgressSpinnerModule,
-    MessageModule
+    MessageModule,
+    CarouselModule
   ]
 })
 export class VyapaarModule { }

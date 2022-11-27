@@ -153,5 +153,17 @@ public class UserService implements UserDetailsService{
 		.collect(Collectors.toList());
 	}
 
+	public User getUserById(String token, int id) {
+		
+		return repo.findById(id).get();
+	}
+
+	public String approveUser(String token, User user) {
+		User dbUser = repo.findById(user.getUserId()).get();
+		dbUser.setApproved(true);
+		repo.save(dbUser);
+		return "Approved";
+	}
+
 	
 }

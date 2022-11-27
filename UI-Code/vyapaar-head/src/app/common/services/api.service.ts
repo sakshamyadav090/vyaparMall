@@ -37,7 +37,10 @@ export class ApiService {
   }
 
   getById(url: string, body: any): Observable<any> {
-    return this.http.get<any>(url + body, body).pipe(
+    return this.http.get<any>(url + body, {headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem("token")
+    })}).pipe(
       catchError(this.handleError)
     );
   }
@@ -61,8 +64,14 @@ export class ApiService {
     );
   }
 
-  approve(url: string, body: any): Observable<any> {
+  approveProd(url: string, body: any): Observable<any> {
     return this.http.patch<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  approve(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions1).pipe(
       catchError(this.handleError)
     );
   }

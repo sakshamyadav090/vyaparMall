@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
 import { Product } from './product';
@@ -21,55 +22,33 @@ import { ProductService } from './productservice';
 })
 export class AdminManageComponent implements OnInit {
 
+  // @ViewChild('dt') table: Table;
   loading: boolean = false;
   addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
   unapprovedProducts: any;
+  display: string="none";
+  isProduct: boolean = false;
+  promo: boolean = false;
+
   cols: any[];
-  listingColumn: any;
-  uploadForm: FormGroup;
 
   productDialog: boolean=false;
-  products: Product[];
-  product: Product;
-  selectedProducts: Product[];
   selectedProduct: any ;
-  submitted: boolean;
-  statuses: any[];
+  itemId: any;
+  popupFlag: any;
+  showPopup: boolean = false;
 
   constructor(
     private messageService: MessageService,
-    private productService: ProductService,
-    private confirmationService: ConfirmationService,
     private apiService: ApiService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
 
-        this.statuses = [
-            {label: 'INSTOCK', value: 'instock'},
-            {label: 'LOWSTOCK', value: 'lowstock'},
-            {label: 'OUTOFSTOCK', value: 'outofstock'}
-        ];
-
     this.addCategoryForm = this.fb.group({
       category: ['',[Validators.required]]
     });
-    this.cols = [
-      { field: 'firstName', header: 'Name' },
-      { field: 'firmName', header: 'Firm Name' },
-      { field: 'email', header: 'Email' },
-      { field: 'city', header: 'City' },
-      { field: 'createdDate', header: 'Created On' }
-    ];
-
-    this.listingColumn = [
-      { field: 'pname', header: 'Prodoct Name' },
-      { field: 'ppriceRange', header: 'Price Range'},
-      { field: 'category', header: 'Category' },
-      { field: 'quantity' , header: 'Quantity'}
-    ];
-
     this.loadUnapprovedSuppliers();
     this.loadUnapprovedProducts();
   }
@@ -89,7 +68,6 @@ export class AdminManageComponent implements OnInit {
   }
 
   loadUnapprovedSuppliers(){
-    debugger
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_SUPPLIER).subscribe(response=>{
       // console.log(response.data);
       this.unapprovedSuppliers = response.data;
@@ -101,40 +79,17 @@ export class AdminManageComponent implements OnInit {
 
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
+      // console.log(response.data);
       if(response.success){
         this.unapprovedProducts = response.data;
-        // console.log(response.data);
-      }
 
+      }
     },
     err => {
       console.log(err);
     });
   }
 
-  //neww
-
-// editProduct(product: Product) {
-//     this.product = {...product};
-//     this.productDialog = true;
-// }
-
-// deleteProduct(product: Product) {
-//     this.confirmationService.confirm({
-//         message: 'Are you sure you want to delete ' + product.name + '?',
-//         header: 'Confirm',
-//         icon: 'pi pi-exclamation-triangle',
-//         accept: () => {
-//             this.products = this.products.filter(val => val.id !== product.id);
-//             this.product = {};
-//             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Deleted', life: 3000});
-//         }
-//     });
-// }
-
-
-
-//new
   addCategory() {
     this.loading=true;
     if(this.addCategoryForm.valid){
@@ -157,33 +112,39 @@ export class AdminManageComponent implements OnInit {
 
   }
 
-  viewProduct(userId){
-    this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,userId).subscribe(res=>{
-      console.log(res);
-      if(res.success){
-        this.selectedProduct=res.data;
-      }
-
-    },err=>{
-      console.log(err);
-    })
-    this.productDialog = true;
+  viewProduct(productId){
+    this.isProduct = true;
+    this.showPopup= true;
+    this.itemId = productId;
+    this.popupFlag = true;
+    
   }
 
-  closeDialog(){
-    this.productDialog = false;
+  viewSupplier(userId){
+    this.isProduct = false;
+    this.showPopup= true;
+    this.itemId = userId;
+    this.popupFlag = true;
+    // console.log(userId)
   }
 
-  approveProduct(prodId){
-    let json = {
-      "pid":prodId,
-      "isApproved": 0
-    }
-    this.apiService.approve(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
-      console.log(res);
-    },err=>{
-      console.log(err);
-    })
+
+  changePopupFlag(event) {
+    this.popupFlag = event;
+    this.showPopup = event;
+  }
+
+  receiveMessage(event) {
+    this.messageService.add({ severity: 'success', detail: event });
+    // this.getData();
+    // this.searchValue = '';
+    // this.table.reset();
+    this.loadUnapprovedSuppliers();
+    this.loadUnapprovedProducts();
+  }
+
+  openPromotionDialog(){
+    this.promo = true;
   }
 
 }

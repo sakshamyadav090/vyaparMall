@@ -26,10 +26,17 @@ export class ApiUrls {
   public static PASSWORD_UPDATE = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/updatePassword';
   public static ADD_CATEGORY = ApiUrls.API_ENDPOINT + 'product-service/category/add';
   public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
+<<<<<<< HEAD
   public static TERMS = 'http://localhost:8120/feeds/terms';
   
   
   
+=======
+  public static GET_BY_USER_ID = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/';
+
+  public static APPROVE_USER = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/approve';
+
+>>>>>>> ffb97e8602f7c05db5034ca6709d6af855c4d50d
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
 

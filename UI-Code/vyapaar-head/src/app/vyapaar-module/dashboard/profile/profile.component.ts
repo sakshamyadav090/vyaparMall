@@ -85,7 +85,7 @@ loadProfileData(){
         }else if(Response.code==200 && Response.success){
           this.loading=false;
           this.httpResponse=Response.data;
-          this.selectedBusiness=Response.data.natureOfBuisness.name;
+          //this.selectedBusiness=Response.data.natureOfBuisness["name"];
           this.profileForm.patchValue({
             name:Response.data.firstName +' '+ Response.data.lastName,
             aadhaar:Response.data.aadhaarNumber,
@@ -96,15 +96,16 @@ loadProfileData(){
             pan:Response.data.panNumber,
             pincode:Response.data.pincode,
             gst:Response.data.gst,
-            natureOfBusiness:Response.data.natureOfBuisness.businessTypeId
+            natureOfBusiness:Response.data.natureOfBuisness["name"]
           });
+          //console.log(Response.data.natureOfBuisness["name"]);
           //this.business.push(Response.data.natureOfBuisness.name);
           // this.business.push({
-          //   label : Response.data.natureOfBuisness.name,
-          //   value : Response.data.natureOfBuisness.businessTypeId
+          //   label : Response.data.natureOfBuisness["name"],
+          //   value : Response.data.natureOfBuisness["businessTypeId"]
           // })
           this.userId = Response.data.userId;
-          this.cities.push(Response.data.city);
+          //this.cities.push(Response.data.city);
           this.loading=false;
         }
         },
