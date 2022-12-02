@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
 	private boolean isActive = true;	
-	private boolean isApproved=false;
+	private boolean isApproved;
 	private String firstName;
 	private String lastName;
 	@Column(unique = true)
@@ -46,6 +48,7 @@ public class User {
 	private String pincode;
 	private String createdBy;
 	private String modifiedBy;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date createdDate = new Date();
 	private Date modifiedDate = new Date();
 	

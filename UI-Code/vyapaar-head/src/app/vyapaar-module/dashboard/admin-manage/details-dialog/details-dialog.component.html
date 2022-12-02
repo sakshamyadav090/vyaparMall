@@ -2,12 +2,12 @@
     <!-- <p-dialog [(visible)]="display" *ngIf="productDialog" [style]="{width: '600px'}" header="Product Details"><p>Hello world</p></p-dialog> -->
 
     <p-dialog [(visible)]="display" [style]="{width: '600px'}" header="Product Details" [modal]="true"
-     *ngIf="productDialog" [baseZIndex]="10000">
-     <div class="loading-indicator" *ngIf="loading">
-      <p-progressSpinner></p-progressSpinner>
-  </div>
+        *ngIf="productDialog" [baseZIndex]="10000" (onHide)="closeDialog()">
+        <div class="loading-indicator" *ngIf="loading">
+            <p-progressSpinner></p-progressSpinner>
+        </div>
 
-        <div class="card" style="border-radius: 15px;">
+        <div class="card product" style="border-radius: 15px;" *ngIf="isProduct">
             <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
                 data-mdb-ripple-color="light">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/12.webp"
@@ -20,32 +20,98 @@
             <div class="card-body pb-0">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p><span class="text-dark fw-bold h5">{{selectedProduct? selectedProduct.name:""}}</span></p>
-                        <p class="small text-muted">{{selectedProduct? selectedProduct.category:""}}</p>
+                        <p><span class="text-dark fw-bold h5">{{selectedItem? selectedItem.name:""}}</span></p>
+                        <p class="small text-muted">{{selectedItem? selectedItem.category:""}}</p>
                     </div>
                     <div>
-                        <span class="small">Manufacturer: </span><span class="small text-muted">{{selectedProduct? selectedProduct.manufacturer:""}}</span>
-                        <p><span class="small">Origin: </span><span class="small text-muted">{{selectedProduct? selectedProduct.origin:""}}</span></p>
+                        <span class="small">Manufacturer: </span><span class="small text-muted">{{selectedItem?
+                            selectedItem.manufacturer:""}}</span>
+                        <p><span class="small">Origin: </span><span class="small text-muted">{{selectedItem?
+                                selectedItem.origin:""}}</span></p>
                     </div>
                 </div>
             </div>
             <hr class="my-0" />
             <div class="card-body pb-0">
                 <div class="d-flex justify-content-between">
-                    <p><span>&#8377;</span><span class="text-dark"> {{selectedProduct? (selectedProduct.priceStart+"-"+selectedProduct.priceEnd ) :""}}</span></p>
+                    <p><span>&#8377;</span><span class="text-dark"> {{selectedItem?
+                            (selectedItem.priceStart+"-"+selectedItem.priceEnd ) :""}}</span></p>
                 </div>
-                <p class="small text-muted">{{selectedProduct? selectedProduct.description:""}}</p>
+                <p class="small text-muted">{{selectedItem? selectedItem.description:""}}</p>
             </div>
             <hr class="my-0" />
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
                     <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
                     <div>
-                    <button type="button" class="btn btn-danger mx-1">Deny</button>
-                    <button type="button" class="btn btn-success mx-1" (click)="approveProduct(selectedProduct.id)">Approve</button>
-                </div>
+                        <button type="button" class="btn btn-danger mx-1">Deny</button>
+                        <button type="button" class="btn btn-success mx-1"
+                            (click)="approveProduct(selectedItem.id)">Approve</button>
+                    </div>
                 </div>
             </div>
         </div>
-</p-dialog>
+
+        <div class="card supplier mb-2" style="border-radius: 15px;" *ngIf="!isProduct">
+            <div class="row">
+                <div class="col-5">
+                    <div class="bg-image hover-overlay ripple ripple-surface ripple-surface-light"
+                        data-mdb-ripple-color="light">
+                        <img src="../../../../../assets/Images/profile.jpg"
+                            style="border-top-left-radius: 15px; border-top-right-radius: 15px;" alt="Laptop"
+                            height="200px" />
+                        <a href="#!">
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-7 ">
+                    <div class="info">
+                        <div class="name fw-bold fs-5" >{{selectedItem? selectedItem.firstName: ""}} {{selectedItem? selectedItem.lastName: ""}}</div>
+                        <div class="name text-muted">{{selectedItem? selectedItem.firmName: ""}}</div>
+                        <div class="name fs-6">+91 {{selectedItem? selectedItem.mobileNumber: ""}}</div>
+                        <a href="" class="name fs-6 fst-italic">{{selectedItem? selectedItem.email: ""}}</a>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <hr class="my-0" />
+            <div class="card-body pb-0">
+                <div class="d-flex justify-content-center fw-bold mb-2">Organization Details</div>
+                <div class="d-flex justify-content-between">
+                    <p><span class="text-dark">PAN : </span><span class="text-primary">{{selectedItem?
+                        (selectedItem.panNumber==null || selectedItem.panNumber==""?  "Not Provided" :selectedItem.panNumber) :""}}</span></p>
+                    <p><span class="text-dark">Aadhaar : </span><span class="text-primary">{{selectedItem?
+                            (selectedItem.aadhaarNumber==null || selectedItem.aadhaarNumber==""?  "Not Provided" :selectedItem.aadhaarNumber) :""}}</span></p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <p><span class="text-dark">GST : </span><span class="text-primary">{{selectedItem?
+                        (selectedItem.gst==null || selectedItem.gst==""?  "Not Provided" :selectedItem.gst) :""}}</span></p>
+                        <p><span class="text-dark">City : </span><span class="text-primary">{{selectedItem?
+                            (selectedItem.city==null || selectedItem.city==""?  "Not Provided" :selectedItem.city) :""}}, {{selectedItem?
+                                (selectedItem.pincode==null || selectedItem.pincode==""?  "Not Provided" :selectedItem.pincode) :""}}</span></p>    
+                    </div>
+
+                <div class="d-flex justify-content-between">
+                    <p><span class="text-dark">Nature of Business : </span><span class="text-primary">{{selectedItem?
+                        (selectedItem.natureOfBuisness==null || selectedItem.natureOfBuisness==""?  "Not Provided" :selectedItem.natureOfBuisness) :""}}</span></p>
+                    </div>
+
+            </div>
+            <hr class="my-0" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
+                    <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
+                    <div>
+                        <button type="button" class="btn btn-danger mx-1">Deny</button>
+                        <button type="button" class="btn btn-success mx-1"
+                            (click)="approveSupplier()">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </p-dialog>
 </div>

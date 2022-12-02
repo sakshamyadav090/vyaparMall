@@ -27,6 +27,14 @@ export class ApiUrls {
   public static ADD_CATEGORY = ApiUrls.API_ENDPOINT + 'product-service/category/add';
   public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
 
+  public static TERMS = 'http://localhost:8120/feeds/terms';
+  
+  
+
+  public static GET_BY_USER_ID = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/';
+
+  public static APPROVE_USER = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/approve';
+
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 
 

@@ -28,12 +28,14 @@ export class AdminManageComponent implements OnInit {
   unapprovedSuppliers: any;
   unapprovedProducts: any;
   display: string="none";
+  isProduct: boolean = false;
+  promo: boolean = false;
 
   cols: any[];
 
   productDialog: boolean=false;
   selectedProduct: any ;
-  prodId: any;
+  itemId: any;
   popupFlag: any;
   showPopup: boolean = false;
 
@@ -111,30 +113,21 @@ export class AdminManageComponent implements OnInit {
   }
 
   viewProduct(productId){
+    this.isProduct = true;
     this.showPopup= true;
-    this.prodId = productId;
-    this.productDialog = true;
+    this.itemId = productId;
+    this.popupFlag = true;
+    
   }
 
   viewSupplier(userId){
-    this.productDialog = true;
+    this.isProduct = false;
+    this.showPopup= true;
+    this.itemId = userId;
+    this.popupFlag = true;
+    // console.log(userId)
   }
 
-  closeDialog(){
-    this.productDialog = false;
-  }
-
-  approveProduct(prodId){
-    let json = {
-      "pid":prodId,
-      "isApproved": 0
-    }
-    this.apiService.approve(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
-      console.log(res);
-    },err=>{
-      console.log(err);
-    })
-  }
 
   changePopupFlag(event) {
     this.popupFlag = event;
@@ -148,6 +141,10 @@ export class AdminManageComponent implements OnInit {
     // this.table.reset();
     this.loadUnapprovedSuppliers();
     this.loadUnapprovedProducts();
+  }
+
+  openPromotionDialog(){
+    this.promo = true;
   }
 
 }
