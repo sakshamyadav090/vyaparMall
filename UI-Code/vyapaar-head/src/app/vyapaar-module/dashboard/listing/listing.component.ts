@@ -5,7 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
@@ -33,6 +33,9 @@ export class ListingComponent implements OnInit {
   loading:boolean=false;
   mandatFlag:boolean=false;
   byte:any;
+  faqData:any;
+  showFaqFlag: boolean = false;
+  addFaqFlag:boolean=true;
 
 
   constructor(
@@ -57,7 +60,7 @@ export class ListingComponent implements OnInit {
       category: ['',Validators.required],
       origin: ['',Validators.required],
       manufacturer: ['',Validators.required],
-      faq:this.fb.array([])
+      faq: this.fb.array([]),
     });
   }
 
@@ -296,6 +299,57 @@ base64ToArrayBuffer(base64) {
       bytes[i] = binary_string.charCodeAt(i);
   }
   return bytes.buffer;
+}
+
+getFaqFormArray() {
+  return this.uploadForm.controls["faq"] as FormArray;
+}
+
+addFaq(){
+  this.addFaqFlag = false;
+  console.log(this.uploadForm.controls['faq']['controls'][0]);
+  this.showFaqFlag=true;
+  if (this.getFaqFormArray().length > 0) {
+    let lastRow = this.getFaqFormArray().at(this.getFaqFormArray().length - 1);
+    if (lastRow.value.question == null || lastRow.value.answer == null) {
+
+    }
+  }
+
+
+  this.getFaqFormArray().push(
+    this.fb.group({
+      question: ['',Validators.required],
+      answer: ['',Validators.required]
+    }        ,
+    {
+      validator: this.faqValidation.bind(this)
+    }
+    ));
+
+}
+
+faqValidation(group: FormGroup) {
+  console.log('group value -  '+ 'q'+ group.value.question)
+  console.log('group value -  '+ 'a'+ group.value.answer)
+  if ((group.value.question != null || group.value.question != '') && (group.value.answer != null || group.value.answer != '')) {
+    this.addFaqFlag = true;
+  } else {
+    this.addFaqFlag = false;
+  }
+}
+
+deleteFaq(eventOne,eventTwo){
+  console.log(eventOne);
+  console.log(eventTwo);
+}
+
+trackByFunction = (index, item) => {
+  let num = null;
+  if (item.value.rowIndex != null && item.value.rowIndex != '') {
+    num = item.value.rowIndex;
+  }
+  return num;
 }
 
 

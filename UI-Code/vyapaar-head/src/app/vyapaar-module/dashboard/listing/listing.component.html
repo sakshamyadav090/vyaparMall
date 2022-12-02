@@ -6,7 +6,7 @@
     <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
             <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-           
+
         </ng-template>
       </p-toolbar>
 
@@ -25,7 +25,7 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
             <tr>
-                
+
                 <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
                     {{col.header}}
                     <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)'
@@ -115,6 +115,34 @@
                 <label for="quantity">Quantity</label>
                 <p-inputNumber formControlName="quantity"></p-inputNumber>
             </div>
+            <p-table #dt *ngIf="showFaqFlag" [rowTrackBy]="trackByFunction" styleClass="ui-table-ladder" [responsive]="true"
+            [resizableColumns]="true" [value]="uploadForm.controls['faq']['controls']" formGroupName="faq">
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 45%;">Question</th>
+                <th style="width: 50%;">Answer</th>
+                <!-- <th style="width: 20%;">Commission Rate (%)<span
+                    class="text-danger">*</span></th> -->
+                <th style="width: 5%;">Delete</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-faq let-rowIndex="rowIndex">
+
+              <tr [formGroupName]="rowIndex">
+                <td style="width: 45%;"><input pInputText type="text" formControlName="question"></td>
+                <td style="width: 50%;"><input pInputText type="text" formControlName="answer"></td>
+                <td *ngIf="(rowIndex == 0 || rowIndex==null || rowIndex==undefined)"></td>
+                <td style="width: 5%;" *ngIf="rowIndex > 0">
+                  <a href="javascript:void(0);" (click)="deleteFaq(rowIndex,faq)"><span
+                      class="pi pi-times pi-pw"></span></a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+            <p-footer>
+              <button *ngIf="addFaqFlag" type="button" class="ui-button-info" pButton (click)="addFaq()" label="Add FAQ"></button>
+            </p-footer>
         </div>
       </form>
     </ng-template>
