@@ -184,5 +184,16 @@ public class ProductController {
 					e.getMessage(),200,false,"Unable to Delete");
 		}
 	}
+	
+	@PutMapping("/deny")
+	public ResponseModel denyProducts(@RequestHeader("Authorization") String token, @RequestBody Product product) {
+		try {
+			return new ResponseModel(
+			ps.denyProducts(token, product),200,true,"Product Denied");
+		}catch(Exception e){
+			return new ResponseModel(
+					e.getMessage(),400,false,"Error Occurred!");
+		}
+	}
 
 }

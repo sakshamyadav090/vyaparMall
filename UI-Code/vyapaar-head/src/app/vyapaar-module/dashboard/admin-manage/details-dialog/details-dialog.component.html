@@ -42,9 +42,12 @@
             <hr class="my-0" />
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
-                    <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
-                    <div>
-                        <button type="button" class="btn btn-danger mx-1">Deny</button>
+                    <div *ngIf="isDenied">
+                        <p-dropdown [options]="reasons" placeholder="Select Reason *" (onChange)="selectCity($event.value)" optionLabel="name"></p-dropdown>
+                        <button class="btn btn-danger fw-bold mx-2" (click)="deny()">Submit</button>
+                    </div>
+                    <div *ngIf="!isDenied">
+                        <button type="button" class="btn btn-danger mx-1" (click)="enableDeny()">Deny</button>
                         <button type="button" class="btn btn-success mx-1"
                             (click)="approveProduct(selectedItem.id)">Approve</button>
                     </div>

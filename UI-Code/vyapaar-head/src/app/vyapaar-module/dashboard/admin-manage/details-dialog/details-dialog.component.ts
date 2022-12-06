@@ -18,11 +18,21 @@ export class DetailsDialogComponent implements OnInit {
   @Output() resetDisplayFlag = new EventEmitter<boolean>();
   @Output() messageEvent = new EventEmitter<String>();
   loading: boolean = false;
+  isDenied: boolean =false;
+  reasons: any;
+  selectedReason: string;
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     // console.log(this.itemId);
+    this.reasons = [
+      {name: 'Details Missing'},
+      {name: 'Inappropriate Data'},
+      {name: 'Price too high'},
+      {name: 'Images not appropriate'},
+      {name: 'Inadequate Description'}
+  ];
     if(this.isProduct){
       this.viewProduct(this.itemId);
     }else{
@@ -95,6 +105,28 @@ export class DetailsDialogComponent implements OnInit {
       "isApproved": true
     }
     this.apiService.approve(ApiUrls.APPROVE_USER,json).subscribe(res=>{
+      console.log(res);
+    },err=>{
+      console.log(err);
+    })
+  }
+
+  enableDeny(){
+    this.isDenied = true;
+  }
+
+  selectCity(value){
+    console.log(value)
+    this.selectedReason=value.name;
+  }
+
+  deny(){
+    let json = {
+      "pid":this.itemId,
+      "denyReason":this.selectedReason
+    }
+    console.log(this.itemId)
+    this.apiService.deny(ApiUrls.DENY_PRODUCT,json).subscribe(res=>{
       console.log(res);
     },err=>{
       console.log(err);
