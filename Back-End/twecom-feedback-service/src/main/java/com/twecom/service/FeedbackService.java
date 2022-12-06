@@ -41,7 +41,7 @@ public class FeedbackService {
 		}
 		
 		feedback.setImages(imagesArr);
-		feedback.setUserId(userId);
+//		feedback.setUserId(userId);
 		return repo.save(feedback);
 	}
 	

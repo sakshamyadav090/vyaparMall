@@ -45,6 +45,17 @@ export class ApiService {
     );
   }
 
+  getCity(url: string, body: any): Observable<any> {
+    // return this.http.get<any>(url + body, {headers: new HttpHeaders({
+    //   'Content-Type': 'application/json'
+    // })}).pipe(
+    //   catchError(this.handleError)
+    // );
+    return this.http.get<any>(url + body).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getWithoutId(url: string): Observable<any> {
     return this.http.get<any>(url,this.httpOptions1).pipe(
       catchError(this.handleError)
