@@ -189,7 +189,8 @@ getCity(){
   if(this.registerForm.value.pincode!=null){
     if(this.registerForm.controls['pincode'].valid){
       this.loading=true;
-      this.apiService.getById('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
+      this.apiService.getCity('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
+        console.log(Response)
         this.cities=[];
         if(Response[0].Status=='Success'){
         for(let i=0;i<Response[0].PostOffice.length;i++){

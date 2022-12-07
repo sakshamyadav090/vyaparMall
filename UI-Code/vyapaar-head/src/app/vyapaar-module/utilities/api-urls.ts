@@ -27,6 +27,9 @@ export class ApiUrls {
   public static ADD_CATEGORY = ApiUrls.API_ENDPOINT + 'product-service/category/add';
   public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
   public static UPDATE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/update';
+  public static DENY_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/deny';
+
+
   public static TERMS = 'http://localhost:8120/feeds/terms';
 
 

@@ -155,4 +155,16 @@ public class ProductService {
 		repo.save(dbProduct);
 		return null;
 	}
+
+	public Product denyProducts(String token, Product product) {
+//		int userId = authorizer.isTokenValid(token);
+//		if(roleId!=1) {
+//		throw news RuntimeException("Unauthorized User");
+//	}
+		Product dbProduct = repo.findById(product.getPId()).get();
+		dbProduct.setIsDeleted(1);
+		dbProduct.setDenyReason(product.getDenyReason());
+		repo.save(dbProduct);
+		return dbProduct;
+	}
 }

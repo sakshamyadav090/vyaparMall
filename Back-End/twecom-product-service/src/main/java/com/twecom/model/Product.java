@@ -37,6 +37,7 @@ public class Product {
 	private int isDeleted;
 	private ApprovalStatus isApproved = ApprovalStatus.PENDING;
 	private Date modifiedAt;
+	private String denyReason;
 	private int quantity;
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "imageId")
