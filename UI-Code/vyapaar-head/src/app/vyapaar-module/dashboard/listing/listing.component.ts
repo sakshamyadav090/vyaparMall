@@ -21,7 +21,6 @@ export class ListingComponent implements OnInit {
   products: Product[];
   product: Product;
   selectedProducts: Product[];
-  submitted: boolean;
   category: any[];
   selectedCategory:any;
   listingColumn: any[];
@@ -36,6 +35,8 @@ export class ListingComponent implements OnInit {
   faqData:any;
   showFaqFlag: boolean = false;
   addFaqFlag:boolean=true;
+  editProductFlag:boolean=false;
+  faqArray:any;
 
 
   constructor(
@@ -91,16 +92,10 @@ export class ListingComponent implements OnInit {
 
   openNew() {
     this.product = {};
-    this.submitted = false;
     this.productDialog = true;
     this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
         let categories = response.data;
-        this.category=[
-            {
-                label: "Other",
-                value: 0
-            }
-        ]
+        this.category=[];
         let categoryList:Array<String> = [];
       categories.forEach(element => {
         if(categoryList.indexOf(element.categoryId)==-1){
@@ -128,16 +123,12 @@ deleteSelectedProducts() {
 }
 
 editProduct(event) {
+  this.editProductFlag=true;
 
   this.loading=true;
   this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
     let categories = response.data;
-    this.category=[
-        {
-            label: "Other",
-            value: 0
-        }
-    ]
+    this.category=[];
     let categoryList:Array<String> = [];
   categories.forEach(element => {
     if(categoryList.indexOf(element.categoryId)==-1){
@@ -148,31 +139,34 @@ editProduct(event) {
     })
   }
 })
+// console.clear()
+console.log(this.category);
 })
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
     if(response.success){
-      this.selectedCategory=response.data.category;
+      this.selectedCategory=response.data.product.category;
       this.uploadForm.patchValue({
-        name:response.data.name,
-        description: response.data.description,
-        priceStart: response.data.priceStart,
-        priceEnd: response.data.priceEnd,
-        quantity: response.data.quantity,
-        origin: response.data.origin,
-        manufacturer: response.data.manufacturer
+        name:response.data.product.name,
+        description: response.data.product.description,
+        priceStart: response.data.product.priceStart,
+        priceEnd: response.data.product.priceEnd,
+        quantity: response.data.product.quantity,
+        origin: response.data.product.origin,
+        manufacturer: response.data.product.manufacturer
       });
       this.productDialog = true;
       this.loading=false;
-      console.log(blob);
-      this.byte=this.base64ToArrayBuffer(response.data.image[0]);
-      var blob = new Blob([this.byte], {type: "image/*"});
-      var file = new File([blob], "name");
+      console.log(response.data);
+      //debugger
+      // this.byte=this.base64ToArrayBuffer(response.data.product.image[0]);
+      // var blob = new Blob([this.byte], {type: "image/*"});
+      // var file = new File([blob], "name");
 
-      for(let i=0;i<1;i++){
-        // this.fileUpload._files.push(blob);
-      }
-      console.log(file);
-      console.log(this.fileUpload);
+      // for(let i=0;i<1;i++){
+      //   // this.fileUpload._files.push(blob);
+      // }
+      // console.log(file);
+      //console.log(this.fileUpload);
   }
   },
   err => {
@@ -207,9 +201,12 @@ deleteProduct(id,name) {
 }
 
 hideDialog() {
+  this.editProductFlag=false;
     this.productDialog = false;
-    this.submitted = false;
     this.uploadForm.reset();
+    for(let i=this.getFaqFormArray().value.length-1;i>-1;i--){
+      this.deleteFaq(i);
+  }
 }
 
 httpOptions1 = {
@@ -218,13 +215,84 @@ httpOptions1 = {
   })
 }
 
+editSaveProduct(){
+  // console.log(this.uploadForm.value.faq);
+  this.loading=true;
+  if(this.uploadForm.valid){
+    if(this.fileUpload._files.length==0){
+      this.formData.append('file', null);
+    }else{
+    for(let i=0;i<this.fileUpload._files.length;i++){
+      this.formData.append('file', this.fileUpload._files[i]);
+    }
+  }
+  if(this.uploadForm.value.faq.length==0){
+    this.formData.append('faqData', null);
+  }else{
+    for(let i=0;i<this.uploadForm.value.faq.length;i++){
+      this.formData.append('faqData', JSON.stringify(this.uploadForm.value.faq[i]));
+    }
+}
+
+    let json={
+      "pname":this.uploadForm.value.name,
+      "pdescription":this.uploadForm.value.description,
+      "ppriceStartRange":this.uploadForm.value.priceStart,
+      "ppriceEndRange":this.uploadForm.value.priceEnd,
+      "quantity":this.uploadForm.value.quantity,
+      "category":{"categoryId":this.uploadForm.value.category},
+      "porigin":this.uploadForm.value.origin,
+      "pmanufacturer":this.uploadForm.value.manufacturer
+    }
+    this.formData.append('pData', JSON.stringify(json));
+    this.apiService.saveWithHeader(ApiUrls.UPDATE_PRODUCT,this.formData).subscribe(response=>{
+    // this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
+      this.loading=false;
+      this.formData.delete('pData');
+      this.formData.delete('file');
+      if(response.success){
+      this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
+    }else{
+      this.messageService.add({severity:'error', summary:response.message, detail: response.message, life: 3000});
+    }
+    this.productDialog=false;
+    this.getProductList();
+    this.uploadForm.reset();
+    for(let i=this.getFaqFormArray().value.length-1;i>-1;i--){
+        this.deleteFaq(i);
+    }
+
+    },
+    err => {
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
+      this.loading=false;
+      console.log(err)
+    });
+  }    else {
+    this.mandatFlag = true;
+    var fieldsControls = this.uploadForm.controls;
+    for (let field in fieldsControls) {
+      const control = this.uploadForm.get(field);
+      if (control.disabled == false && control.invalid) {
+        control.markAsDirty({ onlySelf: true });
+      }
+    }
+  }
+}
+
 saveProduct() {
   this.loading=true;
   if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
   for(let i=0;i<this.fileUpload._files.length;i++){
     this.formData.append('file', this.fileUpload._files[i]);
   }
-  this.submitted = true;
+  if(this.uploadForm.value.faq.length==0){
+    this.formData.append('faqData', null);
+  }else{
+    for(let i=0;i<this.uploadForm.value.faq.length;i++){
+      this.formData.append('faqData', JSON.stringify(this.uploadForm.value.faq[i]));
+    }
+}
   let json={
     "pname":this.uploadForm.value.name,
     "pdescription":this.uploadForm.value.description,
@@ -237,12 +305,17 @@ saveProduct() {
   }
   this.formData.append('pData', JSON.stringify(json));
   this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
+
     this.loading=false;
     this.formData.delete('pData');
     this.formData.delete('file');
     if(response.success){
     this.productDialog=false;
-    this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
+    this.messageService.add({severity:'success', summary: 'Successfull', detail: 'Product Created', life: 3000});
+  }else{
+    this.productDialog=false;
+    this.messageService.add({severity:'error', summary:response.message, detail: response.message, life: 3000});
+
   }
   this.getProductList();
   this.uploadForm.reset();
@@ -302,49 +375,104 @@ base64ToArrayBuffer(base64) {
 }
 
 getFaqFormArray() {
-  return this.uploadForm.controls["faq"] as FormArray;
+  return this.uploadForm.controls['faq'] as FormArray;
 }
 
 addFaq(){
   this.addFaqFlag = false;
-  console.log(this.uploadForm.controls['faq']['controls'][0]);
+  //console.log(this.uploadForm.controls['faq']['controls'][0]);
   this.showFaqFlag=true;
+  console.log(this.getFaqFormArray().value)
+  // debugger
+
+
+
   if (this.getFaqFormArray().length > 0) {
     let lastRow = this.getFaqFormArray().at(this.getFaqFormArray().length - 1);
     if (lastRow.value.question == null || lastRow.value.answer == null) {
 
+    }else{
+      this.getFaqFormArray().push(
+        this.fb.group({
+          question: ['',Validators.required],
+          answer: ['',Validators.required]
+        }        ,
+        {
+          validator: this.faqValidation.bind(this)
+        }
+        ));
     }
+  }else{
+    this.getFaqFormArray().push(
+      this.fb.group({
+        question: ['',Validators.required],
+        answer: ['',Validators.required]
+      }        ,
+      {
+        validator: this.faqValidation.bind(this)
+      }
+      ));
   }
+//   debugger
+//   if(this.faqArray && this.faqArray.length>0){
+//          let lastRow = this.faqArray.at(this.faqArray.length - 1);
+//      if (lastRow.value.question == null || lastRow.value.answer == null) {
 
+//      }else{
+//       this.faqArray.push({
+//         question:'',
+//         answer:''
+//       })
+//      }
+//   }else{
 
-  this.getFaqFormArray().push(
-    this.fb.group({
-      question: ['',Validators.required],
-      answer: ['',Validators.required]
-    }        ,
-    {
-      validator: this.faqValidation.bind(this)
-    }
-    ));
-
+//   this.faqArray.push({
+//     question:'',
+//     answer:''
+//   })
+// }
+console.log(this.getFaqFormArray().value)
 }
 
 faqValidation(group: FormGroup) {
+  if(group.value.question==''){
+    console.log('empty q ')
+  }
+  if(group.value.answer==''){
+    console.log('empty a ')
+  }
   console.log('group value -  '+ 'q'+ group.value.question)
   console.log('group value -  '+ 'a'+ group.value.answer)
-  if ((group.value.question != null || group.value.question != '') && (group.value.answer != null || group.value.answer != '')) {
+  if ((group.value.question && group.value.question != '') && (group.value.answer && group.value.answer != '')) {
     this.addFaqFlag = true;
   } else {
     this.addFaqFlag = false;
   }
 }
 
-deleteFaq(eventOne,eventTwo){
-  console.log(eventOne);
-  console.log(eventTwo);
+deleteFaq(rowIndex){
+  if(rowIndex==0) this.showFaqFlag=false;
+  console.log(rowIndex);
+  if(rowIndex==0){this.addFaqFlag=true;}
+  //console.log('eventTwo');
+console.log(this.getFaqFormArray().value);
+  // this.getFaqFormArray().value.forEach((control, i) => {
+  //   if (control.rowIndex === rowIndex) {
+  //     this.getFaqFormArray().removeAt(i);
+  //   }
+  // })
+  console.log(this.getFaqFormArray().value.length);
+  for(let i=0;i<this.getFaqFormArray().value.length;i++){
+    if(i==rowIndex){
+      //alert(rowIndex);
+      this.getFaqFormArray().removeAt(i);
+    }
+  }
+  console.log(this.getFaqFormArray().value);
 }
 
 trackByFunction = (index, item) => {
+  debugger
   let num = null;
   if (item.value.rowIndex != null && item.value.rowIndex != '') {
     num = item.value.rowIndex;

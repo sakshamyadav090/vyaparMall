@@ -41,7 +41,7 @@ public class Product {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "imageId")
 	private Image pImage;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "categoryId")
 	private Category category;
 

@@ -92,7 +92,7 @@ public class ProductService {
 		
 		for(int i=0;i<faq.length;i++) {
 		Faq fq = new ObjectMapper().readValue(faq[i], Faq.class);
-		fq.setProductId(p.getPId());
+		//fq.setProductId(p.getPId());
 		fq.setDeleted(false);
 		faqRes.save(fq);
 		}

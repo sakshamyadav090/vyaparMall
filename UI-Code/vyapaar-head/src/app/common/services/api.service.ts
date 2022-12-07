@@ -58,6 +58,13 @@ export class ApiService {
     );
   }
 
+  saveWithHeader(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+
+    );
+  }
+
   update(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions).pipe(
       catchError(this.handleError)
