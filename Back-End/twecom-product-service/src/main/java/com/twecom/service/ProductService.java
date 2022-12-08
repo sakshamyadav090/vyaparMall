@@ -89,15 +89,19 @@ public class ProductService {
 		//p.setPImage(images);
 		p.setPImage(im);
 		p.setPSupplierId(userId);
+		Product dbProduct = repo.save(p);
 		
 		for(int i=0;i<faq.length;i++) {
 		Faq fq = new ObjectMapper().readValue(faq[i], Faq.class);
-		//fq.setProductId(p.getPId());
-		fq.setDeleted(false);
-		faqRes.save(fq);
+		fq.setProductId(dbProduct.getPId());
+		if(fq!=null) {
+			fq.setDeleted(false);
+			faqRes.save(fq);
 		}
 		
-		return repo.save(p);
+		}
+		
+		return dbProduct;
 	}
 
 	public Product updateProduct(String prod,String[] faq, MultipartFile images[], String token) throws IOException {
