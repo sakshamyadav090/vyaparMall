@@ -153,6 +153,21 @@ public class UserService implements UserDetailsService{
 		.collect(Collectors.toList());
 	}
 
+	public List<User> getAdminList(String header) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
+		User dbUser = verifyToken(token);
+		if(dbUser.getRole().getRoleId()!=0) {
+			throw new RuntimeException("Unauthorized User");
+		}
+		List<User> adminList = repo.findAll();
+		System.out.println(adminList);
+		
+		return adminList
+		.stream()
+		.filter(user -> user.getRole().getRoleId()==1)
+		.collect(Collectors.toList());
+	}
+	
 	public User getUserById(String token, int id) {
 		
 		return repo.findById(id).get();

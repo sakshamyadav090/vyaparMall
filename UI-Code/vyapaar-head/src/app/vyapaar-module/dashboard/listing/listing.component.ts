@@ -139,8 +139,6 @@ editProduct(event) {
     })
   }
 })
-// console.clear()
-console.log(this.category);
 })
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
     if(response.success){
@@ -156,7 +154,6 @@ console.log(this.category);
       });
       this.productDialog = true;
       this.loading=false;
-      console.log(response.data);
       //debugger
       // this.byte=this.base64ToArrayBuffer(response.data.product.image[0]);
       // var blob = new Blob([this.byte], {type: "image/*"});
@@ -216,8 +213,9 @@ httpOptions1 = {
 }
 
 editSaveProduct(){
-  // console.log(this.uploadForm.value.faq);
+  this.formData = new FormData();
   this.loading=true;
+  debugger
   if(this.uploadForm.valid){
     if(this.fileUpload._files.length==0){
       this.formData.append('file', null);
@@ -226,13 +224,6 @@ editSaveProduct(){
       this.formData.append('file', this.fileUpload._files[i]);
     }
   }
-  if(this.uploadForm.value.faq.length==0){
-    this.formData.append('faqData', null);
-  }else{
-    for(let i=0;i<this.uploadForm.value.faq.length;i++){
-      this.formData.append('faqData', JSON.stringify(this.uploadForm.value.faq[i]));
-    }
-}
 
     let json={
       "pname":this.uploadForm.value.name,
@@ -244,16 +235,26 @@ editSaveProduct(){
       "porigin":this.uploadForm.value.origin,
       "pmanufacturer":this.uploadForm.value.manufacturer
     }
-    this.formData.append('pData', JSON.stringify(json));
+    this.formData.append('data', JSON.stringify(json));
+
+    if(this.uploadForm.value.faq.length==0){
+      this.formData.append('faqData', null);
+    }else{
+      for(let i=0;i<this.uploadForm.value.faq.length;i++){
+        this.formData.append('faqData', JSON.stringify(this.uploadForm.value.faq[i]));
+      }
+  }
+    console.log(this.formData);
     this.apiService.saveWithHeader(ApiUrls.UPDATE_PRODUCT,this.formData).subscribe(response=>{
     // this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
       this.loading=false;
-      this.formData.delete('pData');
+      this.formData.delete('data');
       this.formData.delete('file');
+      this.formData.delete('faqData');
       if(response.success){
       this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
     }else{
-      this.messageService.add({severity:'error', summary:response.message, detail: response.message, life: 3000});
+      this.messageService.add({severity:'error', summary:'Error', detail: 'Unable to Update', life: 3000});
     }
     this.productDialog=false;
     this.getProductList();
@@ -264,7 +265,7 @@ editSaveProduct(){
 
     },
     err => {
-      this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to fetch', life: 3000});
+      this.messageService.add({severity:'error', summary: 'Error', detail: 'Unable to Update', life: 3000});
       this.loading=false;
       console.log(err)
     });
@@ -281,6 +282,8 @@ editSaveProduct(){
 }
 
 saveProduct() {
+  debugger
+  this.formData = new FormData();
   this.loading=true;
   if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
   for(let i=0;i<this.fileUpload._files.length;i++){

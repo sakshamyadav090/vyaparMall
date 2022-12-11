@@ -102,6 +102,17 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/adminList")
+	public ResponseModel getAllAdminList(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.getAdminList(token), 200, true, "Fetch Success");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Fetch Failed");
+		}
+	}
+	
 	@GetMapping("/user/{id}")
 	public ResponseModel getUserById(@RequestHeader("Authorization") String token,@PathVariable int id) {
 		try {
