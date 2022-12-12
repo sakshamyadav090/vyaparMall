@@ -34,8 +34,7 @@ public class Product {
 	private String pOrigin;	
 	private int createdBy;
 	private int modifiedBy;
-	private int isDeleted;
-	private ApprovalStatus isApproved = ApprovalStatus.PENDING;
+	private ApprovalStatus status = ApprovalStatus.PENDING;
 	private Date modifiedAt;
 	private String denyReason;
 	private int quantity;

@@ -49,7 +49,7 @@ public class ProductService {
 		List<Product> list=repo.findBypSupplierId(userId);
 		list.forEach((n) -> {
 			ProductList pl=new ProductList();
-			if(n.getIsDeleted()==0) {
+			if(n.getStatus()!=ApprovalStatus.DELETED) {
 				proList.add(pl.List(n));
 			}
 		});
@@ -57,7 +57,7 @@ public class ProductService {
 		 return proList;
 		}
 	
-	public Map<String,Object> getByProductId(int pId) {
+	public Map<String,Object> getByProductId(int pId) { 
 		ProductById pl=new ProductById();
 		List<Faq> faqs=faqRes.findByProductId(pId);
 		
@@ -122,7 +122,7 @@ public class ProductService {
 		if(pr.getPSupplierId()==userId) {
 			throw new RuntimeException("Product Not Found");
 		}
-		pr.setIsDeleted(1);
+		pr.setStatus(ApprovalStatus.DELETED);
 		pr.setModifiedAt(new Date());
 		repo.save(pr);
 		return "Deleted Successfully!";		
@@ -134,15 +134,13 @@ public class ProductService {
 //			throw new RuntimeException("Unauthorized User");
 //		}
 		List<ProductList> proList=new ArrayList<>();
-		List<Product> list=repo.findByIsApproved(ApprovalStatus.PENDING);
+		List<Product> list=repo.findByStatus(ApprovalStatus.PENDING);
 		if(list.isEmpty()) {
 			throw new RuntimeException("No products Found");
 		}
 		list.forEach((n) -> {
 			ProductList pl=new ProductList();
-			if(n.getIsDeleted()==0) {
-				proList.add(pl.List(n));
-			}
+			proList.add(pl.List(n));
 		});
 		
 		 return proList;
@@ -155,7 +153,7 @@ public class ProductService {
 //		throw news RuntimeException("Unauthorized User");
 //	}
 		Product dbProduct = repo.findById(product.getPId()).get();
-		dbProduct.setIsApproved(ApprovalStatus.APPROVED);
+		dbProduct.setStatus(ApprovalStatus.APPROVED);
 		repo.save(dbProduct);
 		return null;
 	}
@@ -166,7 +164,7 @@ public class ProductService {
 //		throw news RuntimeException("Unauthorized User");
 //	}
 		Product dbProduct = repo.findById(product.getPId()).get();
-		dbProduct.setIsDeleted(1);
+		dbProduct.setStatus(ApprovalStatus.REJECTED);
 		dbProduct.setDenyReason(product.getDenyReason());
 		repo.save(dbProduct);
 		return dbProduct;

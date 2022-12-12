@@ -10,5 +10,5 @@ import com.twecom.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 	List<Product> findBypSupplierId(int supplierId);
-	List<Product> findByIsApproved(ApprovalStatus status);
+	List<Product> findByStatus(ApprovalStatus status);
 }

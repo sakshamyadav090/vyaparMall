@@ -79,7 +79,7 @@ export class AdminManageComponent implements OnInit {
 
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
-      // console.log(response.data);
+      console.log(response);
       if(response.success){
         this.unapprovedProducts = response.data;
 

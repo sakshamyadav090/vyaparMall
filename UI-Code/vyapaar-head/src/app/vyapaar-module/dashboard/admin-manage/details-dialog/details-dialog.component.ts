@@ -49,15 +49,26 @@ export class DetailsDialogComponent implements OnInit {
     this.selectedItem = {}
   }
 
+  closeDialogWithMessage(msg){
+    // this.productDialog = false;
+    this.resetDisplayFlag.emit(false);
+    this.messageEvent.emit(msg);
+    this.selectedItem = {}
+  }
+
+
+
   approveProduct(prodId){
     let json = {
       "pid":this.itemId,
       "isApproved": 0
     }
     this.apiService.approveProd(ApiUrls.APPROVE_PRODUCT,json).subscribe(res=>{
-      console.log(res);
+      // console.log(res);
+      this.closeDialogWithMessage("Product Approved")
     },err=>{
-      console.log(err);
+      // console.log(err);
+      this.closeDialogWithMessage(err)
     })
   }
 
@@ -105,9 +116,11 @@ export class DetailsDialogComponent implements OnInit {
       "isApproved": true
     }
     this.apiService.approve(ApiUrls.APPROVE_USER,json).subscribe(res=>{
-      console.log(res);
+      // console.log(res);
+      this.closeDialogWithMessage("Product Approved")
     },err=>{
-      console.log(err);
+      // console.log(err);
+      this.closeDialogWithMessage(err)
     })
   }
 
@@ -127,9 +140,11 @@ export class DetailsDialogComponent implements OnInit {
     }
     console.log(this.itemId)
     this.apiService.deny(ApiUrls.DENY_PRODUCT,json).subscribe(res=>{
-      console.log(res);
+      // console.log(res);
+      this.closeDialogWithMessage("Product Rejected")
     },err=>{
-      console.log(err);
+      // console.log(err);
+      this.closeDialogWithMessage(err)
     })
   }
 
