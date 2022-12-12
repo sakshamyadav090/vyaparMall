@@ -21,6 +21,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.vyapaarmall.exception.UserException;
+import com.vyapaarmall.model.AdminList;
+import com.vyapaarmall.model.Role;
+import com.vyapaarmall.model.Status;
 import com.vyapaarmall.model.User;
 import com.vyapaarmall.repository.UserRepository;
 import com.vyapaarmall.security.config.SecurityConstant;
@@ -49,7 +52,7 @@ public class UserService implements UserDetailsService{
 		user.setCreatedBy(user.getFirstName()+ " "+ user.getLastName());
 		user.setModifiedBy(user.getFirstName()+ " "+ user.getLastName());
 		if(user.getRole().getRoleId()!=2) {
-			user.setApproved(true);
+			user.setStatus(Status.ACTIVE);
 		}
 		repo.save(user);
 		Algorithm algo = Algorithm.HMAC256(SecurityConstant.SECRET.getBytes());
@@ -65,6 +68,27 @@ public class UserService implements UserDetailsService{
 		response.put("access_token", access_token);
 		response.put("userId", user.getMobileNumber());
 		return response;
+		
+	}
+	
+	public User registerAdmin(User user, String header) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length());
+		User db = verifyToken(token);
+		if(db.getRole().getRoleId()!=0) {
+			throw new RuntimeException("Unauthorized User");
+		}
+		if(repo.findByEmail(user.getEmail())!=null 
+				|| repo.findByMobileNumber(user.getMobileNumber())!=null) {
+			throw new UserException("User Already Registered");
+		}
+		user.setPassword(bCryptPasswordEncoder
+				.encode(user.getPassword()));
+		user.setCreatedBy(db.getFirstName()+ " "+ db.getLastName());
+		user.setModifiedBy(db.getFirstName()+ " "+ db.getLastName());
+		user.setRole(new Role(1));
+		user.setStatus(Status.ACTIVE);
+		
+		return repo.save(user);
 		
 	}
 	
@@ -91,7 +115,7 @@ public class UserService implements UserDetailsService{
 		if(dbUser==null) {
 			throw new UserException("Inavalid Operation");
 		}
-		user.setActive(dbUser.isActive());
+		user.setStatus(dbUser.getStatus());
 		user.setCreatedBy(dbUser.getCreatedBy());
 		user.setCreatedDate(dbUser.getCreatedDate());
 		user.setRole(dbUser.getRole());
@@ -99,6 +123,20 @@ public class UserService implements UserDetailsService{
 		user.setPassword(bCryptPasswordEncoder
 				.encode(dbUser.getPassword()));
 		return repo.save(user);
+	}
+	
+	public User deleteAdmin(int id, String header) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length());
+		User db = verifyToken(token);
+		if(db.getRole().getRoleId()!=0) {
+			throw new RuntimeException("Unauthorized User");
+		}
+		User dbUser = repo.findById(id).get();
+		if(dbUser==null) {
+			throw new UserException("Inavalid Operation");
+		}
+		dbUser.setStatus(Status.INACTIVE);
+		return repo.save(dbUser);
 	}
 	
 	public String updatePassword(User user) {
@@ -139,33 +177,38 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 
-	public List<User> getUnapprovedSuppliers(String header) {
-		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
-		User dbUser = verifyToken(token);
-		if(dbUser.getRole().getRoleId()!=1) {
-			throw new RuntimeException("Unauthorized User");
-		}
-		List<User> unapprovedUsers = repo.findByIsApproved(false);
-		
-		return unapprovedUsers
-		.stream()
-		.filter(user -> user.getRole().getRoleId()==2)
-		.collect(Collectors.toList());
-	}
+//	public List<User> getUnapprovedSuppliers(String header) {
+//		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
+//		User dbUser = verifyToken(token);
+//		if(dbUser.getRole().getRoleId()!=1) {
+//			throw new RuntimeException("Unauthorized User");
+//		}
+//		List<User> unapprovedUsers = repo.findByIsApproved(false);
+//		
+//		return unapprovedUsers
+//		.stream()
+//		.filter(user -> user.getRole().getRoleId()==2)
+//		.collect(Collectors.toList());
+//	}
 
-	public List<User> getAdminList(String header) {
+	public List<AdminList> getAdminList(String header) {
 		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
 		User dbUser = verifyToken(token);
 		if(dbUser.getRole().getRoleId()!=0) {
 			throw new RuntimeException("Unauthorized User");
 		}
-		List<User> adminList = repo.findAll();
-		System.out.println(adminList);
+		Role r= new Role(1);
+		List<User> adminList = repo.findByRole(r);
+		List<AdminList> al=new ArrayList(); 
+		for(User u:adminList) {
+			AdminList adLi =new AdminList();
+			if(u.getStatus().equals(Status.ACTIVE)) {
+			adLi.List(u);
+			al.add(adLi);
+			}
+		}
 		
-		return adminList
-		.stream()
-		.filter(user -> user.getRole().getRoleId()==1)
-		.collect(Collectors.toList());
+		return al;
 	}
 	
 	public User getUserById(String token, int id) {
@@ -175,7 +218,7 @@ public class UserService implements UserDetailsService{
 
 	public String approveUser(String token, User user) {
 		User dbUser = repo.findById(user.getUserId()).get();
-		dbUser.setApproved(true);
+		dbUser.setStatus(Status.ACTIVE);
 		repo.save(dbUser);
 		return "Approved";
 	}

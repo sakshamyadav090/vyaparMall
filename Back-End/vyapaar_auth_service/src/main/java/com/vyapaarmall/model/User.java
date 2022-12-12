@@ -27,8 +27,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
-	private boolean isActive = true;	
-	private boolean isApproved;
+	private Status status = Status.PENDING;
 	private String firstName;
 	private String lastName;
 	@Column(unique = true)

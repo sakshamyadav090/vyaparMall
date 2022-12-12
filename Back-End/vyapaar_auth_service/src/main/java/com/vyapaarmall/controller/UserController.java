@@ -44,17 +44,29 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/suppliers/unapproved")
-	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
+	@PostMapping("/register/Admin")
+	public ResponseModel registerAdmin(@RequestBody User user,@RequestHeader("Authorization") String token) {
+		
 		try {
+		return new ResponseModel(
+				userService.registerAdmin(user,token),201,true,"Admin Created");
+		}catch(Exception e) {
 			return new ResponseModel(
-					userService.getUnapprovedSuppliers(token), 200, true, "User updated");
-		} catch(Exception e) {
-			return new ResponseModel(
-					e.getMessage(), 403, false, "Unauthorized");
+					e.getMessage(),404,false,"Failed to Create Admin");
 		}
 	}
 	
+//	@GetMapping("/suppliers/unapproved")
+//	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
+//		try {
+//			return new ResponseModel(
+//					userService.getUnapprovedSuppliers(token), 200, true, "User updated");
+//		} catch(Exception e) {
+//			return new ResponseModel(
+//					e.getMessage(), 403, false, "Unauthorized");
+//		}
+//	}
+//	
 	
 	@GetMapping("/verify-token")
 	public ResponseModel verifyToken(HttpServletRequest req) {
@@ -74,6 +86,17 @@ public class UserController {
 		try {
 			return new ResponseModel(
 					userService.updateUser(user), 200, true, "User updated");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Update Failed");
+		}
+	}
+	
+	@PutMapping("/deleteAdmin/{id}")
+	public ResponseModel DeleteAdmin(@PathVariable int id,@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.deleteAdmin(id,token), 200, true, "Admin List Updated");
 		} catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(), 404, false, "Update Failed");
