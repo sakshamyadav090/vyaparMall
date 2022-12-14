@@ -1,6 +1,6 @@
 <div>
     <!-- <p-dialog [(visible)]="display" *ngIf="productDialog" [style]="{width: '600px'}" header="Product Details"><p>Hello world</p></p-dialog> -->
-
+<!-- Product Dialog -->
     <p-dialog [(visible)]="display" [style]="{width: '600px'}" header="Product Details" [modal]="true"
         *ngIf="productDialog" [baseZIndex]="10000" (onHide)="closeDialog()">
         <div class="loading-indicator" *ngIf="loading">
@@ -44,7 +44,7 @@
                 <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
                     <div *ngIf="isDenied">
                         <p-dropdown [options]="reasons" placeholder="Select Reason *" (onChange)="selectCity($event.value)" optionLabel="name"></p-dropdown>
-                        <button class="btn btn-danger fw-bold mx-2" (click)="deny()">Submit</button>
+                        <button class="btn btn-danger fw-bold mx-2" (click)="denyProduct()">Submit</button>
                     </div>
                     <div *ngIf="!isDenied">
                         <button type="button" class="btn btn-danger mx-1" (click)="enableDeny()">Deny</button>
@@ -55,6 +55,8 @@
             </div>
         </div>
 
+<!-- Supplier Dialog -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------- -->
         <div class="card supplier mb-2" style="border-radius: 15px;" *ngIf="!isProduct">
             <div class="row">
                 <div class="col-5">
@@ -108,13 +110,16 @@
                 <div class="d-flex justify-content-between align-items-center pb-2 mb-1">
                     <button class="btn btn-link text-dark fw-bold" (click)="closeDialog()">Cancel</button>
                     <div>
-                        <button type="button" class="btn btn-danger mx-1">Deny</button>
+                        <button type="button" class="btn btn-danger mx-1" (click)="approveOrDenySupplier(1)">Deny</button>
                         <button type="button" class="btn btn-success mx-1"
-                            (click)="approveSupplier()">Approve</button>
+                            (click)="approveOrDenySupplier(0)">Approve</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        
+<!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
     </p-dialog>
 </div>

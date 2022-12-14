@@ -177,19 +177,19 @@ public class UserService implements UserDetailsService{
 		return user;
 	}
 
-//	public List<User> getUnapprovedSuppliers(String header) {
-//		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
-//		User dbUser = verifyToken(token);
-//		if(dbUser.getRole().getRoleId()!=1) {
-//			throw new RuntimeException("Unauthorized User");
-//		}
-//		List<User> unapprovedUsers = repo.findByIsApproved(false);
-//		
-//		return unapprovedUsers
-//		.stream()
-//		.filter(user -> user.getRole().getRoleId()==2)
-//		.collect(Collectors.toList());
-//	}
+	public List<User> getUnapprovedSuppliers(String header) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
+		User dbUser = verifyToken(token);
+		if(dbUser.getRole().getRoleId()!=1) {
+			throw new RuntimeException("Unauthorized User");
+		}
+		List<User> unapprovedUsers = repo.findByStatus(Status.PENDING);
+		
+		return unapprovedUsers
+		.stream()
+		.filter(user -> user.getRole().getRoleId()==2)
+		.collect(Collectors.toList());
+	}
 
 	public List<AdminList> getAdminList(String header) {
 		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length()); 
@@ -216,12 +216,19 @@ public class UserService implements UserDetailsService{
 		return repo.findById(id).get();
 	}
 
-	public String approveUser(String token, User user) {
+	public String approveUser(String header, User user) {
+		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length());
+		User db = verifyToken(token);
+		if(db.getRole().getRoleId()!=1) {
+			throw new RuntimeException("Unauthorized User");
+		}
 		User dbUser = repo.findById(user.getUserId()).get();
-		dbUser.setStatus(Status.ACTIVE);
+		dbUser.setStatus(user.getStatus());
 		repo.save(dbUser);
 		return "Approved";
 	}
+	
+	
 
 	
 }

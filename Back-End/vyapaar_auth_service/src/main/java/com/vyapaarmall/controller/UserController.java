@@ -56,17 +56,17 @@ public class UserController {
 		}
 	}
 	
-//	@GetMapping("/suppliers/unapproved")
-//	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
-//		try {
-//			return new ResponseModel(
-//					userService.getUnapprovedSuppliers(token), 200, true, "User updated");
-//		} catch(Exception e) {
-//			return new ResponseModel(
-//					e.getMessage(), 403, false, "Unauthorized");
-//		}
-//	}
-//	
+	@GetMapping("/suppliers/unapproved")
+	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.getUnapprovedSuppliers(token), 200, true, "User updated");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 403, false, "Unauthorized");
+		}
+	}
+	
 	
 	@GetMapping("/verify-token")
 	public ResponseModel verifyToken(HttpServletRequest req) {
@@ -157,5 +157,6 @@ public class UserController {
 					e.getMessage(), 404, false, "Update Failed");
 		}
 	}
+	
 	
 }

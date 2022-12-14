@@ -90,6 +90,10 @@ export class AdminManageComponent implements OnInit {
     });
   }
 
+  loadUapprovedFeedbacks(){
+    
+  }
+
   addCategory() {
     this.loading=true;
     if(this.addCategoryForm.valid){
