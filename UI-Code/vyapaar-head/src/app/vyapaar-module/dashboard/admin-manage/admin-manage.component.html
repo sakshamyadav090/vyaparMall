@@ -16,7 +16,8 @@
         <button class="btn btn-info" (click)="openPromotionDialog()">Promote Product</button>
     </div>
 </div>
-
+<!-- Product Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
 <div class="product card">
     <p-table #dt [value]="unapprovedProducts" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
@@ -55,6 +56,8 @@
     </p-table>
 </div>
 
+<!-- Supplier Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
 <div class="supplier card my-2">
     <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
@@ -93,8 +96,10 @@
     </p-table>
 </div>
 
-<div class="supplier card my-2">
-    <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
+<!-- Feedback Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="feedback card my-2">
+     <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
         [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [showCurrentPageReport]="true">
@@ -130,6 +135,7 @@
         </ng-template>
     </p-table>
 </div>
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
 
 <!-- <div *ngIf="productDialog"> -->
     <app-details-dialog *ngIf="popupFlag" [itemId]="itemId" [isProduct]="isProduct"

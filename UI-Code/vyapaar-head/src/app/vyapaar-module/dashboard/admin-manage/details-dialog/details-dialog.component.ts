@@ -54,9 +54,39 @@ export class DetailsDialogComponent implements OnInit {
     this.resetDisplayFlag.emit(false);
     this.messageEvent.emit(msg);
     this.selectedItem = {}
+
   }
 
+  enableDeny(){
+    this.isDenied = true;
+  }
 
+  selectCity(value){
+    // console.log(value)
+    this.selectedReason=value.name;
+  }
+
+// Product
+// ---------------------------------------------------------------------------------------------------------------------------
+
+viewProduct(productId){
+  this.loading=true;
+  
+  this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,productId).subscribe(res=>{
+    if(res.success){
+      // debugger
+      // console.log(res);
+      this.loading=false;
+      this.selectedItem=res.data.product;
+      this.productDialog = true;
+    }
+
+  },err=>{
+    this.loading=false;
+    // console.log(err);
+  })
+
+}
 
   approveProduct(prodId){
     let json = {
@@ -72,68 +102,7 @@ export class DetailsDialogComponent implements OnInit {
     })
   }
 
-  viewProduct(productId){
-    this.loading=true;
-    
-    this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,productId).subscribe(res=>{
-      if(res.success){
-        // debugger
-        // console.log(res);
-        this.loading=false;
-        this.selectedItem=res.data.product;
-        this.productDialog = true;
-      }
-
-    },err=>{
-      this.loading=false;
-      console.log(err);
-    })
-
-  }
-
-  viewSupplier(userId){
-    this.loading=true;
-    
-    this.apiService.getById(ApiUrls.GET_BY_USER_ID,userId).subscribe(res=>{
-      if(res.success){
-        // debugger
-        // console.log(res);
-        this.loading=false;
-        this.selectedItem=res.data;
-        this.productDialog = true;
-      }
-
-    },err=>{
-      this.loading=false;
-      console.log(err);
-    })
-
-  }
-
-  approveSupplier(){
-    let json = {
-      "userId":this.itemId,
-      "isApproved": true
-    }
-    this.apiService.approve(ApiUrls.APPROVE_USER,json).subscribe(res=>{
-      // console.log(res);
-      this.closeDialogWithMessage("Product Approved")
-    },err=>{
-      // console.log(err);
-      this.closeDialogWithMessage(err)
-    })
-  }
-
-  enableDeny(){
-    this.isDenied = true;
-  }
-
-  selectCity(value){
-    console.log(value)
-    this.selectedReason=value.name;
-  }
-
-  deny(){
+  denyProduct(){
     let json = {
       "pid":this.itemId,
       "denyReason":this.selectedReason
@@ -147,5 +116,42 @@ export class DetailsDialogComponent implements OnInit {
       this.closeDialogWithMessage(err)
     })
   }
+
+
+//Supplier
+  // ---------------------------------------------------------------------------------------------------------------------------------
+
+  viewSupplier(userId){
+    this.loading=true;
+    this.apiService.getById(ApiUrls.GET_BY_USER_ID,userId).subscribe(res=>{
+      if(res.success){
+        // console.log(res);
+        this.loading=false;
+        this.selectedItem=res.data;
+        this.productDialog = true;
+      }
+    },err=>{
+      this.loading=false;
+      // console.log(err);
+    })
+
+  }
+
+  approveOrDenySupplier(status){
+    let json = {
+      "userId":this.itemId,
+      "status": status
+    }
+    this.apiService.approve(ApiUrls.APPROVE_USER,json).subscribe(res=>{
+      // console.log(res);
+      this.closeDialogWithMessage("Success")
+},err=>{    
+// console.log(err);
+      this.closeDialogWithMessage(err)
+    })
+  }
+
+// ---------------------------------------------------------------------------------------------------------------------------------
+
 
 }
