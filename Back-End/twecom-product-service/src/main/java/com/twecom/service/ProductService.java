@@ -57,7 +57,7 @@ public class ProductService {
 		 return proList;
 		}
 	
-	public Map<String,Object> getByProductId(int pId) { 
+	public Map<String,Object> getByProductId(int pId) {
 		ProductById pl=new ProductById();
 		List<Faq> faqs=faqRes.findByProductId(pId);
 		
@@ -70,8 +70,8 @@ public class ProductService {
 	public Product addProduct(Product p,String[] faq,MultipartFile[] image, String token) throws IOException {
 		
 		int userId = authorizer.isTokenValid(token);
-		String[] images=new String[image.length];
-		for(int i=0;i<image.length;i++) {
+		String[] images=new String[image==null?0:image.length];
+		for(int i=0;i<images.length;i++) {
 			String fileName = StringUtils.cleanPath(image[i].getOriginalFilename());
 			if(fileName.contains("..")) {
 				throw new RuntimeException("Invalid Filename");
@@ -80,17 +80,23 @@ public class ProductService {
 		}
 		Image im = new Image();
 		im.setDeleted(false);
-		for(int i=0;i<images.length;i++) {
-			if(i==0) im.setImageOne(images[i]);
-			if(i==1) im.setImageTwo(images[i]);
-			if(i==2) im.setImageThree(images[i]);
+		if(images.length!=0) {
+			for(int i=0;i<images.length;i++) {
+				if(i==0) im.setImageOne(images[i]);
+				if(i==1) im.setImageTwo(images[i]);
+				if(i==2) im.setImageThree(images[i]);
+			}
 		}
-		
 		//p.setPImage(images);
+		if(image==null) {
+			Product dbProduct = repo.findById(p.getPId()).get();
+			p.setPImage(dbProduct.getPImage());
+		}else {
 		p.setPImage(im);
+		}
 		p.setPSupplierId(userId);
 		Product dbProduct = repo.save(p);
-		
+		try {
 		for(int i=0;i<faq.length;i++) {
 		Faq fq = new ObjectMapper().readValue(faq[i], Faq.class);
 		fq.setProductId(dbProduct.getPId());
@@ -100,19 +106,28 @@ public class ProductService {
 		}
 		
 		}
+		}catch(Exception e) {
+			Faq fq = new ObjectMapper().readValue(faq[0]+","+faq[1], Faq.class);
+			fq.setProductId(dbProduct.getPId());
+			if(fq!=null) {
+				fq.setDeleted(false);
+				faqRes.save(fq);
+			}
+		}
 		
 		return dbProduct;
 	}
 
-	public Product updateProduct(String prod,String[] faq, MultipartFile images[], String token) throws IOException {
+	public Product updateProduct(String prod,String[] faq, MultipartFile images[], String token) throws IOException {	
 		Product product = new ObjectMapper().readValue(prod, Product.class);
+		//Product dbProduct = repo.findById(product.getPId()).get();
 		int userId = authorizer.isTokenValid(token);
-		if(product.getPSupplierId()==userId) {
+		
 			product.setModifiedAt(new Date());
 			return addProduct(product,faq,images,token);
-		}else {
-			throw new RuntimeException("Product Not Found");
-		}
+//		}else {
+//			throw new RuntimeException("Product Not Found");
+//		}
 		
 	}
 	

@@ -75,6 +75,12 @@ export class ApiService {
 
     );
   }
+  saveWithToken(url: string, body: any): Observable<any> {
+    return this.http.post<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+
+    );
+  }
 
   saveWithHeader(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions1).pipe(
@@ -97,6 +103,12 @@ export class ApiService {
 
   approve(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteByPut(url: string): Observable<any> {
+    return this.http.put<any>(url,null,this.httpOptions1).pipe(
       catchError(this.handleError)
     );
   }

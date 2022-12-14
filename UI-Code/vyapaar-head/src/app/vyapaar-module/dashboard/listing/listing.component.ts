@@ -22,7 +22,7 @@ export class ListingComponent implements OnInit {
   product: Product;
   selectedProducts: Product[];
   category: any[];
-  selectedCategory:any;
+ selectedCategory:any;
   listingColumn: any[];
   listData:any;
   uploadedFiles:File[];
@@ -37,10 +37,10 @@ export class ListingComponent implements OnInit {
   addFaqFlag:boolean=true;
   editProductFlag:boolean=false;
   faqArray:any;
+  pId:String;
 
 
   constructor(
-    private productService: ProductService,
     private http: HttpClient,
     private fb: FormBuilder,
     private messageService: MessageService,
@@ -109,22 +109,22 @@ export class ListingComponent implements OnInit {
     })
 }
 
-deleteSelectedProducts() {
-    this.confirmationService.confirm({
-        message: 'Are you sure you want to delete the selected products?',
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-            // this.products = this.products.filter(val => !this.selectedProducts.includes(val));
-            this.selectedProducts = null;
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
-        }
-    });
-}
+// deleteSelectedProducts() {
+//     this.confirmationService.confirm({
+//         message: 'Are you sure you want to delete the selected products?',
+//         header: 'Confirm',
+//         icon: 'pi pi-exclamation-triangle',
+//         accept: () => {
+//             // this.products = this.products.filter(val => !this.selectedProducts.includes(val));
+//             this.selectedProducts = null;
+//             this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+//         }
+//     });
+// }
 
 editProduct(event) {
+  this.pId=event;
   this.editProductFlag=true;
-
   this.loading=true;
   this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(response=>{
     let categories = response.data;
@@ -142,7 +142,31 @@ editProduct(event) {
 })
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,event).subscribe(response=>{
     if(response.success){
-      this.selectedCategory=response.data.product.category;
+       this.selectedCategory=response.data.product.category["categoryId"];
+      //  this.selectedCategory.push({
+      //   label : response.data.product.category["name"],
+      //   value : response.data.product.category["categoryId"]
+      //  });
+      // console.log(response.data.product.category["name"]);
+      // console.log(response.data.product.category["categoryId"]);
+      for(let i=0;i<response.data.faqList.length;i++){
+        if(i==response.data.faqList.length-1){
+          this.addFaqFlag = true;
+          this.showFaqFlag=true;
+        }
+        this.getFaqFormArray().push(
+          this.fb.group({
+            question: [response.data.faqList[i].question,Validators.required],
+            answer: [response.data.faqList[i].answer,Validators.required]
+          }        ,
+          {
+            validator: this.faqValidation.bind(this)
+          }
+          ));
+        // this.uploadForm.setControl('faq', this.fb.array(response.data.faqList || []));
+      // this.uploadForm.patchValue({'faq': {question: response.data.faqList[i].question }});
+      // this.uploadForm.patchValue({'faq': {answer: response.data.faqList[i].answer }});
+    }debugger
       this.uploadForm.patchValue({
         name:response.data.product.name,
         description: response.data.product.description,
@@ -151,6 +175,7 @@ editProduct(event) {
         quantity: response.data.product.quantity,
         origin: response.data.product.origin,
         manufacturer: response.data.product.manufacturer
+       // category:response.data.product.category["categoryId"]
       });
       this.productDialog = true;
       this.loading=false;
@@ -164,6 +189,7 @@ editProduct(event) {
       // }
       // console.log(file);
       //console.log(this.fileUpload);
+      console.log(this.uploadForm.value);
   }
   },
   err => {
@@ -218,7 +244,7 @@ editSaveProduct(){
   debugger
   if(this.uploadForm.valid){
     if(this.fileUpload._files.length==0){
-      this.formData.append('file', null);
+       this.formData.append('file', null);
     }else{
     for(let i=0;i<this.fileUpload._files.length;i++){
       this.formData.append('file', this.fileUpload._files[i]);
@@ -226,6 +252,7 @@ editSaveProduct(){
   }
 
     let json={
+      "pid": this.pId,
       "pname":this.uploadForm.value.name,
       "pdescription":this.uploadForm.value.description,
       "ppriceStartRange":this.uploadForm.value.priceStart,
@@ -235,6 +262,8 @@ editSaveProduct(){
       "porigin":this.uploadForm.value.origin,
       "pmanufacturer":this.uploadForm.value.manufacturer
     }
+
+    debugger
     this.formData.append('data', JSON.stringify(json));
 
     if(this.uploadForm.value.faq.length==0){
@@ -244,9 +273,8 @@ editSaveProduct(){
         this.formData.append('faqData', JSON.stringify(this.uploadForm.value.faq[i]));
       }
   }
-    console.log(this.formData);
-    this.apiService.saveWithHeader(ApiUrls.UPDATE_PRODUCT,this.formData).subscribe(response=>{
-    // this.http.post<any>(ApiUrls.SAVE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
+    //this.apiService.saveWithHeader(ApiUrls.UPDATE_PRODUCT,this.formData).subscribe(response=>{
+     this.http.put<any>(ApiUrls.UPDATE_PRODUCT,this.formData, this.httpOptions1).subscribe(response=>{
       this.loading=false;
       this.formData.delete('data');
       this.formData.delete('file');
@@ -342,17 +370,17 @@ saveProduct() {
 
 
 
-findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.products.length; i++) {
-        if (this.products[i].id === id) {
-            index = i;
-            break;
-        }
-    }
+// findIndexById(id: string): number {
+//     let index = -1;
+//     for (let i = 0; i < this.products.length; i++) {
+//         if (this.products[i].id === id) {
+//             index = i;
+//             break;
+//         }
+//     }
 
-    return index;
-}
+//     return index;
+// }
 
 createId(): string {
     let id = '';
@@ -385,7 +413,7 @@ addFaq(){
   this.addFaqFlag = false;
   //console.log(this.uploadForm.controls['faq']['controls'][0]);
   this.showFaqFlag=true;
-  console.log(this.getFaqFormArray().value)
+  // console.log(this.getFaqFormArray().value)
   // debugger
 
 
@@ -434,18 +462,18 @@ addFaq(){
 //     answer:''
 //   })
 // }
-console.log(this.getFaqFormArray().value)
+// console.log(this.getFaqFormArray().value)
 }
 
 faqValidation(group: FormGroup) {
-  if(group.value.question==''){
-    console.log('empty q ')
-  }
-  if(group.value.answer==''){
-    console.log('empty a ')
-  }
-  console.log('group value -  '+ 'q'+ group.value.question)
-  console.log('group value -  '+ 'a'+ group.value.answer)
+  // if(group.value.question==''){
+  //   console.log('empty q ')
+  // }
+  // if(group.value.answer==''){
+  //   console.log('empty a ')
+  // }
+  // console.log('group value -  '+ 'q'+ group.value.question)
+  // console.log('group value -  '+ 'a'+ group.value.answer)
   if ((group.value.question && group.value.question != '') && (group.value.answer && group.value.answer != '')) {
     this.addFaqFlag = true;
   } else {
@@ -455,23 +483,22 @@ faqValidation(group: FormGroup) {
 
 deleteFaq(rowIndex){
   if(rowIndex==0) this.showFaqFlag=false;
-  console.log(rowIndex);
   if(rowIndex==0){this.addFaqFlag=true;}
   //console.log('eventTwo');
-console.log(this.getFaqFormArray().value);
+// console.log(this.getFaqFormArray().value);
   // this.getFaqFormArray().value.forEach((control, i) => {
   //   if (control.rowIndex === rowIndex) {
   //     this.getFaqFormArray().removeAt(i);
   //   }
   // })
-  console.log(this.getFaqFormArray().value.length);
+  // console.log(this.getFaqFormArray().value.length);
   for(let i=0;i<this.getFaqFormArray().value.length;i++){
     if(i==rowIndex){
       //alert(rowIndex);
       this.getFaqFormArray().removeAt(i);
     }
   }
-  console.log(this.getFaqFormArray().value);
+  // console.log(this.getFaqFormArray().value);
 }
 
 trackByFunction = (index, item) => {
@@ -483,5 +510,9 @@ trackByFunction = (index, item) => {
   return num;
 }
 
+// test(event){
+//   console.log(this.uploadForm.value);
+//   console.log(event);
+// }
 
 }

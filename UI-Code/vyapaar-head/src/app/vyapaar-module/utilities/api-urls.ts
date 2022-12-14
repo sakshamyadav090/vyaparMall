@@ -28,6 +28,9 @@ export class ApiUrls {
   public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
   public static UPDATE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/update';
   public static DENY_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/deny';
+  public static ADMIN_LIST = ApiUrls.API_ENDPOINT + 'auth-service/auth/adminList';
+  public static DELETE_ADMIN = ApiUrls.API_ENDPOINT + 'auth-service/auth/deleteAdmin/';
+  public static REGISTER_ADMIN = ApiUrls.API_ENDPOINT + 'auth-service/auth/register/Admin';
 
 
   public static TERMS = 'http://localhost:8120/feeds/terms';

@@ -26,7 +26,7 @@ public class ProductById {
 	private int priceEnd;
 	private List<String> image = new ArrayList<>();
 	private int quantity;
-	private String category;
+	private Category category;
 	private String description;
 	private String origin;
 	private String manufacturer;
@@ -46,7 +46,7 @@ public class ProductById {
 			this.image.add(p.getPImage().getImageThree());
 		}
 		this.quantity=p.getQuantity();
-		this.category=p.getCategory().getName();
+		this.category=p.getCategory();
 		this.description=p.getPDescription();
 		this.origin=p.getPOrigin();
 		this.manufacturer=p.getPManufacturer();

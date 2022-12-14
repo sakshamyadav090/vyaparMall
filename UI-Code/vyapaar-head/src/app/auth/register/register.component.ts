@@ -146,8 +146,7 @@ export class RegisterComponent implements OnInit {
           err => {
             this.messageService.add({severity:'error',detail:'Error while Register'});
             this.loading=false;
-            console.log(Response)
-            alert('nhi ho rha bhaiya');
+            console.log(err);
           });
       }else if(this.selectedCityValue==null && this.registerForm.valid && this.otpForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});

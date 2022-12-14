@@ -93,7 +93,7 @@
         </div>
         <div class="field">
             <label>Category</label>
-            <p-dropdown formControlName="category" dataKey="label" [(ngModel)]="selectedCategory" [options]="category" placeholder="Select">
+            <p-dropdown formControlName="category" [(ngModel)]="selectedCategory" [options]="category" placeholder="Select">
             </p-dropdown>
         </div>
         <div class="field col">
@@ -116,7 +116,7 @@
                 <label for="quantity">Quantity</label>
                 <p-inputNumber formControlName="quantity"></p-inputNumber>
             </div>
-            <p-table #dt *ngIf="showFaqFlag" [rowTrackBy]="trackByFunction" styleClass="ui-table-ladder" [responsive]="true"
+            <p-table #dt *ngIf="showFaqFlag" styleClass="ui-table-ladder" [responsive]="true"
             [resizableColumns]="true" [value]="uploadForm.controls['faq']['controls']" formGroupName="faq">
 
             <ng-template pTemplate="header">
