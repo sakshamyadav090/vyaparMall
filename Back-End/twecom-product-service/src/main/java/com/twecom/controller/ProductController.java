@@ -129,18 +129,15 @@ public class ProductController {
 	
 	@PutMapping("/update")
 	public ResponseModel updateProduct(
-			//@RequestParam("data") String prod, 
+			@RequestParam("data") String data, 
 			@RequestParam("faqData") String[] faqData,
-			@RequestParam("file") MultipartFile[] image, 
+			@RequestParam(value = "file", required = false) MultipartFile[] image, 
 			@RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct("prod",faqData,image,token),200,true,"Fetched Successfully");
+			ps.updateProduct(data,faqData,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
-		System.out.println(faqData);
-		System.out.println(image);
-		//System.out.println(prod);
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
 					e.getMessage(),200,false,"Unable to Save");

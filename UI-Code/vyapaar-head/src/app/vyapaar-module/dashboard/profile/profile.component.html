@@ -24,10 +24,10 @@
                             </h5>
                             <h6><div class="field">
                               <label>Nature of Business</label>
-                              <p-dropdown *ngIf="editFlag" formControlName="natureOfBusiness"  [options]="business"
-                              placeholder="Select Business *" dataKey="value" [showClear]="true">
+                              <p-dropdown formControlName="natureOfBusiness"  [options]="business"
+                              placeholder="Select Business *" [(ngModel)]="selectedBusiness" [showClear]="true">
                               </p-dropdown>
-                              <input *ngIf="!editFlag" formControlName="natureOfBusiness"/>
+                              <!-- <input *ngIf="!editFlag" formControlName="natureOfBusiness"/> -->
                           </div></h6>
                             <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
