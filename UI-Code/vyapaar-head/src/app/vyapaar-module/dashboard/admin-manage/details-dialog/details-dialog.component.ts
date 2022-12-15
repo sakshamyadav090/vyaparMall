@@ -13,6 +13,8 @@ export class DetailsDialogComponent implements OnInit {
   selectedItem: any ;
   @Input('itemId') itemId: any;
   @Input('isProduct') isProduct: boolean;
+  @Input('isFeedback') isFeedback: boolean;
+  header: string = "Product Details"
 
   @Input() display: any;
   @Output() resetDisplayFlag = new EventEmitter<boolean>();
@@ -35,7 +37,9 @@ export class DetailsDialogComponent implements OnInit {
   ];
     if(this.isProduct){
       this.viewProduct(this.itemId);
-    }else{
+    }else if(this.isFeedback) {
+      this.viewFeedback(this.itemId);
+    }else {
       this.viewSupplier(this.itemId);
     }
     
@@ -70,6 +74,7 @@ export class DetailsDialogComponent implements OnInit {
 // ---------------------------------------------------------------------------------------------------------------------------
 
 viewProduct(productId){
+  this.header="Product Details"
   this.loading=true;
   
   this.apiService.getById(ApiUrls.GET_BY_PRODUCT_ID,productId).subscribe(res=>{
@@ -122,6 +127,7 @@ viewProduct(productId){
   // ---------------------------------------------------------------------------------------------------------------------------------
 
   viewSupplier(userId){
+    this.header="Supplier Details"
     this.loading=true;
     this.apiService.getById(ApiUrls.GET_BY_USER_ID,userId).subscribe(res=>{
       if(res.success){
@@ -152,6 +158,41 @@ viewProduct(productId){
   }
 
 // ---------------------------------------------------------------------------------------------------------------------------------
+
+
+viewFeedback(id){
+  this.header = "Feedback Details"
+  this.loading=true;
+  
+  this.apiService.getById(ApiUrls.GET_BY_Feedback_ID, id).subscribe(res=>{
+    if(res.success){
+      // debugger
+      console.log(res);
+      this.loading=false;
+      this.selectedItem=res.data;
+      this.productDialog = true;
+    }
+
+  },err=>{
+    this.loading=false;
+    // console.log(err);
+  })
+
+}
+
+approveOrDenyFeedback(status){
+  let json = {
+    "id":this.itemId,
+    "status": status
+  }
+  this.apiService.approve(ApiUrls.APPROVE_OR_DENY_FEEDBACK,json).subscribe(res=>{
+    console.log(res);
+    this.closeDialogWithMessage("Success")
+},err=>{    
+console.log(err);
+    this.closeDialogWithMessage(err)
+  })
+}
 
 
 }

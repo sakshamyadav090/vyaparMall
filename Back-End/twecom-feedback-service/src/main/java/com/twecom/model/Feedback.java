@@ -27,12 +27,14 @@ public class Feedback {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String title;
+	private int userId;
 	private String description;
 	private int ratings;
+	private String role;
 	private int productId;
 	@Lob
 	private String images;
-	private boolean isApproved=false;
+	private Status status=Status.PENDING;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date createdDate=new Date();

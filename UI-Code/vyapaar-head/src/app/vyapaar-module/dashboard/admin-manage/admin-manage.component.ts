@@ -27,8 +27,10 @@ export class AdminManageComponent implements OnInit {
   addCategoryForm: FormGroup;
   unapprovedSuppliers: any;
   unapprovedProducts: any;
+  unapprovedFeedbacks: any;
   display: string="none";
   isProduct: boolean = false;
+  isFeedback: boolean = false;
   promo: boolean = false;
 
   cols: any[];
@@ -51,6 +53,7 @@ export class AdminManageComponent implements OnInit {
     });
     this.loadUnapprovedSuppliers();
     this.loadUnapprovedProducts();
+    this.loadUapprovedFeedbacks();
   }
 
   loadCarsLazy(event: LazyLoadEvent) {
@@ -79,7 +82,7 @@ export class AdminManageComponent implements OnInit {
 
   loadUnapprovedProducts(){
     this.apiService.getWithoutId(ApiUrls.UNAPPROVED_PRODUCTS).subscribe(response=>{
-      console.log(response);
+      // console.log(response);
       if(response.success){
         this.unapprovedProducts = response.data;
 
@@ -91,7 +94,16 @@ export class AdminManageComponent implements OnInit {
   }
 
   loadUapprovedFeedbacks(){
-    
+    this.apiService.getWithoutId(ApiUrls.UNAPPROVED_FEEDBACKS).subscribe(response=>{
+      // console.log(response);
+      if(response.success){
+        this.unapprovedFeedbacks = response.data;
+
+      }
+    },
+    err => {
+      console.log(err);
+    });
   }
 
   addCategory() {
@@ -118,6 +130,7 @@ export class AdminManageComponent implements OnInit {
 
   viewProduct(productId){
     this.isProduct = true;
+    this.isFeedback = false;
     this.showPopup= true;
     this.itemId = productId;
     this.popupFlag = true;
@@ -126,6 +139,16 @@ export class AdminManageComponent implements OnInit {
 
   viewSupplier(userId){
     this.isProduct = false;
+    this.isFeedback = false;
+    this.showPopup= true;
+    this.itemId = userId;
+    this.popupFlag = true;
+    // console.log(userId)
+  }
+
+  viewFeeback(userId){
+    this.isProduct = false;
+    this.isFeedback = true;
     this.showPopup= true;
     this.itemId = userId;
     this.popupFlag = true;

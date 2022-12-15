@@ -37,6 +37,9 @@ export class ApiUrls {
   public static GET_BY_USER_ID = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/';
 
   public static APPROVE_USER = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/approve';
+  public static UNAPPROVED_FEEDBACKS = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/unapproved';
+  public static GET_BY_Feedback_ID = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/';
+  public static APPROVE_OR_DENY_FEEDBACK = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/approveOrDeny';
 
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 

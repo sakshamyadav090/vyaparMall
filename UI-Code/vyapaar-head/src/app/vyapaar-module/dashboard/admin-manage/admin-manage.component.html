@@ -99,7 +99,7 @@
 <!-- Feedback Table -->
 <!-- ------------------------------------------------------------------------------------------------------------------------------ -->
 <div class="feedback card my-2">
-     <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
+     <p-table #dt [value]="unapprovedFeedbacks" [rows]="10" [paginator]="true"
         [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
         [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [showCurrentPageReport]="true">
@@ -110,21 +110,21 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="firstName">User </th>
-                <th pSortableColumn="firmName">Role</th>
-                <th pSortableColumn="mobileNumber">Title</th>
-                <th pSortableColumn="created">Created Date </th>
+                <th pSortableColumn="userId">User Id</th>
+                <th pSortableColumn="role">Role</th>
+                <th pSortableColumn="title">Title</th>
+                <th pSortableColumn="created">Created Date</th>
                 <th>Action </th>
                 <th></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-feedback>
             <tr>
-                <td>{{user.firstName}} {{user.lastName}}</td>
-                <td>{{user.firmName }}</td>
-                <td>{{user.mobileNumber}}</td>
-                <td>{{user.createdDate}}</td>
-                <td><button pButton type="button" class="p-button-info" (click)="viewSupplier(user.userId)">View
+                <td>{{feedback.userId}} </td>
+                <td>{{feedback.role}}</td>
+                <td>{{feedback.title}}</td>
+                <td>{{feedback.createdDate}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewFeeback(feedback.id)">View
                         Details</button></td>
             </tr>
         </ng-template>
@@ -138,7 +138,7 @@
 <!-- ------------------------------------------------------------------------------------------------------------------------------ -->
 
 <!-- <div *ngIf="productDialog"> -->
-    <app-details-dialog *ngIf="popupFlag" [itemId]="itemId" [isProduct]="isProduct"
+    <app-details-dialog *ngIf="popupFlag" [itemId]="itemId" [isProduct]="isProduct" [isFeedback]="isFeedback"
     [display]="showPopup" (messageEvent)="receiveMessage($event)" (resetDisplayFlag)="changePopupFlag($event)" >
   </app-details-dialog>
 <!-- </div> -->

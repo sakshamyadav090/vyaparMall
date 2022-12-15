@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.Feedback;
 import com.twecom.model.ResponseModel;
+import com.twecom.model.Status;
 import com.twecom.repository.FeedbackRepository;
 
 @Service
@@ -57,13 +58,37 @@ public class FeedbackService {
 	public List<Feedback> getFeedbacksByUserId(String token, int pId) {
 		int userId = authorizer.isTokenValid(token);
 		
-		return repo.findByUserIdAndProductId(userId, pId);
+		return repo.findByProductId( pId);
 	}
 	
 	public boolean isProductAvailable(int id) {
 		String url = "http://localhost:9090/product-service/product/getProduct/" + id;
 		ResponseModel rm =  restTemplate.getForEntity(url, ResponseModel.class).getBody();
 		return rm.isSuccess();
+	}
+
+	public List<Feedback> getUnapprovedFeedbacks(String token) {
+//		int userId = authorizer.isTokenValid(token);
+		
+		return repo.findByStatus(Status.PENDING);
+	}
+
+	public Feedback getFeedbackId(int fId) {
+		return repo.findById(fId).get();
+	}
+
+	public String approveOrDeny(String token, Feedback feed) {
+//		int userId = authorizer.isTokenValid(token);
+//		if(roleid!=admin) {
+//			
+//		}
+		Feedback feedback = repo.findById(feed.getId()).get();
+		if(feedback ==null) {
+			throw new RuntimeException("No feedback Found");
+		}
+		feedback.setStatus(feed.getStatus());
+		repo.save(feedback);
+		return feed.getStatus().name();
 	}
 
 	
