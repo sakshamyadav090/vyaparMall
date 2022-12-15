@@ -4,8 +4,6 @@ import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api'
 import { Table } from 'primeng/table';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../../utilities/api-urls';
-import { Product } from './product';
-import { ProductService } from './productservice';
 
 @Component({
   selector: 'app-admin-manage',
@@ -18,7 +16,7 @@ import { ProductService } from './productservice';
             display: block;
         }
     `],
-  providers: [MessageService, ConfirmationService,ProductService]
+  providers: [MessageService, ConfirmationService]
 })
 export class AdminManageComponent implements OnInit {
 
