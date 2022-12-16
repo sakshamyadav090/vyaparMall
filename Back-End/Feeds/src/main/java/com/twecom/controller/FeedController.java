@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.twecom.model.Promotion;
 import com.twecom.model.ResponseModel;
@@ -32,10 +34,12 @@ public class FeedController {
 	}
 	
 	@PostMapping("/promotion/add")
-	public ResponseModel addPromotion(@RequestHeader("Authorization") String token, @RequestBody Promotion promo) {
+	public ResponseModel addPromotion(@RequestParam("pData") String data,
+			@RequestParam("file") MultipartFile image,
+			@RequestHeader("Authorization") String token) {
 		try {
 			return new ResponseModel(
-					feedService.addPromotion(token,promo),200,true,"Fetched Successfully");
+					feedService.addPromotion(token, image, data),200,true,"Fetched Successfully");
 		}catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(),401,false,"Unable to Fetch");

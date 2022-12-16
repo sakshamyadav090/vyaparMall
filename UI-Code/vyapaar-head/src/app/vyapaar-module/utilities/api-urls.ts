@@ -43,6 +43,7 @@ export class ApiUrls {
   public static UNAPPROVED_FEEDBACKS = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/unapproved';
   public static GET_BY_Feedback_ID = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/';
   public static APPROVE_OR_DENY_FEEDBACK = ApiUrls.API_ENDPOINT + 'feedback-service/feedback/approveOrDeny';
+  public static ADD_PROMOTION = 'http://localhost:8120/feeds/promotion/add';
 
   // public static VERIFY_TOKEN = ApiUrls.API_ENDPOINT + '';
 

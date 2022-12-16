@@ -130,7 +130,7 @@
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                In total there are {{unapprovedSuppliers ? unapprovedSuppliers.length : 0 }} unapproved suppliers.
+                In total there are {{unapprovedFeedbacks ? unapprovedFeedbacks.length : 0 }} unapproved suppliers.
             </div>
         </ng-template>
     </p-table>
@@ -146,9 +146,10 @@
 <p-dialog [(visible)]="promo" [style]="{width: '600px'}" header="Promote Product" [modal]="true"
          [baseZIndex]="10000">
 
-         <form>
+         <form [formGroup] = "uploadForm">
             <div class="row my-3">
-                <label class="col-3">Product Url</label><input class="col-5" type="url" placeholder="Product Url" />
+                <label class="col-3">Product Url</label>
+                <input class="col-5" type="url" placeholder="Product Url" formControlName="url" />
             </div>
 
             <p-fileUpload #fileUpload id="file" name="uploadedFiles[]" [multiple]="false" accept="image/*"
@@ -159,6 +160,9 @@
                     <div>Upload Promotion Banner</div>
                 </ng-template>
                 </p-fileUpload>
+            <div class="d-flex flex-row-reverse mt-3">
+                <button class="btn btn-primary" type="submit" (click)="promoteProduct()">Submit</button>
+            </div>
          </form>
         
         </p-dialog>
