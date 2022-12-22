@@ -34,7 +34,7 @@ public class FeedController {
 	}
 	
 	@PostMapping("/promotion/add")
-	public ResponseModel addPromotion(@RequestParam("pData") String data,
+	public ResponseModel addPromotion(@RequestParam("data") String data,
 			@RequestParam("file") MultipartFile image,
 			@RequestHeader("Authorization") String token) {
 		try {

@@ -177,15 +177,19 @@ export class AdminManageComponent implements OnInit {
     };
 
     if (this.fileUpload._files.length <= 1 && this.fileUpload._files.length > 0 && this.uploadForm.valid) {
-        this.formData.append('file', this.fileUpload._files[1]);
+        this.formData.append('file', this.fileUpload._files[0]);
     }
 
-    this.formData.append('pData', JSON.stringify(json));
+    this.formData.append('data', JSON.stringify(json));
 
     this.http.post<any>(ApiUrls.ADD_PROMOTION,this.formData, this.httpOptions1).subscribe(res=>{
       console.log(res);
+      this.loading = false;
+      this.promo = false;
     }, err=>{
       console.log(err);
+      this.loading = false;
+      this.promo = false;
     });
 
   }
