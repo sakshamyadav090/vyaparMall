@@ -34,7 +34,24 @@
 </div>
 
 
-<div className='sliderbox'>
+
+
+<p-carousel [value]="images" [numVisible]="1"  [ngStyle]="{'width':'40%', 'height':'50px'}" [circular]="true" [autoplayInterval]="3000">
+  <ng-template let-image pTemplate="item">
+      <img src="{{image.src}}" alt="{{image.alt}}">
+  </ng-template>
+</p-carousel>
+
+
+
+
+
+
+
+
+
+
+<!-- <div className='sliderbox'>
 
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -58,7 +75,7 @@
     </button>
   </div>
 
-</div>
+</div> -->
 
 <div class="body3image">
   <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>Industry Market</h2>
