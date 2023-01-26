@@ -78,6 +78,7 @@ loadProfileData(){
     // this.router.navigate(['home']);
     this.loading=false;
   }else{
+    this.getBusinesTypes();
     this.getByHeader(ApiUrls.VERIFY_TOKEN).subscribe(Response=>{
         if(Response.code!=200||!Response.success){
           this.loading=false;
@@ -85,7 +86,7 @@ loadProfileData(){
         }else if(Response.code==200 && Response.success){
           this.loading=false;
           this.httpResponse=Response.data;
-          //this.selectedBusiness=Response.data.natureOfBuisness["name"];
+          this.selectedBusiness=Response.data.natureOfBuisness["businessTypeId"];
           this.profileForm.patchValue({
             name:Response.data.firstName +' '+ Response.data.lastName,
             aadhaar:Response.data.aadhaarNumber,
@@ -95,8 +96,8 @@ loadProfileData(){
             mobileNumber:Response.data.mobileNumber,
             pan:Response.data.panNumber,
             pincode:Response.data.pincode,
-            gst:Response.data.gst,
-            natureOfBusiness:Response.data.natureOfBuisness["name"]
+            gst:Response.data.gst
+            //natureOfBusiness:Response.data.natureOfBuisness["name"]
           });
           //console.log(Response.data.natureOfBuisness["name"]);
           //this.business.push(Response.data.natureOfBuisness.name);
@@ -196,7 +197,7 @@ saveProfile(){
      "pincode": this.profileForm.controls["pincode"].value,
      "aadhaarNumber": this.profileForm.controls["aadhaar"].value,
      "panNumber": this.profileForm.controls["pan"].value,
-     "natureOfBuisness": {"businessId":this.profileForm.controls["natureOfBusiness"].value}
+     "natureOfBuisness": {"businessTypeId":this.profileForm.controls["natureOfBusiness"].value}
  };
      this.updateByPost(ApiUrls.UPDATE_USER,profileJson).subscribe(Response=>{
        console.log(Response);

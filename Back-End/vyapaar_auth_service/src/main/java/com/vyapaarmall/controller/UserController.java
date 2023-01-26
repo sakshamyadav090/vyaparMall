@@ -44,6 +44,18 @@ public class UserController {
 		}
 	}
 	
+	@PostMapping("/register/Admin")
+	public ResponseModel registerAdmin(@RequestBody User user,@RequestHeader("Authorization") String token) {
+		
+		try {
+		return new ResponseModel(
+				userService.registerAdmin(user,token),201,true,"Admin Created");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),404,false,"Failed to Create Admin");
+		}
+	}
+	
 	@GetMapping("/suppliers/unapproved")
 	public ResponseModel getUnapprovedSuppliers(@RequestHeader("Authorization") String token) {
 		try {
@@ -80,6 +92,17 @@ public class UserController {
 		}
 	}
 	
+	@PutMapping("/deleteAdmin/{id}")
+	public ResponseModel DeleteAdmin(@PathVariable int id,@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.deleteAdmin(id,token), 200, true, "Admin List Updated");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Update Failed");
+		}
+	}
+	
 	@PatchMapping("/user/updatePassword")
 	public ResponseModel updatePassword(@RequestBody User user) {
 		try {
@@ -96,6 +119,17 @@ public class UserController {
 		try {
 			return new ResponseModel(
 					btService.getBusinessTypes(token), 200, true, "Fetch Success");
+		} catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(), 404, false, "Fetch Failed");
+		}
+	}
+	
+	@GetMapping("/adminList")
+	public ResponseModel getAllAdminList(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					userService.getAdminList(token), 200, true, "Fetch Success");
 		} catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(), 404, false, "Fetch Failed");
@@ -123,5 +157,6 @@ public class UserController {
 					e.getMessage(), 404, false, "Update Failed");
 		}
 	}
+	
 	
 }

@@ -1,120 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Admin Management Data Table</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script>
-  $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-  });
-  </script>
-  </head>
-  <body>
-  <div class="container-xl">
-      <div class="table-responsive">
-          <div class="table-wrapper">
-              <div class="table-title">
-                  <div class="row">
-                      <div class="col-sm-5">
-                          <h2>Admin <b>Management</b></h2>
-                      </div>
-                      <div class="col-sm-7">
-                          <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                          <!-- <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a> -->
-                      </div>
-                  </div>
+<p-toast></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="Create New Admin" icon="pi pi-plus" class="p-button-success mr-2" (click)="openDialog()"></button>
+
+    </ng-template>
+  </p-toolbar>
+<p-table #dt [value]="listData" [columns]="adminColumn" [paginator]="true" [rows]="10" #cplans [responsive]="true"
+  [globalFilterFields]="['email','name']">
+
+
+  <ng-template pTemplate="caption">
+    <div class="ui-g">
+
+      <div class=" pull-left" style="margin-top: 0.5em;margin-right: -1em;margin-left: 1em;">
+        <span> Name : </span>
+      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="pull-right" style="margin-left: auto;">
+        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText [(ngModel)]="searchValue" size="50" placeholder="Global Filter"
+          (keyup)="filterGlobal(dt)" style="width:auto">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" class="{{col.class}}">
+        {{col.header}} <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)'"></p-sortIcon>
+
+      </th>
+    </tr>
+
+  </ng-template>
+  <ng-template pTemplate="body" let-listitem let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        {{listitem[col.field]}}
+        <div class="action-item" *ngIf="col.header == 'Action(s)'">
+          <!-- <a (click)="viewDetails(listitem)" pTooltip="View" tooltipPosition="top"> -->
+
+          <a (click)="delete(listitem.userId,listitem.name)"  pTooltip="Delete" tooltipPosition="top">
+            <span class="pi pi-pencil pi-pw"></span>
+          </a>
+        <!-- <a (click)="deleteDetails(listitem.id,listitem.name,listitem.plan,listitem.designation)"
+            *ngIf="!readonlyFlag" pTooltip="Delete" tooltipPosition="top">
+            <span class="pi pi-times pi-pw"></span>
+          </a>-->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="AdminAccountDialog" [style]="{width: '550px'}" header="Create Admin Account" [modal]="true" styleClass="p-fluid"
+(onHide)="hideDialog()">
+  <p-message severity="error" text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag">
+</p-message>
+    <ng-template pTemplate="content">
+      <form [formGroup] = "AdminAccountForm">
+        <div class="row">
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <input placeholder="First name*" formControlName="fName" type="text"
+                  class="form-control form-control-lg" />
               </div>
-              <table class="table table-striped table-hover">
-                  <thead>
-                      <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Date Created</th>
-                          <th>Role</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <td>1</td>
-                          <td><a href="#"><img src="/examples/images/avatar/1.jpg" class="avatar" alt="Avatar"> Michael Holz</a></td>
-                          <td>04/10/2013</td>
-                          <td>Admin</td>
-                          <td><span class="status text-success">&bull;</span> Active</td>
-                          <td>
-                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>2</td>
-                          <td><a href="#"><img src="/examples/images/avatar/2.jpg" class="avatar" alt="Avatar"> Paula Wilson</a></td>
-                          <td>05/08/2014</td>
-                          <td>Publisher</td>
-                          <td><span class="status text-success">&bull;</span> Active</td>
-                          <td>
-                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>3</td>
-                          <td><a href="#"><img src="/examples/images/avatar/3.jpg" class="avatar" alt="Avatar"> Antonio Moreno</a></td>
-                          <td>11/05/2015</td>
-                          <td>Publisher</td>
-                          <td><span class="status text-danger">&bull;</span> Suspended</td>
-                          <td>
-                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>4</td>
-                          <td><a href="#"><img src="/examples/images/avatar/4.jpg" class="avatar" alt="Avatar"> Mary Saveley</a></td>
-                          <td>06/09/2016</td>
-                          <td>Reviewer</td>
-                          <td><span class="status text-success">&bull;</span> Active</td>
-                          <td>
-                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>5</td>
-                          <td><a href="#"><img src="/examples/images/avatar/5.jpg" class="avatar" alt="Avatar"> Martin Sommer</a></td>
-                          <td>12/08/2017</td>
-                          <td>Moderator</td>
-                          <td><span class="status text-warning">&bull;</span> Inactive</td>
-                          <td>
-                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-              <div class="clearfix">
-                  <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                  <ul class="pagination">
-                      <li class="page-item disabled"><a href="#">Previous</a></li>
-                      <li class="page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                  </ul>
+
+            </div>
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <input placeholder="Last name*" formControlName="lName" type="text"
+                  class="form-control form-control-lg" />
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 mb-4 pb-2">
+                <div class="form-outline">
+                  <label class="phone">+91</label>
+                </div>
+              </div>
+              <div class="col-md-10 mb-4 pb-2">
+                <div class="form-outline">
+                  <input placeholder="Mobile number*" formControlName="mobileNumber" type="number"
+                    class="form-control form-control-lg" />
+                </div>
               </div>
           </div>
-      </div>
-  </div>
-  </body>
-  </html>
+          <div class="mb-4">
+            <div class="form-outline">
+              <input type="email" placeholder="Your E-mail" formControlName="email"
+                class="form-control form-control-lg" />
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-outline">
+              <input type="text" placeholder="Create Password*" formControlName="password"
+                class="form-control form-control-lg" />
+            </div>
+          </div>
+      </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button  pButton pRipple label="Create Account" icon="pi pi-check" class="p-button-text" (click)="createNewAdminAccount()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

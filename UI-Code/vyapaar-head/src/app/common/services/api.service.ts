@@ -36,11 +36,29 @@ export class ApiService {
     return this.http.get<any>(url, this.httpOptions1);
   }
 
+  deny(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+
+    );
+  }
+
   getById(url: string, body: any): Observable<any> {
     return this.http.get<any>(url + body, {headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem("token")
     })}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getCity(url: string, body: any): Observable<any> {
+    // return this.http.get<any>(url + body, {headers: new HttpHeaders({
+    //   'Content-Type': 'application/json'
+    // })}).pipe(
+    //   catchError(this.handleError)
+    // );
+    return this.http.get<any>(url + body).pipe(
       catchError(this.handleError)
     );
   }
@@ -53,6 +71,19 @@ export class ApiService {
 
   save(url: string, body: any): Observable<any> {
     return this.http.post<any>(url, body, this.httpOptions).pipe(
+      catchError(this.handleError)
+
+    );
+  }
+  saveWithToken(url: string, body: any): Observable<any> {
+    return this.http.post<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+
+    );
+  }
+
+  saveWithHeader(url: string, body: any): Observable<any> {
+    return this.http.put<any>(url, body, this.httpOptions1).pipe(
       catchError(this.handleError)
 
     );
@@ -72,6 +103,12 @@ export class ApiService {
 
   approve(url: string, body: any): Observable<any> {
     return this.http.put<any>(url, body, this.httpOptions1).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteByPut(url: string): Observable<any> {
+    return this.http.put<any>(url,null,this.httpOptions1).pipe(
       catchError(this.handleError)
     );
   }

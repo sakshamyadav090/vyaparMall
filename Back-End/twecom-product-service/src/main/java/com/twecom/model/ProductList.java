@@ -15,8 +15,7 @@ public class ProductList {
 	private String pImage;
 	private int quantity;
 	private String category;
-	private int isDeleted;
-	private ApprovalStatus isApproved;
+	private ApprovalStatus status;
 	
 	public ProductList List(Product p){
 		this.pId=p.getPId();
@@ -25,8 +24,7 @@ public class ProductList {
 		this.pImage=p.getPImage().getImageOne();
 		this.quantity=p.getQuantity();
 		this.category=p.getCategory().getName();
-		this.isDeleted=p.getIsDeleted();
-		this.isApproved=p.getIsApproved();
+		this.status=p.getStatus();
 		return this;
 		
 	}

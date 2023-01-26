@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,12 +49,45 @@ public class FeedbackController {
 					e.getMessage(),404,false,"Not Found");
 		}
 	}
+
+	@GetMapping("/{fId}")
+	public ResponseModel getFeedbackById(@PathVariable int fId) {
+		try {
+			return new ResponseModel(
+					feedbackService.getFeedbackId(fId),200,true,"Fetched Successfully");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),404,false,"Not Found");
+		}
+	}
 	
 	@GetMapping("/user/product/{pId}")
 	public ResponseModel getAllFeedbacksByUser(@RequestHeader("Authorization") String token, @PathVariable int pId) {
 		try {
 			return new ResponseModel(
 					feedbackService.getFeedbacksByUserId(token, pId),200,true,"Fetched Successfully");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),404,false,"Not Found");
+		}
+	}
+	
+	@GetMapping("/unapproved")
+	public ResponseModel getUnapprovedFeedbacks(@RequestHeader("Authorization") String token) {
+		try {
+			return new ResponseModel(
+					feedbackService.getUnapprovedFeedbacks(token),200,true,"Fetched Successfully");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),404,false,"Not Found");
+		}
+	}
+	
+	@PutMapping("/approveOrDeny")
+	public ResponseModel approveOrDeny(@RequestHeader("Authorization") String token,@RequestBody Feedback feed) {
+		try {
+			return new ResponseModel(
+					feedbackService.approveOrDeny(token, feed),200,true,"Fetched Successfully");
 		}catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(),404,false,"Not Found");

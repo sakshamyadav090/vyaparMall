@@ -146,8 +146,7 @@ export class RegisterComponent implements OnInit {
           err => {
             this.messageService.add({severity:'error',detail:'Error while Register'});
             this.loading=false;
-            console.log(Response)
-            alert('nhi ho rha bhaiya');
+            console.log(err);
           });
       }else if(this.selectedCityValue==null && this.registerForm.valid && this.otpForm.valid){
         this.messageService.add({severity:'warn', summary:'Please select city', detail:'Please check whether you have selected the city.'});
@@ -189,7 +188,8 @@ getCity(){
   if(this.registerForm.value.pincode!=null){
     if(this.registerForm.controls['pincode'].valid){
       this.loading=true;
-      this.apiService.getById('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
+      this.apiService.getCity('https://api.postalpincode.in/pincode/',this.registerForm.value.pincode).subscribe(Response=>{
+        console.log(Response)
         this.cities=[];
         if(Response[0].Status=='Success'){
         for(let i=0;i<Response[0].PostOffice.length;i++){

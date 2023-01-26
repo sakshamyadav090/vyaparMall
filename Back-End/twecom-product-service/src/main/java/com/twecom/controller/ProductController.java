@@ -129,14 +129,14 @@ public class ProductController {
 	
 	@PutMapping("/update")
 	public ResponseModel updateProduct(
-			@RequestParam("data") String prod, 
+			@RequestParam("data") String data, 
 			@RequestParam("faqData") String[] faqData,
-			@RequestParam("file") MultipartFile[] image, 
+			@RequestParam(value = "file", required = false) MultipartFile[] image, 
 			@RequestHeader("Authorization") String token) {
 		ResponseModel responseModel;
 		try {
 			responseModel = new ResponseModel(
-			ps.updateProduct(prod,faqData,image,token),200,true,"Fetched Successfully");
+			ps.updateProduct(data,faqData,image,token),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(
@@ -182,6 +182,17 @@ public class ProductController {
 		}catch(Exception e){
 			return new ResponseModel(
 					e.getMessage(),200,false,"Unable to Delete");
+		}
+	}
+	
+	@PutMapping("/deny")
+	public ResponseModel denyProducts(@RequestHeader("Authorization") String token, @RequestBody Product product) {
+		try {
+			return new ResponseModel(
+			ps.denyProducts(token, product),200,true,"Product Denied");
+		}catch(Exception e){
+			return new ResponseModel(
+					e.getMessage(),400,false,"Error Occurred!");
 		}
 	}
 

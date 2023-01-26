@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,15 +14,12 @@ import lombok.Setter;
 
 @Entity
 @Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Faq {
+public class Promotion {
 	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private int faqId;
-	private String question;
-	private String answer;
-	private boolean isDeleted=false;
-	private ApprovalStatus status=ApprovalStatus.PENDING;
-	private int productId;
-	
+	private int id;
+	private String url;
+	@Lob
+	private String image;
 
 }

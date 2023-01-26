@@ -49,7 +49,7 @@ public class ProductService {
 		List<Product> list=repo.findBypSupplierId(userId);
 		list.forEach((n) -> {
 			ProductList pl=new ProductList();
-			if(n.getIsDeleted()==0) {
+			if(n.getStatus()!=ApprovalStatus.DELETED) {
 				proList.add(pl.List(n));
 			}
 		});
@@ -70,8 +70,8 @@ public class ProductService {
 	public Product addProduct(Product p,String[] faq,MultipartFile[] image, String token) throws IOException {
 		
 		int userId = authorizer.isTokenValid(token);
-		String[] images=new String[image.length];
-		for(int i=0;i<image.length;i++) {
+		String[] images=new String[image==null?0:image.length];
+		for(int i=0;i<images.length;i++) {
 			String fileName = StringUtils.cleanPath(image[i].getOriginalFilename());
 			if(fileName.contains("..")) {
 				throw new RuntimeException("Invalid Filename");
@@ -80,35 +80,54 @@ public class ProductService {
 		}
 		Image im = new Image();
 		im.setDeleted(false);
-		for(int i=0;i<images.length;i++) {
-			if(i==0) im.setImageOne(images[i]);
-			if(i==1) im.setImageTwo(images[i]);
-			if(i==2) im.setImageThree(images[i]);
+		if(images.length!=0) {
+			for(int i=0;i<images.length;i++) {
+				if(i==0) im.setImageOne(images[i]);
+				if(i==1) im.setImageTwo(images[i]);
+				if(i==2) im.setImageThree(images[i]);
+			}
 		}
-		
 		//p.setPImage(images);
+		if(image==null) {
+			Product dbProduct = repo.findById(p.getPId()).get();
+			p.setPImage(dbProduct.getPImage());
+		}else {
 		p.setPImage(im);
+		}
 		p.setPSupplierId(userId);
-		
+		Product dbProduct = repo.save(p);
+		try {
 		for(int i=0;i<faq.length;i++) {
 		Faq fq = new ObjectMapper().readValue(faq[i], Faq.class);
-		fq.setProductId(p.getPId());
-		fq.setDeleted(false);
-		faqRes.save(fq);
+		fq.setProductId(dbProduct.getPId());
+		if(fq!=null) {
+			fq.setDeleted(false);
+			faqRes.save(fq);
 		}
 		
-		return repo.save(p);
+		}
+		}catch(Exception e) {
+			Faq fq = new ObjectMapper().readValue(faq[0]+","+faq[1], Faq.class);
+			fq.setProductId(dbProduct.getPId());
+			if(fq!=null) {
+				fq.setDeleted(false);
+				faqRes.save(fq);
+			}
+		}
+		
+		return dbProduct;
 	}
 
-	public Product updateProduct(String prod,String[] faq, MultipartFile images[], String token) throws IOException {
+	public Product updateProduct(String prod,String[] faq, MultipartFile images[], String token) throws IOException {	
 		Product product = new ObjectMapper().readValue(prod, Product.class);
+		//Product dbProduct = repo.findById(product.getPId()).get();
 		int userId = authorizer.isTokenValid(token);
-		if(product.getPSupplierId()==userId) {
+		
 			product.setModifiedAt(new Date());
 			return addProduct(product,faq,images,token);
-		}else {
-			throw new RuntimeException("Product Not Found");
-		}
+//		}else {
+//			throw new RuntimeException("Product Not Found");
+//		}
 		
 	}
 	
@@ -118,7 +137,7 @@ public class ProductService {
 		if(pr.getPSupplierId()==userId) {
 			throw new RuntimeException("Product Not Found");
 		}
-		pr.setIsDeleted(1);
+		pr.setStatus(ApprovalStatus.DELETED);
 		pr.setModifiedAt(new Date());
 		repo.save(pr);
 		return "Deleted Successfully!";		
@@ -130,15 +149,13 @@ public class ProductService {
 //			throw new RuntimeException("Unauthorized User");
 //		}
 		List<ProductList> proList=new ArrayList<>();
-		List<Product> list=repo.findByIsApproved(ApprovalStatus.PENDING);
+		List<Product> list=repo.findByStatus(ApprovalStatus.PENDING);
 		if(list.isEmpty()) {
 			throw new RuntimeException("No products Found");
 		}
 		list.forEach((n) -> {
 			ProductList pl=new ProductList();
-			if(n.getIsDeleted()==0) {
-				proList.add(pl.List(n));
-			}
+			proList.add(pl.List(n));
 		});
 		
 		 return proList;
@@ -151,8 +168,20 @@ public class ProductService {
 //		throw news RuntimeException("Unauthorized User");
 //	}
 		Product dbProduct = repo.findById(product.getPId()).get();
-		dbProduct.setIsApproved(ApprovalStatus.APPROVED);
+		dbProduct.setStatus(ApprovalStatus.APPROVED);
 		repo.save(dbProduct);
 		return null;
+	}
+
+	public Product denyProducts(String token, Product product) {
+//		int userId = authorizer.isTokenValid(token);
+//		if(roleId!=1) {
+//		throw news RuntimeException("Unauthorized User");
+//	}
+		Product dbProduct = repo.findById(product.getPId()).get();
+		dbProduct.setStatus(ApprovalStatus.REJECTED);
+		dbProduct.setDenyReason(product.getDenyReason());
+		repo.save(dbProduct);
+		return dbProduct;
 	}
 }

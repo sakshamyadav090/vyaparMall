@@ -16,6 +16,9 @@ import lombok.Setter;
 @Table(name = "roles")
 @Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Role {
+	public Role(int i) {
+		this.roleId=i;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int roleId;
