@@ -26,12 +26,10 @@ export class ApiUrls {
   public static PASSWORD_UPDATE = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/updatePassword';
   public static ADD_CATEGORY = ApiUrls.API_ENDPOINT + 'product-service/category/add';
   public static APPROVE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/approve';
-<<<<<<< HEAD
   public static TERMS = 'http://localhost:8120/feeds/terms';
   
   
   
-=======
   public static UPDATE_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/update';
   public static DENY_PRODUCT = ApiUrls.API_ENDPOINT + 'product-service/product/deny';
   public static ADMIN_LIST = ApiUrls.API_ENDPOINT + 'auth-service/auth/adminList';
@@ -39,11 +37,9 @@ export class ApiUrls {
   public static REGISTER_ADMIN = ApiUrls.API_ENDPOINT + 'auth-service/auth/register/Admin';
 
 
-  public static TERMS = 'http://localhost:8120/feeds/terms';
 
 
 
->>>>>>> b31a821257e76b11d30c15c0d63d8a148717cba6
   public static GET_BY_USER_ID = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/';
 
   public static APPROVE_USER = ApiUrls.API_ENDPOINT + 'auth-service/auth/user/approve';
