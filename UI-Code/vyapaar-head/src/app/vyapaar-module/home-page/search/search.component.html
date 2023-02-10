@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div class ="product1">
+
+  
+<!-- Filters widget -->
+<div class="filters">
+  <h3>Filters</h3>
+  <form>
+    <label for="price-range">Price Range:</label>
+    <input type="range" id="price-range" min="0" max="1000">
+    <br>
+    <div class="dropdown">
+      <input type="checkbox" id="dropdown">
+    
+      <label class="dropdown__face" for="dropdown">
+        <div class="dropdown__text">Dropdown</div>
+    
+        <div class="dropdown__arrow"></div>
+      </label>
+    
+      <ul class="dropdown__items">
+        <li>🙂</li>
+        <li>😺</li>
+        <li>😽</li>
+        <li>😎</li>
+        <li>🤗</li>
+      </ul>
+    </div>
+    <br>
+    <input  class="btn btn-primary btn1 " type="submit" value="Apply">
+  </form>
+
+
+<!-- Sorting widget -->
+  <h3>Sort By</h3>
+  <form>
+    <label for="sort-by">Sort By:</label>
+    <select id="sort-by">
+      <option value="relevance">Relevance</option>
+      <option value="price-asc">Price (Low to High)</option>
+      <option value="price-desc">Price (High to Low)</option>
+    </select>
+    <input  class="btn btn-primary btn1 " type="submit" value="Apply">
+  </form>
+</div>
+<div class="product1" >
+<div class="col-lg-2 px-3 boxMain" *ngFor="let product of products">
+  <div class="box1">
+    <img src="../../../assets/Images/castrol_edge_engine_oil_5w_40_4l_16233363_0.jpg" class="d-block w-100"
+      alt="image" />
+  </div>
+  <div class="box2">
+    <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
+
+    <div class="Verified">
+      <p>Carysil Magic Salsa 1816 Sink [Deep Black]</p>
+      <i></i><span>Verified</span>
+      
+      <i class='fa fa-thumbs-up'></i>
+      <p><b>₹ 8000</b></p>
+    </div>
+     <button class="btn btn-primary btn1 ">Contact Suplier</button>  
+     <button class="btn btn-primary">Get Best Price</button>
+  </div>
+</div>
+</div>  
+
+</div>
+<app-footer></app-footer>

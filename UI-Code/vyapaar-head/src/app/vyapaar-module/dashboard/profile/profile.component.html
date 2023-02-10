@@ -1,0 +1,156 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="container emp-profile">
+  <p-message severity="error"
+  text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag && !profileForm.valid">
+</p-message>
+      <form [formGroup]="profileForm" method="post">
+        <div class="row">
+            <!-- <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
+                    <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file"/>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col-md-10">
+                <div class="profile-head">
+                            <h5>
+                                <input type="text" formControlName="firmName" placeholder="Firm Name"/>
+                            </h5>
+                            <h6><div class="field">
+                              <label>Nature of Business</label>
+                              <p-dropdown formControlName="natureOfBusiness"  [options]="business"
+                              placeholder="Select Business *" [(ngModel)]="selectedBusiness" [showClear]="true">
+                              </p-dropdown>
+                              <!-- <input *ngIf="!editFlag" formControlName="natureOfBusiness"/> -->
+                          </div></h6>
+                            <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" [disabled]="editFlag" (click)="enableEdit()" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+            </div>
+        </div>
+        <div class="row">
+            <!-- <div class="col-md-4">
+                <div class="profile-work">
+                    <p>WORK LINK</p>
+                    <a href="">Website Link</a><br/>
+                    <a href="">Bootsnipp Profile</a><br/>
+                    <a href="">Bootply Profile</a>
+                    <p>SKILLS</p>
+                    <a href="">Web Designer</a><br/>
+                    <a href="">Web Developer</a><br/>
+                    <a href="">WordPress</a><br/>
+                    <a href="">WooCommerce</a><br/>
+                    <a href="">PHP, .Net</a><br/>
+                </div>
+            </div> -->
+            <div class="col-md-6">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Name" formControlName="name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" placeholder="Email" formControlName="email"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Phone</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span>+91</span><input type="text"  placeholder="Phone Number" formControlName="mobileNumber"/>
+                                    </div>
+                                    <div class="col-md-3 mb-4 pb-2"
+                                    *ngIf="profileForm.controls['mobileNumber'].valid && profileForm.controls['mobileNumber'].value!=httpResponse.mobileNumber && (this.profileForm.controls['mobileNumber'].dirty || this.profileForm.controls['mobileNumber'].touched) && !isPhoneNoValidated">
+                                    <button (click)="validatePhoneNo()" type="button" [disabled]="OTP" class="btn btn-lg"
+                                      data-mdb-ripple-color="info"><span>{{sendOTP}}</span></button>
+                                    <span *ngIf="OTP">resend in {{seconds}} seconds</span>
+                                    <form [formGroup]="otpForm">
+                                      <input *ngIf="sentOTP" formControlName="otp" placeholder="Enter OTP" type="number"
+                                        class="form-control form-control-lg" />
+                                    </form>
+                                    <button *ngIf="otpForm.valid" (click)="submitOTP()" type="button" class="btn btn-lg"
+                                      data-mdb-ripple-color="info">Validate OTP</button>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                      <label>City</label>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p-dropdown *ngIf="editFlag" [options]="cities" placeholder="Select City *" [showClear]="true"
+                                   formControlName="city">
+                                  </p-dropdown>
+                                  <input *ngIf="!editFlag" formControlName="city" />
+                                  </div>
+                              </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Pin Code</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <input type="number" placeholder="Pin Code" (keyup)="getCity()" formControlName="pincode"/>
+                                    </div>
+                                </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Aadhaar Number</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" placeholder="Aadhaar Number" formControlName="aadhaar"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>PAN Number</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" placeholder="PAN Number" formControlName="pan"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>GSTIN</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" placeholder="GST Number" formControlName="gst"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="editFlag">
+        <button  class="btn btn-success" (click)="saveProfile()">Save</button>
+        <button  class="btn btn-danger" (click)="cancel()">Cancel</button>
+    </div>
+    </form>
+</div>
