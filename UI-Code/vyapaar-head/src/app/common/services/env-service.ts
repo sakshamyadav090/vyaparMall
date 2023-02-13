@@ -33,10 +33,14 @@ export class EnvService {
   private setEnvVariables(): void {
     const hostname = window && window.location && window.location.host;
 
-    if (/^.*localhost.*/.test(hostname) || /^.*103.163.204.80.*/.test(hostname)) {
+    if (/^.*103.163.204.80.*/.test(hostname)) {
       this._env = Environment.Local;
       this._apiUrl = 'http://localhost:9090/';
       sessionStorage.setItem("baseUrl", 'http://103.163.204.80:8080/');
+    } else if (/^.*localhost.*/.test(hostname) ) {
+      this._env = Environment.Local;
+      this._apiUrl = 'http://localhost:9090/';
+      sessionStorage.setItem("baseUrl", '');
     }
     else if (/oci-uatcommissionportal.acsicorp.com/.test(hostname)) {
       this._env = Environment.Uat;

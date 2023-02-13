@@ -24,7 +24,6 @@ import com.vyapaarmall.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
 public class UserController {
 	
 	@Autowired

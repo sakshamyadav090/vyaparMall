@@ -27,7 +27,7 @@ public class JwtTokenAuthorizer {
 			HttpEntity<String> entity = new HttpEntity<>("body", headers);
 
 			ResponseModel rm = restTemplate.
-					exchange("http://localhost:9090/auth-service/auth/verify-token", HttpMethod.GET, entity, ResponseModel.class).getBody();
+					exchange("http://localhost:8080/auth/verify-token", HttpMethod.GET, entity, ResponseModel.class).getBody();
 			if(rm.isSuccess()) {
 				String id = rm.getData().toString().substring(8,10).trim();
 				if(id.contains(",")) {
