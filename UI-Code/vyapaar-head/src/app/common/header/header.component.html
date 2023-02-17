@@ -1,4 +1,4 @@
-<header class="">
+<!-- <header class="">
   <div class="headbox">
   <div class="logo">
 <a href="#"><img src="../../../assets/Images/full-logo.jpg" height="53" width="200" alt="logo" /></a>
@@ -43,4 +43,126 @@
 
 
 
-</header>
+</header> -->
+
+<div class="row headfixed bg-white">
+  <header class="headbox">
+	 <div class="row">
+  	<section class="d-lg-flex d-xl-flex d-md-block d-sm-block align-items-center py-3">
+	
+		<div class="logo col-5 col-sm-12 mx-2">
+		  <a href="#"><img src="../../../assets/Images/full-logo.jpg" height="53"  alt="logo" /></a>
+		</div>
+		
+		<div class="searchMain d-flex">
+			
+		  <div class="selectBox mx-2" >
+			<div class="selectBox__value dropdown-toggle" data-toggle="dropdown">City</div>
+			<div class="dropdown-menu">
+			  <a href="#" class="dropdown-item">Kathmandu</a>
+			  <a href="#" class="dropdown-item">Biratnagar</a>
+			  <a href="#" class="dropdown-item">Pokhara</a>
+			  <a href="#" class="dropdown-item">Lumbini</a>
+			  <a href="#" class="dropdown-item">Chitwan</a>
+			  <a href="#" class="dropdown-item">Dharan</a>
+			  <a href="#" class="dropdown-item">Kathmandu</a>
+			  <a href="#" class="dropdown-item">Biratnagar</a>
+			  <a href="#" class="dropdown-item">Pokhara</a>
+			  <a href="#" class="dropdown-item">Lumbini</a>
+			  <a href="#" class="dropdown-item">Chitwan</a>
+			  <a href="#" class="dropdown-item">Dharan</a>
+			</div>
+		  </div>
+			
+		  <div class="searchBox position-relative w-100">
+		   <input type="text" placeholder="What are you looking for..." class="w-100 border-0 bg-transparent srcAll" />
+		   <i class="fa fa-search position-absolute srcIcon"></i>
+			  
+		   <div class="srcopenbox" style="display: none;">
+		   <div class="srcopencnt">
+			  <a href="#">Wallpaper</a>
+			  <a href="#">Modular Kitchens</a>
+			  <a href="#">Plywood</a>
+			  <a href="#">Solar Panel</a>
+			  <a href="#">Generators</a>
+			  <a href="#">Wallpaper</a>
+			  <a href="#">Modular Kitchens</a>
+			  <a href="#">Plywood</a>
+			  <a href="#">Solar Panel</a>
+			  <a href="#">Generators</a>
+		   </div>
+		   </div>
+			  
+		  </div>
+		</div>
+		
+		<div class="headRight">
+		  <ul class="list-unstyled d-flex m-0 justify-content-sm-center">
+		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center" data-bs-toggle="modal" data-bs-target="#allmodal">
+			<i class="pi pi-volume-up font1-4rem"></i>
+		    <span class="font13">Post Your Requirement</span>
+		   </li>
+		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center">
+			 <a href="#" class="headlink d-flex justify-content-center flex-wrap"  *ngIf="!isLoggedIn">
+			<i class="pi pi-inbox font1-3rem"></i>
+		    <span class="font13" >Become a Seller</span>
+			</a>
+		   </li>
+		   <li class="headlink usericon d-flex justify-content-center flex-wrap colordark text-center">
+			<i class="pi pi-users font1-6rem" *ngIf="!isLoggedIn"></i>
+			<i class="pi pi-slack font1-6rem" *ngIf="isLoggedIn"></i>
+		    <span class="font13">{{isLoggedIn?"Account Info":"Sign In/Sign Up"}}</span>
+			   
+		   <div class="profileMain">
+			 <div class="profileBox" *ngIf="!isLoggedIn">
+				<h4 class="colordark font1-2rem mb-1">Get started Now</h4>
+				<p class="font13 color707">Please Log in to go to your profile</p>
+				<button class="profile_logbtn font16" routerLink="/auth/login">Log in</button>
+				<div class="font13 color394 pt-3">Don't have an account? <a class="color006 pointer" routerLink="/auth/register">Sign up</a></div>
+				<div class="d-block profileLink mt-3">
+				 <a class="border-top" routerLink="/aboutUs"><i class="pi pi-phone font1-3rem"></i> Enquires? Contact Us</a>
+				</div>
+			 </div>
+			 <div class="profileBox" *ngIf="isLoggedIn">
+				<div class="d-block profileLink">
+				 <a routerLink="/dashboard"><i class="pi pi-credit-card font1-3rem"></i> Dashboard</a>
+				 <a class="border-top" routerLink="/aboutUs"><i class="pi pi-phone font1-3rem"></i> Enquires? Contact Us</a>
+				</div>
+			 </div>
+		   </div>
+			   
+		   
+			   
+		   </li>
+		  </ul>
+		</div>
+		
+	</section>
+	  
+    <section class="d-flex align-items-center navMain">
+	  <div class="allcateg">
+		<a href="#"><i class="bi bi-list font1-2rem colordark weight600 me-1"></i> Categories</a>
+	  </div>
+		
+	  <nav class="navbar navbar-expand-lg">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+		  <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+			<li class="nav-item" *ngFor="let category of categories.slice(7,13)">
+				<a class="nav-link active" aria-current="page" href="#">{{category.name}}</a>
+			</li>
+		  </ul>
+
+		</div>
+	</nav>
+	
+	</section>
+</div>	  
+  </header>
+</div>
+
+
+
