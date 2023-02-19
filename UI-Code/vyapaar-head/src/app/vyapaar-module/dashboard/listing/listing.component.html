@@ -1,0 +1,158 @@
+<p-toast></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+
+        </ng-template>
+      </p-toolbar>
+
+    <p-table #dt [value]="listData" [columns]="listingColumn" [rows]="10" [paginator]="true" [globalFilterFields]="['pname','category','quantity','status']"
+    [responsive]="true" responsiveLayout="scroll"
+         [rowHover]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Products</h5>
+                <span class="p-input-icon-right">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="search($event.target,dt)" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+
+                <th *ngFor="let col of columns" [pSortableColumn]="col.sortField">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)'
+                   && col.header !== 'Status' && col.header !== 'Image' && col.header !== 'Price Range'">
+                    </p-sortIcon>
+
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-columns>
+            <tr>
+                <td>{{columns.pname}}</td>
+                <td><img [src]="'data:image/jpg;base64,' + columns.pimage" [alt]="columns.pname" width="100"
+                        class="shadow-4" /></td>
+                <td>{{columns.ppriceRange}}</td>
+                <td>{{columns.category}}</td>
+                <td>{{columns.quantity}}</td>
+                <td>{{columns.status}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="editProduct(columns.pid)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteProduct(columns.pid,columns.pname)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{listData ? listData.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="productDialog" [style]="{width: '550px'}" header="Product Details" [modal]="true" styleClass="p-fluid"
+(onHide)="hideDialog()">
+  <p-message severity="error" text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag">
+</p-message>
+<p-message severity="warn" text="If you want to change the image then, your exisitng images will be deleted"
+*ngIf="editProductFlag">
+</p-message>
+    <ng-template pTemplate="content">
+      <form [formGroup] = "uploadForm">
+        <div class="formgrid grid row">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" pInputText  formControlName="name" autofocus />
+          <!-- <small class="p-error" *ngIf="submitted && !uploadForm.value.name">Name is required.</small> -->
+      </div>
+    </div>
+
+    <p-fileUpload #fileUpload id="file" name="uploadedFiles[]" [multiple]="true" accept="image/*"
+                  [customUpload]="true" [fileLimit]="3" [maxFileSize]="1000000"
+                  [showUploadButton]="false" [showCancelButton]="false" chooseLabel="Select Images"
+                  [previewWidth]="100">
+                  <ng-template pTemplate="toolbar">
+                    <div>Upload 3 Files</div>
+                </ng-template>
+                </p-fileUpload>
+
+        <div class="field">
+            <label>Description</label>
+            <input pInputText type="text" formControlName="description"/>
+        </div>
+        <div class="field">
+            <label>Category</label>
+            <p-dropdown formControlName="category" [(ngModel)]="selectedCategory" [options]="category" placeholder="Select">
+            </p-dropdown>
+        </div>
+        <div class="field col">
+          <label>Origin</label>
+          <input type="text" pInput formControlName="origin"/>
+      </div>
+      <div class="field col">
+        <label>Manufacturer</label>
+        <input type="text" pInput formControlName="manufacturer"/>
+    </div>
+    <div class="formgrid grid">
+            <div class="field col">
+                <label for="priceStart">Price Range</label>
+                <div class="formgrid grid row">
+                <input class="field col" type="number" placeholder="Price Starting range" formControlName="priceStart" mode="currency" currency="INR" locale="en-IN"/>
+                <input class="field col" type="number" placeholder="Price End range" formControlName="priceEnd" mode="currency" currency="INR" locale="en-IN"/>
+              </div>
+            </div>
+            <div class="field col">
+                <label for="quantity">Quantity</label>
+                <p-inputNumber formControlName="quantity"></p-inputNumber>
+            </div>
+            <p-table #dt *ngIf="showFaqFlag" styleClass="ui-table-ladder" [responsive]="true"
+            [resizableColumns]="true" [value]="uploadForm.controls['faq']['controls']" formGroupName="faq">
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 45%;">Question</th>
+                <th style="width: 50%;">Answer</th>
+                <!-- <th style="width: 20%;">Commission Rate (%)<span
+                    class="text-danger">*</span></th> -->
+                <th style="width: 5%;">Delete</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-faq let-rowIndex="rowIndex">
+
+              <tr [formGroupName]="rowIndex">
+                <td style="width: 45%;"><input pInputText type="text" formControlName="question"></td>
+                <td style="width: 50%;"><input pInputText type="text" formControlName="answer"></td>
+                <!-- <td *ngIf="(rowIndex == 0 || rowIndex==null || rowIndex==undefined)"></td> -->
+                <td style="width: 5%;" *ngIf="rowIndex == uploadForm.controls['faq']['controls'].length-1">
+                  <a href="javascript:void(0);" (click)="deleteFaq(rowIndex)"><span
+                      class="pi pi-times pi-pw"></span></a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+            <p-footer>
+              <button *ngIf="addFaqFlag" type="button" class="ui-button-info" pButton (click)="addFaq()" label="Add FAQ"></button>
+            </p-footer>
+        </div>
+      </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button *ngIf="!editProductFlag" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+        <button *ngIf="editProductFlag" pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="editSaveProduct()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

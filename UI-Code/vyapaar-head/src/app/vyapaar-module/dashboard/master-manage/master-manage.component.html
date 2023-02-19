@@ -1,0 +1,117 @@
+<p-toast></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="Create New Admin" icon="pi pi-plus" class="p-button-success mr-2" (click)="openDialog()"></button>
+
+    </ng-template>
+  </p-toolbar>
+<p-table #dt [value]="listData" [columns]="adminColumn" [paginator]="true" [rows]="10" #cplans [responsive]="true"
+  [globalFilterFields]="['email','name']">
+
+
+  <ng-template pTemplate="caption">
+    <div class="ui-g">
+
+      <div class=" pull-left" style="margin-top: 0.5em;margin-right: -1em;margin-left: 1em;">
+        <span> Name : </span>
+      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="pull-right" style="margin-left: auto;">
+        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText [(ngModel)]="searchValue" size="50" placeholder="Global Filter"
+          (keyup)="filterGlobal(dt)" style="width:auto">
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [style.width]="col.width" [pSortableColumn]="col.field" class="{{col.class}}">
+        {{col.header}} <p-sortIcon [field]="col.field" *ngIf="col.header !== 'Action(s)'"></p-sortIcon>
+
+      </th>
+    </tr>
+
+  </ng-template>
+  <ng-template pTemplate="body" let-listitem let-columns="columns">
+    <tr>
+      <td *ngFor="let col of columns">
+        {{listitem[col.field]}}
+        <div class="action-item" *ngIf="col.header == 'Action(s)'">
+          <!-- <a (click)="viewDetails(listitem)" pTooltip="View" tooltipPosition="top"> -->
+
+          <a (click)="delete(listitem.userId,listitem.name)"  pTooltip="Delete" tooltipPosition="top">
+            <span class="pi pi-pencil pi-pw"></span>
+          </a>
+        <!-- <a (click)="deleteDetails(listitem.id,listitem.name,listitem.plan,listitem.designation)"
+            *ngIf="!readonlyFlag" pTooltip="Delete" tooltipPosition="top">
+            <span class="pi pi-times pi-pw"></span>
+          </a>-->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="AdminAccountDialog" [style]="{width: '550px'}" header="Create Admin Account" [modal]="true" styleClass="p-fluid"
+(onHide)="hideDialog()">
+  <p-message severity="error" text="Please check whether all the mandatory fields are filled correctly."
+  *ngIf="mandatFlag">
+</p-message>
+    <ng-template pTemplate="content">
+      <form [formGroup] = "AdminAccountForm">
+        <div class="row">
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <input placeholder="First name*" formControlName="fName" type="text"
+                  class="form-control form-control-lg" />
+              </div>
+
+            </div>
+            <div class="col-md-6 mb-4 pb-2">
+
+              <div class="form-outline">
+                <input placeholder="Last name*" formControlName="lName" type="text"
+                  class="form-control form-control-lg" />
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 mb-4 pb-2">
+                <div class="form-outline">
+                  <label class="phone">+91</label>
+                </div>
+              </div>
+              <div class="col-md-10 mb-4 pb-2">
+                <div class="form-outline">
+                  <input placeholder="Mobile number*" formControlName="mobileNumber" type="number"
+                    class="form-control form-control-lg" />
+                </div>
+              </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-outline">
+              <input type="email" placeholder="Your E-mail" formControlName="email"
+                class="form-control form-control-lg" />
+            </div>
+          </div>
+          <div class="mb-4">
+            <div class="form-outline">
+              <input type="text" placeholder="Create Password*" formControlName="password"
+                class="form-control form-control-lg" />
+            </div>
+          </div>
+      </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button  pButton pRipple label="Create Account" icon="pi pi-check" class="p-button-text" (click)="createNewAdminAccount()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

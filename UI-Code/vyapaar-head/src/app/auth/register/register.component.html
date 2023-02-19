@@ -1,0 +1,167 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+</div>
+<section class="h-100 h-custom gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <p-toast position="top-center"></p-toast>
+            <div class="row g-0">
+              <form [formGroup]="registerForm">
+                <div class="col-lg-12">
+                  <div class="p-5">
+                    <h3 class="fw-normal mb-5" style="color: #4835d4;">General Infomation</h3>
+                    <div class="mb-4">
+                      <p-message severity="error"
+                        text="Please check whether all the mandatory fields are filled correctly."
+                        *ngIf="mandatFlag && !registerForm.valid && !registerForm.controls['termAndCond'].value">
+                      </p-message>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-2 mb-4 pb-2">
+                        <div class="form-outline">
+                          <label>Register as :</label>
+                        </div>
+                      </div>
+                      <div class="col-md-1 mb-4 pb-2">
+                        <div class="form-outline">
+                          <input type="radio" (click)="userOrSupplier('user')" value="user"
+                            formControlName="role"><span>User</span>
+                        </div>
+                      </div>
+                      <div class="col-md-2 mb-4 pb-2">
+                        <div class="form-outline">
+                          <input type="radio" (click)="userOrSupplier('supplier')" value="supplier"
+                            formControlName="role"><span>Supplier</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 mb-4 pb-2">
+
+                        <div class="form-outline">
+                          <input placeholder="First name*" formControlName="fName" type="text"
+                            class="form-control form-control-lg" />
+                        </div>
+
+                      </div>
+                      <div class="col-md-6 mb-4 pb-2">
+
+                        <div class="form-outline">
+                          <input placeholder="Last name*" formControlName="lName" type="text"
+                            class="form-control form-control-lg" />
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-2 mb-4 pb-2">
+                        <div class="form-outline">
+                          <label class="phone">+91</label>
+                        </div>
+                      </div>
+                      <div class="col-md-10 mb-4 pb-2">
+                        <div class="form-outline">
+                          <input placeholder="Mobile number*" formControlName="mobileNumber" type="number"
+                            class="form-control form-control-lg" />
+                        </div>
+                      </div>
+                      <div class="col-md-3 mb-4 pb-2"
+                        *ngIf="this.registerForm.controls['mobileNumber'].valid && (this.registerForm.controls['mobileNumber'].dirty || this.registerForm.controls['mobileNumber'].touched) && !isPhoneNoValidated">
+                        <button (click)="validatePhoneNo()" type="button" [disabled]="OTP" class="btn btn-lg"
+                          data-mdb-ripple-color="info"><span>{{sendOTP}}</span></button>
+                        <span *ngIf="OTP">resend in {{seconds}} seconds</span>
+                        <form [formGroup]="otpForm">
+                          <input *ngIf="sentOTP" formControlName="otp" placeholder="Enter OTP" type="number"
+                            class="form-control form-control-lg" />
+                        </form>
+                        <button *ngIf="otpForm.valid" (click)="submitOTP()" type="button" class="btn btn-lg"
+                          data-mdb-ripple-color="info">Validate OTP</button>
+                      </div>
+                    </div>
+                    <div class="mb-4" *ngIf="!isSupplier">
+                      <div class="form-outline">
+                        <input type="email" placeholder="Your E-mail" formControlName="email"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <div class="form-outline">
+                        <input type="password" placeholder="Create Password*" formControlName="password"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                    <div class="mb-4">
+                      <div class="form-outline">
+                        <input type="password" placeholder="Confirm Password*" formControlName="confirmPassword"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 bg-indigo text-white" *ngIf="isSupplier">
+                  <div class="p-5">
+                    <h3 class="fw-normal mb-5">Business Details</h3>
+
+                    <div class="mb-4 pb-2">
+                      <div class="form-outline form-white">
+                        <input placeholder="Company Name*" formControlName="firmName" type="text"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                    <div class="mb-4 pb-2">
+                      <div class="form-outline">
+                        <input type="email" placeholder="Business E-mail*" formControlName="email"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-7 mb-4 pb-2">
+                        <div class="form-outline">
+                          <p-dropdown [options]="cities" placeholder="Select City *" [showClear]="true"
+                            [disabled]="cities.length==0" (onChange)="selectCity($event.value)">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-5 mb-4 pb-2">
+                        <div class="form-outline">
+                          <input type="number" placeholder="Pincode*" (keyup)="getCity()" formControlName="pincode"
+                            class="form-control form-control-lg" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-4 pb-2">
+                      <div class="form-outline form-white">
+                        <input type="text" placeholder="GST Number" formControlName="gst"
+                          class="form-control form-control-lg" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-5 bg-light">
+                  <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                    <input formControlName="termAndCond" class="form-check-input me-3" type="checkbox" value="true" />
+                    <label class="form-check-label text-grey" for="form2Example3">
+                      I do accept the <a routerLink="/term" class="indigo"><u>Terms and Conditions</u></a> of your
+                      site.
+                    </label>
+                  </div>
+                  <button (click)="submit()" type="button" class="btn btn-lg"
+                    data-mdb-ripple-color="dark">Register</button>
+                  <div class="mt-4">
+                    <label class="text-grey">
+                      Already have an account? <a routerLink="/auth/login" class="indigo"><u>Login here</u></a>
+                    </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,13 @@
+body .ui-dialog.lm {
+
+    width: 50%!important;
+    top: 250px !important;
+    z-index: 1000000;
+  }
+
+.info {
+  margin-top: 40px;
+}
+.name {
+  text-decoration: none;
+}

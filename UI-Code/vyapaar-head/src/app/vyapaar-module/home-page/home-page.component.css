@@ -1,0 +1,28 @@
+ .stripMain { width: 100%; text-align: center; display: flex; }
+.stripMain span { width: 33.33333%; font-size: 12px; font-weight: 600; letter-spacing: 1px; float: left; }
+.stripMain span:nth-child(1) { background: #FFE9E5; }
+.stripMain span:nth-child(2) { background: #F8C9C8; }
+.stripMain span:nth-child(3) { background: #FFE9E5; }
+.stripMain a { display: block; padding: 7px; color: #000; text-decoration: none; }
+
+.boxMain {  border: 0.5px solid rgba(207, 206, 201, 0.842); width: 15%; border-radius: 12px; padding: 6px;}
+
+.box1 {  overflow: hidden;}
+.box1 img { transition: 0.5s all; }
+.box1 img:hover { transform: scale(1.1); }
+.product1{display: flex; justify-content: space-between;}
+.head{display: flex; justify-content: space-between; align-items: center;}
+
+
+.product2{ max-width: 70%; width: 100%; margin: 0 auto; width: 9%;  }
+.box2 { text-align: center; overflow: hidden; margin: 5px;}
+.box2 img { transition: 0.5s all; }
+.box2 img:hover { transform: scale(1.1); }
+.producttop{display: flex; justify-content: space-between; margin-top: 1rem;}
+.btn1{margin-bottom: 10px;}
+.Verified{text-align: left;}
+
+.body3image { max-width: 93%; width: 100%; margin: 0 auto; margin-top: 2rem; }
+
+
+  

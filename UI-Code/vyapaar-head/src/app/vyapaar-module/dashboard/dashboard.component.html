@@ -1,0 +1,54 @@
+<app-header class="app_header"></app-header>
+<div class="body">
+    <div id="body-pd">
+        <header class="header" id="header">
+            <div class="header_toggle" >
+                <i class='pi pi-bars' id="header-toggle"></i>
+            </div>
+            <div class="header_img"> Dashboard </div>
+        </header>
+        <div class="l-navbar" id="nav-bar">
+            <nav class="nav">
+                <div>
+                    <a class="nav_logo">
+                        <i class='pi pi-credit-card nav_logo-icon'></i>
+                        <span class="nav_logo-name">Dashboard</span>
+                    </a>
+                    <div class="nav_list">
+                        <a class="nav_link" (click)="childSwitch('profile')">
+                            <i class='pi pi-user nav_icon' ></i>
+                            <span class="nav_name">Profile</span>
+                        </a>
+                        <a class="nav_link" (click)="childSwitch('master')">
+                          <i class='pi pi-user nav_icon' ></i>
+                          <span class="nav_name">Master</span>
+                      </a>
+                        <a class="nav_link" (click)="childSwitch('listing')">
+                            <i class='pi pi-bookmark nav_icon'></i>
+                            <span class="nav_name">My Listings</span>
+                        </a>
+                        <a class="nav_link active" (click)="childSwitch('admin')">
+                            <i class='pi pi-cog nav_icon'></i>
+                            <span class="nav_name">Manage</span>
+                        </a>
+                        <a class="nav_link" routerLink="/auth/login" (click)="logout()">
+                            <i class='pi pi-sign-out nav_icon'></i>
+                            <span class="nav_name">SignOut</span>
+                        </a>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="profile" >
+<app-profile *ngIf="profileComp"></app-profile>
+<app-listing *ngIf="listComp"></app-listing>
+<app-admin-manage *ngIf="admManageComp"></app-admin-manage>
+<app-master-manage *ngIf="masterComp"></app-master-manage>
+</div>
+<!-- <div>
+  <app-listing *ngIf="listComp"></app-listing>
+  </div> -->
+

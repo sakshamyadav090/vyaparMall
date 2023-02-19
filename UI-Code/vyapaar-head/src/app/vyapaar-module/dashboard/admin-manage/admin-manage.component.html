@@ -1,0 +1,171 @@
+<p-toast position="top-right"></p-toast>
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+<div class="d-flex justify-content-between my-2">
+    <div >
+        <h5>Add Category</h5>
+        <form [formGroup]="addCategoryForm" method="post">
+            <div>
+                <input class="" type="text" placeholder="Enter Category Name" formControlName="category" />
+                <input class="mx-3" type="submit" value="Add" (click)="addCategory()" />
+            </div>
+        </form>
+    </div>
+    <div class="mt-3">
+        <button class="btn btn-info" (click)="openPromotionDialog()">Promote Product</button>
+    </div>
+</div>
+<!-- Product Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="product card">
+    <p-table #dt [value]="unapprovedProducts" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Products</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="pname">Name </th>
+                <th pSortableColumn="ppriceRange" style="min-width:inherit">Price </th>
+                <th pSortableColumn="category">Category </th>
+                <th pSortableColumn="quantity">Quantity </th>
+                <th>Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.pname}}</td>
+                <td>{{product.ppriceRange }}</td>
+                <td>{{product.category}}</td>
+                <td>{{product.quantity}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewProduct(product.pid)">View
+                        Details</button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedProducts ? unapprovedProducts.length : 0 }} unapproved products.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- Supplier Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="supplier card my-2">
+    <p-table #dt [value]="unapprovedSuppliers" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Suppliers</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="firstName">Name </th>
+                <th pSortableColumn="firmName">Firm Name </th>
+                <th pSortableColumn="mobileNumber">Phone Number </th>
+                <th pSortableColumn="created">Created Date </th>
+                <th>Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td>{{user.firmName }}</td>
+                <td>{{user.mobileNumber}}</td>
+                <td>{{user.createdDate}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewSupplier(user.userId)">View
+                        Details</button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedSuppliers ? unapprovedSuppliers.length : 0 }} unapproved suppliers.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<!-- Feedback Table -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="feedback card my-2">
+     <p-table #dt [value]="unapprovedFeedbacks" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name','country.name','representative.name','status']" [(selection)]="selectedProduct"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Manage Feedbacks</h5>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="userId">User Id</th>
+                <th pSortableColumn="role">Role</th>
+                <th pSortableColumn="title">Title</th>
+                <th pSortableColumn="created">Created Date</th>
+                <th>Action </th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-feedback>
+            <tr>
+                <td>{{feedback.userId}} </td>
+                <td>{{feedback.role}}</td>
+                <td>{{feedback.title}}</td>
+                <td>{{feedback.createdDate}}</td>
+                <td><button pButton type="button" class="p-button-info" (click)="viewFeeback(feedback.id)">View
+                        Details</button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{unapprovedFeedbacks ? unapprovedFeedbacks.length : 0 }} unapproved suppliers.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+
+<!-- <div *ngIf="productDialog"> -->
+    <app-details-dialog *ngIf="popupFlag" [itemId]="itemId" [isProduct]="isProduct" [isFeedback]="isFeedback"
+    [display]="showPopup" (messageEvent)="receiveMessage($event)" (resetDisplayFlag)="changePopupFlag($event)" >
+  </app-details-dialog>
+<!-- </div> -->
+
+<p-dialog [(visible)]="promo" [style]="{width: '600px'}" header="Promote Product" [modal]="true"
+         [baseZIndex]="10000">
+
+         <form [formGroup] = "uploadForm">
+            <div class="row my-3">
+                <label class="col-3">Product Url</label>
+                <input class="col-5" type="url" placeholder="Product Url" formControlName="url" />
+            </div>
+
+            <p-fileUpload #fileUpload id="file" name="uploadedFiles[]" [multiple]="false" accept="image/*"
+                  [customUpload]="true" [fileLimit]="1" [maxFileSize]="1000000"
+                  [showUploadButton]="false" [showCancelButton]="false" chooseLabel="Select Images"
+                  [previewWidth]="100">
+                  <ng-template pTemplate="toolbar">
+                    <div>Upload Promotion Banner</div>
+                </ng-template>
+                </p-fileUpload>
+            <div class="d-flex flex-row-reverse mt-3">
+                <button class="btn btn-primary" type="submit" (click)="promoteProduct()">Submit</button>
+            </div>
+         </form>
+        
+        </p-dialog>
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
