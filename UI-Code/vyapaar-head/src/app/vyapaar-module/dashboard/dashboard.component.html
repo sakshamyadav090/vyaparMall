@@ -15,19 +15,19 @@
                         <span class="nav_logo-name">Dashboard</span>
                     </a>
                     <div class="nav_list">
-                        <a class="nav_link" (click)="childSwitch('profile')">
+                        <a class="nav_link active" (click)="childSwitch('profile')" >
                             <i class='pi pi-user nav_icon' ></i>
                             <span class="nav_name">Profile</span>
                         </a>
-                        <a class="nav_link" (click)="childSwitch('master')">
+                        <a class="nav_link" (click)="childSwitch('master')" *ngIf="role==='Master'">
                           <i class='pi pi-user nav_icon' ></i>
                           <span class="nav_name">Master</span>
                       </a>
-                        <a class="nav_link" (click)="childSwitch('listing')">
+                        <a class="nav_link" (click)="childSwitch('listing')" *ngIf="role==='Supplier'">
                             <i class='pi pi-bookmark nav_icon'></i>
                             <span class="nav_name">My Listings</span>
                         </a>
-                        <a class="nav_link active" (click)="childSwitch('admin')">
+                        <a class="nav_link" (click)="childSwitch('admin')" *ngIf="role==='Admin'">
                             <i class='pi pi-cog nav_icon'></i>
                             <span class="nav_name">Manage</span>
                         </a>

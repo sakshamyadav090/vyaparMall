@@ -19,7 +19,7 @@ const routes: Routes = [
   {path:'term',component:TermAndCondComponent},
   {path:'careers',component:CareerComponent},
   {path:'search',component:SearchComponent},
-  {path:'discription',component:ProductDescriptionComponent}
+  {path:'description',component:ProductDescriptionComponent}
 ];
 
 @NgModule({
