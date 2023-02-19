@@ -1,9 +1,9 @@
 <app-header></app-header>
-<div class ="product1">
+<!-- <div class ="product1"> -->
 
   
 <!-- Filters widget -->
-<div class="filters">
+<!-- <div class="filters">
   <h3>Filters</h3>
   <form>
     <label for="price-range">Price Range:</label>
@@ -28,11 +28,11 @@
     </div>
     <br>
     <input  class="btn btn-primary btn1 " type="submit" value="Apply">
-  </form>
+  </form> -->
 
 
 <!-- Sorting widget -->
-  <h3>Sort By</h3>
+  <!-- <h3>Sort By</h3>
   <form>
     <label for="sort-by">Sort By:</label>
     <select id="sort-by">
@@ -65,5 +65,598 @@
 </div>
 </div>  
 
+</div> -->
+
+<div class="row">
+<section class="pageContainer">
+ <div class="catgMain d-lg-flex d-xl-flex d-md-block d-sm-block">
+  <aside class="catgLeft">
+	<div class="accordion" id="filtermain">
+		
+	  <div class="accordion-item">
+		<h2 class="accordion-header" id="headingOne">
+		  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+			Brand
+		  </button>
+		</h2>
+		<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#filtermain">
+		  <div class="accordion-body">
+		   <div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+			  <label class="form-check-label" for="checkDefault">
+				Brand 1
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+			  <label class="form-check-label" for="checkChecked">
+				Brand 2
+			  </label>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="accordion-item">
+		<h2 class="accordion-header" id="headingTwo">
+		  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+			Bussiness
+		  </button>
+		</h2>
+		<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#filtermain">
+		  <div class="accordion-body">
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="checkDefault1">
+			  <label class="form-check-label" for="checkDefault1">
+				Brand 1
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="" id="checkChecked1" checked>
+			  <label class="form-check-label" for="checkChecked1">
+				Brand 2
+			  </label>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="accordion-item">
+		<h2 class="accordion-header" id="headingThree">
+		  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+			Select City
+		  </button>
+		</h2>
+		  
+		<div id="collapseThree" class="citysrcmain accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#filtermain">
+		  <div class="citysrc">
+		   <input type="text" placeholder="Enter City Name" id="cityInput" class="form-control font14" />	
+		   <i class="fa fa-search color006 position-absolute"></i>
+		  </div>
+			
+		  <div class="detectcity mt-3">
+			<h6 class="color006 font14" id="detectcity"><i class="bi bi-geo-alt"></i> Detect My City</h6>
+			<div class="p-3 btn-primary text-white opendetectcity" style="display: none;">
+			  <p class="font11">You have blocked Jdmart from tracking your location. To use this, change your location setting in browser.</p>
+			  <a href="#" class="text-uppercase font14 text-white">Ok Got it</a>
+			</div>
+		  </div>
+			
+		  <div class="citysearch border-top mt-3">
+			<small class="font12 color97a">Popular Cities</small>
+		    <ul class="list-group list-group-flush" id="citysearch">
+			  <li class="list-group-item color006">All India</li>
+			  <li class="list-group-item">Apple</li>
+			  <li class="list-group-item">Ball</li>
+			  <li class="list-group-item">Carrot</li>
+			  <li class="list-group-item">Dull</li>
+			  <li class="list-group-item">Eat</li>
+			</ul>	
+		  </div>
+		</div>
+		  
+	  </div>
+
+	</div>
+	  
+	<div>
+	  <button class="w-100 btn btn-primary mt-2">Apply</button>	
+	</div>
+  </aside>
+	
+  <div class="catgRight">
+	<ul class="list-unstyled d-flex flex-wrap">
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">6 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+		
+	  <li class="catlist">
+		<div class="catlistbg p-3">
+		  <a href="#">
+		  <div class="catlistimg">
+			<img src="../../../../assets/Images/img1.jpg" alt="product" />
+		  </div>
+		  <h4 class="colordark font15 weight500 mt-3">Infi Blood Pressure Monitor</h4>
+		  </a>
+			
+		  <a href="#">
+			<div class="colordark font14 mt-3"><i class="bi bi-hand-thumbs-up-fill"></i> Navyas Healing Hands Hea...</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-1">
+		   <span class="pe-1"><img src="../../../../assets/Images/indya-flag.svg" alt="flag" /></span>	
+		   <span class="border-end pe-1 font12">IND</span>	
+		   <span class="">Tirupati</span>	
+		  </div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="color707 font16 mt-3" data-bs-toggle="modal" data-bs-target="#allmodal">Request for Price</div>
+		  </a>
+			
+		  <a href="#">
+		  <div class="colordark font14 mt-4 d-flex align-items-center">
+		   <span class="pe-2"><img src="../../../../assets/Images/trusted.svg" alt="trusted" width="60" /></span>	
+		   <span class="pe-2"><img src="../../../../assets/Images/verified.svg" alt="trusted" width="55" /></span>	
+		   <span class="text-uppercase resultyear">27 yrs</span>	
+		  </div>
+		  </a>
+		  
+		  <div class="mt-3">
+		   <button class="w-100 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#allmodal">Contact Supplier</button>	
+		   <button class="w-100 btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#allmodal">Get Best Price</button>	
+		  </div>
+		  
+		</div>
+	  </li>
+	</ul>
+  </div>
+	 
+  </div>
+</section>
 </div>
+
+
 <app-footer></app-footer>

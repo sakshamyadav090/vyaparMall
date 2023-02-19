@@ -28,13 +28,13 @@
                       <div class="col-md-1 mb-4 pb-2">
                         <div class="form-outline">
                           <input type="radio" (click)="userOrSupplier('user')" value="user"
-                            formControlName="role"><span>User</span>
+                            formControlName="role" [(ngModel)]="isUser" (click)="isUser = false"><span>User</span>
                         </div>
                       </div>
                       <div class="col-md-2 mb-4 pb-2">
                         <div class="form-outline">
                           <input type="radio" (click)="userOrSupplier('supplier')" value="supplier"
-                            formControlName="role"><span>Supplier</span>
+                            formControlName="role" [(ngModel)]="isUser"><span>Supplier</span>
                         </div>
                       </div>
                     </div>
