@@ -1,50 +1,3 @@
-<!-- <header class="">
-  <div class="headbox">
-  <div class="logo">
-<a href="#"><img src="../../../assets/Images/full-logo.jpg" height="53" width="200" alt="logo" /></a>
-</div>
-<div class="searchbox">
-   <div class="headbox">
-   <input type="text" width="750" class="form-control" placeholder="Search" />
-   <button type="button" class="btn btn-primary">
-    <i class="fa-search"></i>
-  </button>
-   </div>
-   
-</div>
-
-
-
-<nav class="navbox">
- <ul>
-   <li><a href="#">Home</a></li>
-   <li><a routerLink="/dashboard" *ngIf="true">Dashboard</a></li>
-   <li><a href="#">Dress</a></li>
-   <li><a href="#">Bottom</a></li>
-   <li><a href="#">Plazo</a></li>
-   <li><a href="#">jeans</a></li>
- </ul>
-</nav>
-</div>
-<div class="categorymain">
-  <nav class="navcategory">
-    <ul>
-      <li><a href="#">= Categories</a></li>
-      <li><a href="#">||</a></li>
-      <li><b><a href="#">Health Medical</a></b></li>
-      <li><b><a href="#">Electrical Tools & Supplies</a></b></li>
-      <li><b><a href="#">Industrial Machinery</a></b></li>
-      <li><b><a href="#">Appreal and FAshion</a></b></li>
-      <li><b><a href="#">Automobile & Accessories</a></b></li>
-    </ul>
-   </nav> 
-
-</div>
-
-
-
-</header> -->
-
 <div class="row headfixed bg-white">
   <header class="headbox">
 	 <div class="row">
@@ -108,6 +61,10 @@
 		    <span class="font13" >Become a Seller</span>
 			</a>
 		   </li>
+		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center" data-bs-toggle="modal" data-bs-target="#allmodal">
+			<i class="headicons pi pi-bell font1-4rem"></i>
+		    <span class="font13">Notifications</span>
+		   </li>
 		   <li class="headlink usericon d-flex justify-content-center flex-wrap colordark text-center">
 			<i class="pi pi-users font1-6rem" *ngIf="!isLoggedIn"></i>
 			<i class="pi pi-slack font1-6rem" *ngIf="isLoggedIn"></i>
@@ -141,7 +98,7 @@
 	  
     <section class="d-flex align-items-center navMain">
 	  <div class="allcateg">
-		<a href="#"><i class="bi bi-list font1-2rem colordark weight600 me-1"></i> Categories</a>
+		<a  routerLink="/search"><i class="bi bi-list font1-2rem colordark weight600 me-1"></i> Categories</a>
 	  </div>
 		
 	  <nav class="navbar navbar-expand-lg">
@@ -151,8 +108,8 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
 		  <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
-			<li class="nav-item" *ngFor="let category of categories.slice(7,13)">
-				<a class="nav-link active" aria-current="page" href="#">{{category.name}}</a>
+			<li class="nav-item" *ngFor="let category of categories?.slice(7,13)">
+				<a class="nav-link active" aria-current="page" routerLink="/search">{{category.name}}</a>
 			</li>
 		  </ul>
 

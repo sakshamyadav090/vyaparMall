@@ -33,33 +33,22 @@ export class EnvService {
   private setEnvVariables(): void {
     const hostname = window && window.location && window.location.host;
 
-    if (/^.*103.163.204.80.*/.test(hostname)) {
-      this._env = Environment.Local;
-      this._apiUrl = 'http://localhost:9090/';
-      sessionStorage.setItem("baseUrl", 'http://103.163.204.80:8080/');
-    } else if (/^.*localhost.*/.test(hostname) ) {
+    if (/^.*localhost.*/.test(hostname) ) {
       this._env = Environment.Local;
       this._apiUrl = 'http://localhost:9090/';
       sessionStorage.setItem("baseUrl", '');
-    }
-    else if (/oci-uatcommissionportal.acsicorp.com/.test(hostname)) {
-      this._env = Environment.Uat;
-      this._apiUrl = 'https://oci-trun-poc2.acsicorp.com/services/cp/';
-      sessionStorage.setItem("baseUrl", 'https://oci-trun-poc2.acsicorp.com/services/cp/');
-    } else if (/oci-qacommissionportal.acsicorp.com/.test(hostname)) {
-      this._env = Environment.Qa;
-      this._apiUrl = 'https://oci-trun-poc1.acsicorp.com/services/cp/';
-      sessionStorage.setItem("baseUrl", 'https://oci-trun-poc1.acsicorp.com/services/cp/');
-    } else if (/oci-sitcommissionportal.acsicorp.com/.test(hostname)) {
-      this._env = Environment.Sit;
-      this._apiUrl = 'https://oci-trun-poc.acsicorp.com/services/cp/';
-      sessionStorage.setItem("baseUrl", 'https://oci-trun-poc.acsicorp.com/services/cp/');
-    } else if (/commissionportal.acsicorp.com/.test(hostname)) {
-      this._env = Environment.Prod;
-      this._apiUrl = 'https://prodtrun711.acsicorp.com/services/cp/';
-      sessionStorage.setItem("baseUrl", 'https://prodtrun711.acsicorp.com/services/cp/');
+      sessionStorage.setItem("imdAuthUrl", 'http://localhost:8080/');
+      sessionStorage.setItem("imdProdUrl", 'http://localhost:8090/');
+      sessionStorage.setItem("imdOtpUrl", 'http://localhost:8110/');
+      sessionStorage.setItem("imdFeedbUrl", 'http://localhost:8100/');
     } else {
-      console.warn(`Cannot find environment for host name ${hostname}`);
-    }
+      this._env = Environment.Local;
+      this._apiUrl = 'http://localhost:9090/';
+      sessionStorage.setItem("baseUrl", 'http://103.163.204.80:8080/');
+      sessionStorage.setItem("imdAuthUrl", 'auth-service1/');
+      sessionStorage.setItem("imdProdUrl", 'product-service/');
+      sessionStorage.setItem("imdOtpUrl", 'otp-service/');
+      sessionStorage.setItem("imdFeedbUrl", 'feedback-service/');
+    } 
   }
 }

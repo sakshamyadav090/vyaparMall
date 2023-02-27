@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twecom.jwthelper.JwtTokenAuthorizer;
 import com.twecom.model.ApprovalStatus;
+import com.twecom.model.Category;
 import com.twecom.model.Faq;
 import com.twecom.model.Image;
 import com.twecom.model.Product;
@@ -40,7 +41,11 @@ public class ProductService {
 	private FaqRepository faqRes;
 	
 	public List<Product> getAllProduct(){
-		return repo.findAll();
+		return repo.findByStatus(ApprovalStatus.APPROVED);
+	}
+	
+	public List<Product> getAllProduct(Category category){
+		return repo.findByStatusAndCategory(ApprovalStatus.APPROVED, category);
 	}
 	
 	public List<ProductList> getProductBySupplier(String token){

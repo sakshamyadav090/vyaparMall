@@ -7,7 +7,7 @@
 </div> -->
 
 <!-- Carousel Start -->
-<p-carousel [value]="images" [numVisible]="1" [circular]="true" [autoplayInterval]="3000">
+<p-carousel [value]="images" [numVisible]="1" [circular]="true" [autoplayInterval]="5000">
   <ng-template let-image pTemplate="item">
       <img src="{{image.src}}" alt="{{image.alt}}" width="100%" height="200px">
   </ng-template>
@@ -154,7 +154,25 @@
   </div>
 </div>
 <!-- categories wise product End -->
-
+<div *ngFor="let category of categories?.slice(0,5)">
+<div class="body3image pt-5" *ngIf="prodMap.get(category.name)?.length>0">
+  <div class="head">
+    <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>{{category.name}}</h2>
+    <a href="#"> View All</a>
+  </div>
+  <div class="product1" >
+    <div class="col-lg-2 px-3 boxMain" *ngFor="let product of prodMap.get(category.name)?.slice(0,6)" >
+      <div class="box1" >
+        <img [src]="'data:image/jpg;base64,' +product.pimage.imageOne" class="d-block w-100"
+          [alt]=product.pname />
+      </div>
+      <div class="box2">
+        <img src="../../../assets/Images/Lafarge_Cements_1001192_686339.png" class="d-block w-100" alt="image" />
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 <!-- Post Requirement Start -->
 <section class="mt-5">
   <h2 class="font1-3rem ps-2">REQUEST FOR QUOTATION</h2>

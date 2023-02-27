@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit {
   checkForUserLoggedInStatus(){
     if(localStorage.getItem('token')){
       this.apiService.getWithoutId(ApiUrls.VERIFY_TOKEN).subscribe(res=>{
-        console.log(res);
         if(res.success){
           this.isLoggedIn = true;
         }
