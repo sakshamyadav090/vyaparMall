@@ -18,10 +18,10 @@ export class HomePageComponent implements OnInit {
     
 
     this.images = [
-     {src: "../../../assets/Images/slide1.jpg",
+     {src: "https://i.pinimg.com/originals/b3/9f/d8/b39fd8fd5ac2e8c25938e2fd1783d016.jpg",
      alt: "test"},
      {
-      src: "../../../assets/Images/slide3.jpg",
+      src: "https://i.pinimg.com/originals/b3/9f/d8/b39fd8fd5ac2e8c25938e2fd1783d016.jpg",
       alt: "test"
      } 
     ]
