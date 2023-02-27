@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.vyapaarmall.service.UserService;
 
@@ -22,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class WebSecurity extends WebSecurityConfigurerAdapter{
+public class WebSecurity extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
 	
 	@Autowired
 	private UserService userService;
@@ -42,7 +44,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
-		http.csrf().disable();
+		http.cors().and().csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstant.REGISTER_URL).permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.GET, SecurityConstant.TOKEN_VERIFY_URL).permitAll();
@@ -52,6 +54,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 		http.addFilterBefore(new JWTAuthorizationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 		
 	}
+	
+	@Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS");
+    }
 	
 	
 }

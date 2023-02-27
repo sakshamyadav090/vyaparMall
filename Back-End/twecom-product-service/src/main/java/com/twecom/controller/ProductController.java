@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twecom.model.Category;
 import com.twecom.model.Faq;
 import com.twecom.model.Product;
 import com.twecom.model.ResponseModel;
@@ -31,6 +33,7 @@ import com.twecom.service.ProductService;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin("*")
 public class ProductController {
 
 	org.slf4j.Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -89,6 +92,21 @@ public class ProductController {
 			
 			responseModel = new ResponseModel(
 			ps.getAllProduct(),200,true,"Fetched Successfully");
+		}catch(Exception e){
+			logger.error(e.getMessage());
+			responseModel = new ResponseModel(
+					e.getMessage(),200,false,"Unable to Fetch");
+			
+		}
+		return responseModel;
+	}
+	@PostMapping("/list")
+	public ResponseModel getProductListByCategory(@RequestBody Category category){
+		ResponseModel responseModel;
+		try {
+			
+			responseModel = new ResponseModel(
+			ps.getAllProduct(category),200,true,"Fetched Successfully");
 		}catch(Exception e){
 			logger.error(e.getMessage());
 			responseModel = new ResponseModel(

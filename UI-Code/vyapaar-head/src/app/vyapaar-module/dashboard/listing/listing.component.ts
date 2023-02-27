@@ -166,7 +166,8 @@ editProduct(event) {
         // this.uploadForm.setControl('faq', this.fb.array(response.data.faqList || []));
       // this.uploadForm.patchValue({'faq': {question: response.data.faqList[i].question }});
       // this.uploadForm.patchValue({'faq': {answer: response.data.faqList[i].answer }});
-    }debugger
+    }
+    //debugger
       this.uploadForm.patchValue({
         name:response.data.product.name,
         description: response.data.product.description,
@@ -241,7 +242,7 @@ httpOptions1 = {
 editSaveProduct(){
   this.formData = new FormData();
   this.loading=true;
-  debugger
+  //debugger
   if(this.uploadForm.valid){
     if(this.fileUpload._files.length==0){
        this.formData.append('file', null);
@@ -263,7 +264,7 @@ editSaveProduct(){
       "pmanufacturer":this.uploadForm.value.manufacturer
     }
 
-    debugger
+    //debugger
     this.formData.append('data', JSON.stringify(json));
 
     if(this.uploadForm.value.faq.length==0){
@@ -310,7 +311,7 @@ editSaveProduct(){
 }
 
 saveProduct() {
-  debugger
+  //debugger
   this.formData = new FormData();
   this.loading=true;
   if(this.fileUpload._files.length<4 && this.fileUpload._files.length>0 && this.uploadForm.valid){
@@ -502,7 +503,7 @@ deleteFaq(rowIndex){
 }
 
 trackByFunction = (index, item) => {
-  debugger
+  //debugger
   let num = null;
   if (item.value.rowIndex != null && item.value.rowIndex != '') {
     num = item.value.rowIndex;

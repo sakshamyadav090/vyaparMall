@@ -1,60 +1,16 @@
-<header class="">
-  <!-- <div class="headbox">
-  <div class="logo">
-<a href="#"><img src="../../../assets/Images/img logo.png" height="53" width="200" alt="logo" /></a>
-</div>
-<div class="searchbox">
-   <div class="headbox">
-   <input type="text" width="750" class="form-control" placeholder="Search" />
-   <button type="button" class="btn btn-primary">
-    <i class="fa-search"></i>
-  </button>
-   </div>
-   
-</div>
-
-
-
-<nav class="navbox">
- <ul>
-   <li><a href="#">Home</a></li>
-   <li><a href="#">Top</a></li>
-   <li><a href="#">Dress</a></li>
-   <li><a href="#">Bottom</a></li>
-   <li><a href="#">Plazo</a></li>
-   <li><a href="#">jeans</a></li>
- </ul>
-</nav>
-</div>
-<div class="categorymain">
-  <nav class="navcategory">
-    <ul>
-      <li><a href="#">= Categories</a></li>
-      <li><a href="#">||</a></li>
-      <li><b><a href="#">Health Medical</a></b></li>
-      <li><b><a href="#">Electrical Tools & Supplies</a></b></li>
-      <li><b><a href="#">Industrial Machinery</a></b></li>
-      <li><b><a href="#">Appreal and FAshion</a></b></li>
-      <li><b><a href="#">Automobile & Accessories</a></b></li>
-    </ul>
-   </nav> 
-
-</div> -->
-
-
 <div class="row headfixed bg-white">
   <header class="headbox">
 	 <div class="row">
   	<section class="d-lg-flex d-xl-flex d-md-block d-sm-block align-items-center py-3">
 	
-		<div class="logo col-5 col-sm-12">
-		  <a href="#"><img src="../../../assets/Images/Twecom logo-1.png"alt="logo" /></a>
+		<div class="logo col-5 col-sm-12 mx-2">
+		  <a href="#"><img src="../../../assets/Images/full-logo.jpg" height="53"  alt="logo" /></a>
 		</div>
 		
 		<div class="searchMain d-flex">
 			
-		  <div class="selectBox">
-			<div class="selectBox__value">Select Option</div>
+		  <div class="selectBox mx-2" >
+			<div class="selectBox__value dropdown-toggle" data-toggle="dropdown">City</div>
 			<div class="dropdown-menu">
 			  <a href="#" class="dropdown-item">Kathmandu</a>
 			  <a href="#" class="dropdown-item">Biratnagar</a>
@@ -96,35 +52,38 @@
 		<div class="headRight">
 		  <ul class="list-unstyled d-flex m-0 justify-content-sm-center">
 		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center" data-bs-toggle="modal" data-bs-target="#allmodal">
-			<i class="headicons bi bi-megaphone font1-4rem"></i>
-		    <span class="font13">Advertise</span>
+			<i class="pi pi-volume-up font1-4rem"></i>
+		    <span class="font13">Post Your Requirement</span>
 		   </li>
 		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center">
-			<i class="headicons bi bi-card-checklist font1-5rem"></i>
-		    <span class="font13">My Catalogue</span>
-		   </li>
-		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center">
-			 <a href="#" class="headlink d-flex justify-content-center flex-wrap">
-			<i class="headicons bi bi-box2-heart font1-3rem"></i>
-		    <span class="font13">Become a Seller</span>
+			 <a href="#" class="headlink d-flex justify-content-center flex-wrap"  *ngIf="!isLoggedIn">
+			<i class="pi pi-inbox font1-3rem"></i>
+		    <span class="font13" >Become a Seller</span>
 			</a>
 		   </li>
+		   <li class="headlink d-flex justify-content-center flex-wrap colordark text-center" data-bs-toggle="modal" data-bs-target="#allmodal">
+			<i class="headicons pi pi-bell font1-4rem"></i>
+		    <span class="font13">Notifications</span>
+		   </li>
 		   <li class="headlink usericon d-flex justify-content-center flex-wrap colordark text-center">
-			<i class="headicons bi bi-person font1-6rem"></i>
-		    <span class="font13">Sign In</span>
+			<i class="pi pi-users font1-6rem" *ngIf="!isLoggedIn"></i>
+			<i class="pi pi-slack font1-6rem" *ngIf="isLoggedIn"></i>
+		    <span class="font13">{{isLoggedIn?"Account Info":"Sign In/Sign Up"}}</span>
 			   
 		   <div class="profileMain">
-			 <div class="profileBox">
+			 <div class="profileBox" *ngIf="!isLoggedIn">
 				<h4 class="colordark font1-2rem mb-1">Get started Now</h4>
 				<p class="font13 color707">Please Log in to go to your profile</p>
-				<button class="profile_logbtn font16">Log in</button>
-				<div class="font13 color394 pt-3">Don't have an account? <a href="#" class="color006 pointer">Sign up</a></div>
+				<button class="profile_logbtn font16" routerLink="/auth/login">Log in</button>
+				<div class="font13 color394 pt-3">Don't have an account? <a class="color006 pointer" routerLink="/auth/register">Sign up</a></div>
 				<div class="d-block profileLink mt-3">
-				 <a href="#" class="border-bottom border-top"><i class="bi bi-person font1-3rem"></i> Edit Profile</a>
-				 <a href="#"><i class="bi bi-broadcast-pin font1-3rem"></i> Request for Quotation</a>
-				 <a href="#"><i class="bi bi-coin font1-3rem"></i> Enquire &amp; Manage Quotes</a>
-				 <a href="#"><i class="bi bi-box2-heart font1-3rem"></i> Become a seller</a>
-				 <a href="#" class="border-top"><i class="bi bi-megaphone font1-3rem"></i> Advertise with Jdmart</a>
+				 <a class="border-top" routerLink="/aboutUs"><i class="pi pi-phone font1-3rem"></i> Enquires? Contact Us</a>
+				</div>
+			 </div>
+			 <div class="profileBox" *ngIf="isLoggedIn">
+				<div class="d-block profileLink">
+				 <a routerLink="/dashboard"><i class="pi pi-credit-card font1-3rem"></i> Dashboard</a>
+				 <a class="border-top" routerLink="/aboutUs"><i class="pi pi-phone font1-3rem"></i> Enquires? Contact Us</a>
 				</div>
 			 </div>
 		   </div>
@@ -139,7 +98,7 @@
 	  
     <section class="d-flex align-items-center navMain">
 	  <div class="allcateg">
-		<a href="#"><i class="bi bi-list font1-2rem colordark weight600 me-1"></i> Categories</a>
+		<a  routerLink="/search"><i class="bi bi-list font1-2rem colordark weight600 me-1"></i> Categories</a>
 	  </div>
 		
 	  <nav class="navbar navbar-expand-lg">
@@ -148,28 +107,9 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-		  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-			<li class="nav-item">
-			  <a class="nav-link active" aria-current="page" href="#">Health &amp; Medical</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="#">Electrical Tools &amp; Supplies</a>
-			</li>
-			<li class="nav-item dropdown">
-			  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				Industrial Machinery
-			  </a>
-			  <ul class="dropdown-menu">
-				<li><a class="dropdown-item" href="#">Industrial Machinery 1</a></li>
-				<li><a class="dropdown-item" href="#">Industrial Machinery 2</a></li>
-				<li><a class="dropdown-item" href="#">Industrial Machinery 3</a></li>
-			  </ul>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="#">Apparel &amp; Fashion</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="#">Automobile &amp; Accessories</a>
+		  <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+			<li class="nav-item" *ngFor="let category of categories?.slice(7,13)">
+				<a class="nav-link active" aria-current="page" routerLink="/search">{{category.name}}</a>
 			</li>
 		  </ul>
 
@@ -183,7 +123,3 @@
 
 
 
-
-
-
-</header>

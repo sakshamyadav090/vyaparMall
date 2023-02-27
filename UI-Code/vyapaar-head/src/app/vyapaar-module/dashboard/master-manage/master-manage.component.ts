@@ -60,7 +60,7 @@ export class MasterManageComponent implements OnInit {
   }
 
   delete(id,name) {
-    debugger
+    //debugger
     this.confirmationService.confirm({
         message: 'Are you sure you want to delete ' + name + '?',
         header: 'Confirm',

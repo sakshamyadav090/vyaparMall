@@ -162,7 +162,7 @@ section {
 	width: 60px;
 	height: 35px;
 	cursor: pointer;
-	background-color:  #33383b;
+	/* background-color:  #33383b; */
 	border-radius: 2px;
 
 	font-size: 6px;
@@ -196,3 +196,14 @@ section {
 	}
 
 }
+
+.subscribe-section {
+	align-items: center;
+}
+
+.thick-line {
+	width: 75%;
+	margin: 0 auto;
+	height: 10px !important;
+	border-top: 2px solid black;
+  }

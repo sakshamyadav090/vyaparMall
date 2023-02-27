@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/common/services/api.service';
+import { ApiUrls } from '../utilities/api-urls';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,14 +11,16 @@ export class DashboardComponent implements OnInit {
 
   display: boolean = false;
   menuItem: String = "Profile";
-  profileComp:boolean=false;
+  profileComp:boolean=true;
   listComp:boolean=false;
-  admManageComp:boolean=true;
+  admManageComp:boolean=false;
   masterComp:boolean=false;
+  role:string='user';
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
+    this.checkRole();
     const linkColor = document.querySelectorAll('.nav_link')
     function colorLink() {
       if (linkColor) {
@@ -84,6 +88,19 @@ export class DashboardComponent implements OnInit {
 
   logout(){
     localStorage.removeItem("token");
+  }
+  
+  checkRole(){
+    if(localStorage.getItem('token')){
+      this.apiService.getWithoutId(ApiUrls.VERIFY_TOKEN).subscribe(res=>{
+        console.log(res);
+        if(res.success){
+          this.role = res.data.role.name;
+        }
+      },err=>{
+        console.log(err);
+      })
+    }
   }
 
 }

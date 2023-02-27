@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ApiUrls } from 'src/app/vyapaar-module/utilities/api-urls';
@@ -35,6 +35,7 @@ export class RegisterComponent implements OnInit {
   sentOTP:Boolean=false;
   showValidateOtpButton:boolean=false;
   seconds:number;
+  isUser: boolean=true;
 
   constructor(
     private router:Router,
@@ -42,10 +43,16 @@ export class RegisterComponent implements OnInit {
     private http: HttpClient,
     private messageService: MessageService,
     private apiService: ApiService,
-    private apiUrls:ApiUrls) {
+    private apiUrls:ApiUrls,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe(params => {
+      this.isUser = params['user'] === 'true';
+    });
+
     this.registerForm = this.fb.group({
       role: ['user', Validators.required],
       fName:['',[Validators.required,Validators.pattern('^[A-Z.a-z]*$')]],
@@ -131,7 +138,7 @@ export class RegisterComponent implements OnInit {
         "firmName":roleId == 2 ? this.registerForm.controls["firmName"].value:null,
         "firstName": this.registerForm.controls["fName"].value,
         "lastName": this.registerForm.controls["lName"].value,
-        "gst":roleId == 2 ?  this.registerForm.controls["gst"].value!=null?this.registerForm.controls["gst"].value:null:null,
+        "gst":roleId == 2 ?  this.registerForm.controls["gst"].value!=null?this.registerForm.controls["gst"].value!=''?this.registerForm.controls["gst"].value:null:null:null,
         "mobileNumber":this.registerForm.controls["mobileNumber"].value,
         "password": this.registerForm.controls["password"].value,
         "pincode": roleId == 2 ? this.registerForm.controls["pincode"].value:null

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.vyapaarmall</groupId>
 	<artifactId>eureka_server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>eureka_server</name>
 	<description>Eureka Server</description>
 	<properties>

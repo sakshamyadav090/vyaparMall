@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/common/services/api.service';
+import { ApiUrls } from '../utilities/api-urls';
 
 @Component({
   selector: 'app-home-page',
@@ -9,22 +11,31 @@ export class HomePageComponent implements OnInit {
 
   images: any[]
   products: any[]
-  constructor() { }
+  categories: any;
+  prodMap = new Map<any, any>();
+  constructor( private apiService: ApiService) { }
 
 
   ngOnInit(): void {
-
-    this.products = [    { name: 'Product 1', description: 'This is product 1', price: 100, image: 'https://picsum.photos/200/300' },    { name: 'Product 2', description: 'This is product 2', price: 200, image: 'https://picsum.photos/200/300' },    { name: 'Product 3', description: 'This is product 3', price: 300, image: 'https://picsum.photos/200/300' },    { name: 'Product 4', description: 'This is product 4', price: 400, image: 'https://picsum.photos/200/300' },    { name: 'Product 5', description: 'This is product 5', price: 500, image: 'https://picsum.photos/200/300' }  ];
-    
-
     this.images = [
-     {src: "https://i.pinimg.com/originals/b3/9f/d8/b39fd8fd5ac2e8c25938e2fd1783d016.jpg",
-     alt: "test"},
-     {
-      src: "https://i.pinimg.com/originals/b3/9f/d8/b39fd8fd5ac2e8c25938e2fd1783d016.jpg",
-      alt: "test"
-     } 
-    ]
+      {src: "../../../assets/Images/1.jpg", alt: "test"},
+      {src: "../../../assets/Images/3.jpg", alt: "test"},
+      {src: "../../../assets/Images/2.jpg", alt: "test"},
+      {src: "../../../assets/Images/4.jpg", alt: "test"} 
+     ]
+    this.loadApprovedProducts();
+    this.products = [    
+      { name: 'Product 1', description: 'This is product 1', 
+      price: 100, image: 'https://picsum.photos/200/300' },    
+      { name: 'Product 2', description: 'This is product 2', 
+      price: 200, image: 'https://picsum.photos/200/300' },    
+      { name: 'Product 3', description: 'This is product 3', 
+      price: 300, image: 'https://picsum.photos/200/300' },    
+      { name: 'Product 4', description: 'This is product 4', 
+      price: 400, image: 'https://picsum.photos/200/300' },    
+      { name: 'Product 5', description: 'This is product 5', 
+      price: 500, image: 'https://picsum.photos/200/300' }  
+    ];
   }
 
   currentSlide = 0;
@@ -35,7 +46,6 @@ export class HomePageComponent implements OnInit {
     } else {
       this.currentSlide--;
     }
-    console.log(this.currentSlide)
   }
 
   nextSlide() {
@@ -44,83 +54,29 @@ export class HomePageComponent implements OnInit {
     } else {
       this.currentSlide++;
     }
-    console.log(this.currentSlide)
+  }
+
+  loadApprovedProducts(){
+
+    this.apiService.list(ApiUrls.CATEGORY_LIST).subscribe(res=>{
+        this.categories=res.data;
+
+        this.categories.slice(0,5).map(category=>{
+          this.apiService.approvedProductListByCategory(ApiUrls.APPROVED_PRODUCT_LIST, category).subscribe(res=>{
+            this.prodMap.set(category.name,res.data);
+          }, err=>{
+            console.log(err)
+          })
+        })
+
+    },err=>{
+      console.log(err);
+    });
+
+
+    
+    
   }
 
 
 }
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-product-list',
-//   template: `
-//     <h2>Products</h2>
-//     <div class="product-list-container">
-//       <div class="product-list">
-//         <div class="product-card" *ngFor="let product of products">
-//           <div class="product-image">
-//             <img [src]="product.image" [alt]="product.name">
-//           </div>
-//           <div class="product-name">{{ product.name }}</div>
-//           <div class="product-description">{{ product.description }}</div>
-//           <div class="product-price">{{ product.price }}</div>
-//         </div>
-//       </div>
-//     </div>
-//   `,
-//   styles: [`
-//     .product-list-container {
-//       overflow-x: scroll;
-//       white-space: nowrap;
-//     }
-    
-//     .product-list {
-//       display: inline-block;
-//     }
-    
-//     .product-card {
-//       display: inline-block;
-//       width: 300px;
-//       height: 400px;
-//       margin: 10px;
-//       box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-//       border-radius: 5px;
-//       overflow: hidden;
-//     }
-    
-//     .product-image {
-//       height: 200px;
-//       background-color: lightgray;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//     }
-    
-//     .product-image img {
-//       max-width: 100%;
-//       max-height: 100%;
-//     }
-    
-//     .product-name {
-//       background-color: lightgray;
-//       padding: 10px;
-//       text-align: center;
-//       font-size: 18px;
-//     }
-    
-//     .product-description {
-//       padding: 10px;
-//       text-align: center;
-//     }
-    
-//     .product-price {
-//       background-color: lightgray;
-//       padding: 10px;
-//       text-align: center;
-//       font-size: 18px;
-//     }
-//   `]
-// })
-// export class HomePageComponent {
-//   products = [    { name: 'Product 1', description: 'This is product 1', price: 100, image: 'https://picsum.photos/200/300' },    { name: 'Product 2', description: 'This is product 2', price: 200, image: 'https://picsum.photos/200/300' },    { name: 'Product 3', description: 'This is product 3', price: 300, image: 'https://picsum.photos/200/300' },    { name: 'Product 4', description: 'This is product 4', price: 400, image: 'https://picsum.photos/200/300' },    { name: 'Product 5', description: 'This is product 5', price: 500, image: 'https://picsum.photos/200/300' }  ];
-// }

@@ -2,12 +2,12 @@ package com.twecom;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootApplication @EnableEurekaClient
-public class TwecomProductServiceApplication {
+@SpringBootApplication
+public class TwecomProductServiceApplication extends SpringBootServletInitializer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(TwecomProductServiceApplication.class, args);
