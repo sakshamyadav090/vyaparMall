@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { EnvService } from './common/services/env-service';
-import { OwlModule } from 'ngx-owl-carousel';  
 @NgModule({
   declarations: [
     AppComponent,
