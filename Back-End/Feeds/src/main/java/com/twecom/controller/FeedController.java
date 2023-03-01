@@ -23,16 +23,16 @@ public class FeedController{
 	@Autowired
 	private FeedService feedService;
 	
-//	@GetMapping("/terms")
-//	public ResponseModel getCategories(){
-//		try {
-//			return new ResponseModel(
-//					feedService.getTerms(),200,true,"Fetched Successfully");
-//		}catch(Exception e) {
-//			return new ResponseModel(
-//					e.getMessage(),401,false,"Unable to Fetch");
-//		}
-//	}
+	@GetMapping("/terms")
+	public ResponseModel getCategories(){
+		try {
+			return new ResponseModel(
+					feedService.getTerms(),200,true,"Fetched Successfully");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),401,false,"Unable to Fetch");
+		}
+	}
 	
 	@PostMapping("/promotion/add")
 	public ResponseModel addPromotion(@RequestParam("data") String data,
@@ -47,9 +47,16 @@ public class FeedController{
 		}
 	}
 	
-	@GetMapping("/terms")
-	public String getHello(){
-		return "Hello";
+	
+	@GetMapping("/promotion")
+	public ResponseModel getAllPromotion() {
+		try {
+			return new ResponseModel(
+					feedService.getAllPromotion(),200,true,"Fetched Successfully");
+		}catch(Exception e) {
+			return new ResponseModel(
+					e.getMessage(),401,false,"Unable to Fetch");
+		}
 	}
 	
 	

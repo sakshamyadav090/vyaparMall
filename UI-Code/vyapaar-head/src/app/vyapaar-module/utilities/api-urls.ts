@@ -44,8 +44,10 @@ export class ApiUrls {
 
   public static TERMS = 'http://localhost:8120/feeds/terms';
   public static ADD_PROMOTION = 'http://localhost:8120/feeds/promotion/add';
+  public static BANNER_LIST = 'http://localhost:8120/feeds/promotion';
 
   public static GET_PINCODE = 'https://api.postalpincode.in/pincode/';
+  
 
 
 

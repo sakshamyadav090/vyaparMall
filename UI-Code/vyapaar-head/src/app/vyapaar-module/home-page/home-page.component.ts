@@ -17,12 +17,13 @@ export class HomePageComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.images = [
-      {src: "../../../assets/Images/1.jpg", alt: "test"},
-      {src: "../../../assets/Images/3.jpg", alt: "test"},
-      {src: "../../../assets/Images/2.jpg", alt: "test"},
-      {src: "../../../assets/Images/4.jpg", alt: "test"} 
-     ]
+    this.loadBanners();
+    // this.images = [
+    //   {src: "../../../assets/Images/1.jpg", alt: "test"},
+    //   {src: "../../../assets/Images/3.jpg", alt: "test"},
+    //   {src: "../../../assets/Images/2.jpg", alt: "test"},
+    //   {src: "../../../assets/Images/4.jpg", alt: "test"} 
+    //  ]
     this.loadApprovedProducts();
     this.products = [    
       { name: 'Product 1', description: 'This is product 1', 
@@ -38,22 +39,35 @@ export class HomePageComponent implements OnInit {
     ];
   }
 
-  currentSlide = 0;
+  // currentSlide = 0;
 
-  prevSlide() {
-    if (this.currentSlide === 0) {
-      this.currentSlide = this.images.length - 1;
-    } else {
-      this.currentSlide--;
-    }
+  // prevSlide() {
+  //   if (this.currentSlide === 0) {
+  //     this.currentSlide = this.images.length - 1;
+  //   } else {
+  //     this.currentSlide--;
+  //   }
+  // }
+
+  // nextSlide() {
+  //   if (this.currentSlide === this.images.length - 1) {
+  //     this.currentSlide = 0;
+  //   } else {
+  //     this.currentSlide++;
+  //   }
+  // }
+
+  loadBanners(){
+    this.apiService.list(ApiUrls.BANNER_LIST).subscribe(res=>{
+      console.log(res);
+      this.images = res.data
+    },err=>{
+      console.log(err);
+    })
   }
 
-  nextSlide() {
-    if (this.currentSlide === this.images.length - 1) {
-      this.currentSlide = 0;
-    } else {
-      this.currentSlide++;
-    }
+  onBannerClick(image) {
+    console.log(image.url)
   }
 
   loadApprovedProducts(){
@@ -64,6 +78,7 @@ export class HomePageComponent implements OnInit {
         this.categories.slice(0,5).map(category=>{
           this.apiService.approvedProductListByCategory(ApiUrls.APPROVED_PRODUCT_LIST, category).subscribe(res=>{
             this.prodMap.set(category.name,res.data);
+            console.log(res.data)
           }, err=>{
             console.log(err)
           })

@@ -2,6 +2,7 @@ package com.twecom.service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,10 @@ public class FeedService {
 		promo.setImage(feedImage);
 		
 		return promotionRepo.save(promo);
+	}
+
+	public List<Promotion> getAllPromotion() {
+		return promotionRepo.findAll();
 	}
 
 }
