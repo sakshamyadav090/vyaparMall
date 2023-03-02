@@ -1,11 +1,5 @@
 <app-header></app-header>
 
-<!-- <div class="stripMain intSection">
-  <span><a href="#" class="intSectionLink">AW '22 | Shop Now</a></span>
-  <span><a href="#" class="intSectionLink">Sale | Up to 50% off</a></span>
-  <span><a href="#" class="intSectionLink">Free shipping on all orders</a></span>
-</div> -->
-
 <!-- Carousel Start -->
 <p-carousel [value]="images" [numVisible]="1" [circular]="true" [autoplayInterval]="5000">
   <ng-template let-image pTemplate="item">
@@ -19,130 +13,35 @@
 <div class="body3image">
   <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>Industry Market</h2>
   <div class="producttop">
-    <div class="product2">
+    <div class="product2" *ngFor="let category of categories?.slice(0,numCategoryToShow)"
+    [ngClass]="{'col-lg-2 col-md-3': numCategoryToShow == 9,
+                'col-lg-3 col-md-4': numCategoryToShow == 7,
+                'col-lg-4 col-md-6': numCategoryToShow == 5,
+                'col-lg-6 col-md-12': numCategoryToShow == 4}">
       <div class="box1">
-        <img src="../../../assets/Images/de81fdc5e65a365ea1013a2e0232972a.webp" class="d-block w-100" alt="image" />
+        <img src={{category.img}} class="d-block w-100" alt="image" height="100px" width="100px" />
       </div>
       <div class="box2">
-
-        <h5>Test</h5>
-        <!-- <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image"/> -->
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/trackter.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <h5>Agriculture</h5>
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/beauty.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <h5>Powders</h5>
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/cloths.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/tyre.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/food.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/machine.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/tyre.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/cloths.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-      </div>
-    </div>
-    <div class="product2">
-      <div class="box1">
-        <img src="../../../assets/Images/machine.webp" class="d-block w-100" alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
+        <h5>{{category.name}}</h5>
       </div>
     </div>
   </div>
 </div>
 <!-- Industry Market Section End -->
 
-<!-- Description UI Start -->
-<!-- <div class="body3image pt-5">
-  <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>Engine Oil</h2>
-  <div class="product1">
-    <div class="col-lg-2 px-3 boxMain">
-      <div class="box1">
-        <img src="../../../assets/Images/castrol_edge_engine_oil_5w_40_4l_16233363_0.jpg" class="d-block w-100"
-          alt="image" />
-      </div>
-      <div class="box2">
-        <img src="../../../assets/Images/Castrol_Automobile-Oil_1000440_1198.png" class="d-block w-100" alt="image" />
-       <div class="Verified">
-         <p>Carysil Magic Salsa 1816 Sink [Deep Black]</p>
-         <i></i><span>Verified</span>
-         
-         <i class='fa fa-thumbs-up'></i>
-         <p><b>₹ 8000</b></p>
-       </div>
-        <button class="btn btn-primary btn1 ">Contact Suplier</button>  
-        <button class="btn btn-primary">Get Best Price</button>
-
-      </div>
-    </div>
-  </div>
-</div> -->
-<!-- Description UI End -->
-
-
 <!-- categories wise product -->
 <div *ngFor="let category of categories?.slice(0,5)">
-<div class="body3image pt-5" *ngIf="prodMap.get(category.name)?.length>0">
+<div class="body3image" *ngIf="prodMap.get(category.name)?.length>0">
   <div class="head">
     <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>{{category.name}}</h2>
     <a href="#"> View All</a>
   </div>
   <div class="product1" >
-    <div class="col-lg-2 px-3 boxMain" *ngFor="let product of prodMap.get(category.name)?.slice(0,6)" >
+    <div class="col-lg-4 col-md-6 col-sm-12 px-3 boxMain" *ngFor="let product of prodMap.get(category.name)?.slice(0,numProductsToShow)" 
+    [ngClass]="{'col-lg-2 col-md-3': numProductsToShow == 6,
+                'col-lg-3 col-md-4': numProductsToShow == 5,
+                'col-lg-4 col-md-6': numProductsToShow == 4,
+                'col-lg-6 col-md-12': numProductsToShow == 3}" [style.width]="cardWidth">
       <div class="box1" >
         <img [src]="'data:image/jpg;base64,' +product.pimage.imageOne"  height="200"
           [alt]=product.pname />
@@ -163,57 +62,27 @@
 	<img src="../../../../assets/Images/quotationimg.jpg" alt="image" />
   </div>
 </section>
-
-<section class="mt-4">
-  <h2 class="font1-3rem ps-2">AUTOMOTIVE OILS</h2>
-  <div class="d-xl-inline-flex d-lg-inline-block d-md-inline-block d-sm-inline-block w-100 justify-content-between">
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-	   <img src="https://images.jdmagicbox.com/quickquotes/images_main/microteck-heritage-gold-625-va-ups-inverter-power-protection-18455323-cojpb.jpg" alt="image" />
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-		  <img src="../../../../assets/Images/img1.jpg" alt="image" />  
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo2.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-		  <img src="../../../../assets/Images/img1.jpg" alt="image" />  
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-		  <img src="../../../../assets/Images/img1.jpg" alt="image" />  
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo2.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-	   <img src="https://images.jdmagicbox.com/quickquotes/images_main/microteck-heritage-gold-625-va-ups-inverter-power-protection-18455323-cojpb.jpg" alt="image" />
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-	<a href="#" class="marketCard2 homecard d-inline-flex flex-column justify-content-between text-center mx-2">
-	  <div class="marketCardimg bg-white overflow-hidden px-4">
-		  <img src="../../../../assets/Images/img1.jpg" alt="image" />  
-	  </div>
-	  <div class="colordark font16 weight600 border-top d-flex justify-content-center align-items-center py-3"><img src="../../../../assets/Images/marketlogo2.jpg" alt="image" width="150" /></div>
-	</a>
-	  
-  </div>
-</section>
-
 <!-- Post Requirement End -->
+
+<div *ngFor="let category of categories?.slice(5,7)">
+  <div class="body3image pt-5" *ngIf="prodMap.get(category.name)?.length>0">
+    <div class="head">
+      <h2 className='text-uppercase text-center fs-3 pb-3 fw-bold'>{{category.name}}</h2>
+      <a href="#"> View All</a>
+    </div>
+    <div class="product1" >
+      <div class="col-lg-2 px-3 boxMain" *ngFor="let product of prodMap.get(category.name)?.slice(0,6)" >
+        <div class="box1" >
+          <img [src]="'data:image/jpg;base64,' +product.pimage.imageOne"  height="200"
+            [alt]=product.pname />
+        </div>
+        <div class="box2">
+          {{product.pname}}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
  
 <app-footer></app-footer>

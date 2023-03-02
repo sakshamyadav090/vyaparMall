@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/common/services/api.service';
 import { ApiUrls } from '../utilities/api-urls';
 
@@ -39,27 +39,34 @@ export class HomePageComponent implements OnInit {
     ];
   }
 
-  // currentSlide = 0;
+  numProductsToShow = 6;
+  numCategoryToShow = 9;
+  cardWidth = '15%';
 
-  // prevSlide() {
-  //   if (this.currentSlide === 0) {
-  //     this.currentSlide = this.images.length - 1;
-  //   } else {
-  //     this.currentSlide--;
-  //   }
-  // }
-
-  // nextSlide() {
-  //   if (this.currentSlide === this.images.length - 1) {
-  //     this.currentSlide = 0;
-  //   } else {
-  //     this.currentSlide++;
-  //   }
-  // }
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    const windowWidth = event.target.innerWidth;
+    if (windowWidth < 768) {
+      this.numProductsToShow = 3;
+      this.numCategoryToShow = 4;
+      this.cardWidth = '33%';
+    } else if (windowWidth < 992) {
+      this.numProductsToShow = 4;
+      this.numCategoryToShow = 5;
+      this.cardWidth = '24%';
+    } else if (windowWidth < 1200) {
+      this.numProductsToShow = 5;
+      this.numCategoryToShow = 7;
+      this.cardWidth = '19%';
+    } else {
+      this.numProductsToShow = 6;
+      this.numCategoryToShow = 9;
+      this.cardWidth = '15%';
+    }
+  }
 
   loadBanners(){
     this.apiService.list(ApiUrls.BANNER_LIST).subscribe(res=>{
-      console.log(res);
       this.images = res.data
     },err=>{
       console.log(err);
@@ -78,7 +85,6 @@ export class HomePageComponent implements OnInit {
         this.categories.slice(0,5).map(category=>{
           this.apiService.approvedProductListByCategory(ApiUrls.APPROVED_PRODUCT_LIST, category).subscribe(res=>{
             this.prodMap.set(category.name,res.data);
-            console.log(res.data)
           }, err=>{
             console.log(err)
           })
