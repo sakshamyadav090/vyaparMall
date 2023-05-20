@@ -59,6 +59,14 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter{
 					response.setContentType("application/json");
 					new ObjectMapper().writeValue(response.getOutputStream(), error);
 				}
+			}else {
+				response.setHeader("error", "Forbidden");
+				response.setStatus(403);
+				Map<String, Object> error = new HashMap<>();
+				error.put("error", "Forbidden");
+				error.put("status", 403);
+				response.setContentType("application/json");
+				new ObjectMapper().writeValue(response.getOutputStream(), error);
 			}
 		}
 	}

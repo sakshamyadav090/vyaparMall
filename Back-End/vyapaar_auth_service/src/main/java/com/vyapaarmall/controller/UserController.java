@@ -4,6 +4,7 @@ package com.vyapaarmall.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import com.vyapaarmall.model.User;
 import com.vyapaarmall.security.config.SecurityConstant;
 import com.vyapaarmall.service.BusinessTypeService;
 import com.vyapaarmall.service.UserService;
+import com.vyapaarmall.util.EmailHelper;
 
 @RestController
 @RequestMapping("/auth")
@@ -39,7 +41,11 @@ public class UserController {
 		try {
 		return new ResponseModel(
 				userService.registerUser(user),201,true,"User Created");
-		}catch(Exception e) {
+		} catch(ConstraintViolationException e) {
+			return new ResponseModel(
+					"User Available with provided details",404,false,"Failed to Create User");
+		}
+		catch(Exception e) {
 			return new ResponseModel(
 					e.getMessage(),404,false,"Failed to Create User");
 		}
@@ -106,7 +112,9 @@ public class UserController {
 	
 	@PatchMapping("/user/updatePassword")
 	public ResponseModel updatePassword(@RequestBody User user) {
+		
 		try {
+			EmailHelper.sendEmail();
 			return new ResponseModel(
 					userService.updatePassword(user), 200, true, "User updated");
 		} catch(Exception e) {

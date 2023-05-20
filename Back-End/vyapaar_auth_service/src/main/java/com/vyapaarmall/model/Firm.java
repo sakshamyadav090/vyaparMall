@@ -1,10 +1,10 @@
 package com.vyapaarmall.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,16 +13,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "roles")
 @Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class Role {
-	
+public class Firm {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int roleId;
-	private String name;
-	
-	public Role(int i) {
-		this.roleId=i;
-	}
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String firmName;
+	@Column(unique = true)
+	private String gst;
+	@Column(unique = true)
+	private String aadhaarNumber;
+	@Column(unique = true)
+	private String panNumber;
 }

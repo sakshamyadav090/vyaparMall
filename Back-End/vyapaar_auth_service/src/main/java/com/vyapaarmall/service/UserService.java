@@ -73,9 +73,9 @@ public class UserService implements UserDetailsService{
 	
 	public User registerAdmin(User user, String header) {
 		String token = header.substring(SecurityConstant.TOKEN_PREFIX.length());
-		User db = verifyToken(token);
-		if(db.getRole().getRoleId()!=0) {
-			throw new RuntimeException("Unauthorized User");
+		User dbUser = verifyToken(token);
+		if(dbUser.getRole().getRoleId()!=0) {
+			throw new RuntimeException("Cannot create Admins");
 		}
 		if(repo.findByEmail(user.getEmail())!=null 
 				|| repo.findByMobileNumber(user.getMobileNumber())!=null) {
@@ -83,8 +83,8 @@ public class UserService implements UserDetailsService{
 		}
 		user.setPassword(bCryptPasswordEncoder
 				.encode(user.getPassword()));
-		user.setCreatedBy(db.getFirstName()+ " "+ db.getLastName());
-		user.setModifiedBy(db.getFirstName()+ " "+ db.getLastName());
+		user.setCreatedBy(dbUser.getFirstName()+ " "+ dbUser.getLastName());
+		user.setModifiedBy(dbUser.getFirstName()+ " "+ dbUser.getLastName());
 		user.setRole(new Role(1));
 		user.setStatus(Status.ACTIVE);
 		
@@ -111,7 +111,7 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public User updateUser(User user) {
-		User dbUser = repo.findById(user.getUserId()).get();
+		User dbUser = repo.findById(user.getId()).get();
 		if(dbUser==null) {
 			throw new UserException("Inavalid Operation");
 		}
@@ -222,7 +222,7 @@ public class UserService implements UserDetailsService{
 		if(db.getRole().getRoleId()!=1) {
 			throw new RuntimeException("Unauthorized User");
 		}
-		User dbUser = repo.findById(user.getUserId()).get();
+		User dbUser = repo.findById(user.getId()).get();
 		dbUser.setStatus(user.getStatus());
 		repo.save(dbUser);
 		return "Approved";

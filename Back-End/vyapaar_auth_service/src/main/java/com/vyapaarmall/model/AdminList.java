@@ -20,7 +20,7 @@ public class AdminList {
 	private Date createdDate;
 	
 	public AdminList List(User u){
-		this.userId=u.getUserId();
+		this.userId=u.getId();
 		this.name=u.getFirstName() +' '+ u.getLastName();
 		this.email=u.getEmail();
 		this.createdDate=u.getCreatedDate();

@@ -1,7 +1,9 @@
 package com.vyapaarmall.model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,12 +26,12 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "VM_USER_MST")
-@Data @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int userId;
+	private int id;
 	private Status status = Status.PENDING;
 	private String firstName;
 	private String lastName;
@@ -34,28 +39,32 @@ public class User {
 	private String mobileNumber;
 	@Column(unique = true)
 	private String email;
-	private String firmName;
-//	private String natureOfBuisness;
-	@Column(unique = true)
-	private String gst;
-	@Column(unique = true)
-	private String aadhaarNumber;
-	@Column(unique = true)
-	private String panNumber;
+	@JsonIgnore
 	private String password;
-	private String city;
-	private String pincode;
 	private String createdBy;
 	private String modifiedBy;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private Date createdDate = new Date();
 	private Date modifiedDate = new Date();
 	
+	@ManyToOne
+	@JoinColumn(name = "role_id")
+	private Role role;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "firm_id")
+	private Firm firm;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Card> cards;
+	
 	@ManyToOne 
 	@JoinColumn(name = "business_type_id")
 	private BusinessType natureOfBuisness;
 	
-	@ManyToOne
-	@JoinColumn(name = "roleId")
-	private Role role;	
+	
 }
